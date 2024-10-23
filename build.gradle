@@ -55,6 +55,8 @@ dependencies {
         exclude module: 'commons-io'
         exclude module: 'gson'
     }
+    implementation ("zone.rong:mixinbooter:${mixinbooter_version}")
+
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
     compile files('libs/!mixinbooter-9.4.jar')
 }

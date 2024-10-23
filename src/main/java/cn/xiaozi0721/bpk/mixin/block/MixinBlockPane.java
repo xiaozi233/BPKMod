@@ -17,17 +17,17 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import javax.annotation.Nullable;
 import java.util.List;
 
 @Mixin(BlockPane.class)
 public abstract class MixinBlockPane extends Block {
     @Shadow @Final public static PropertyBool NORTH;
-
     @Shadow @Final public static PropertyBool SOUTH;
-
     @Shadow @Final public static PropertyBool EAST;
-
     @Shadow @Final public static PropertyBool WEST;
 
     @Unique
@@ -57,41 +57,34 @@ public abstract class MixinBlockPane extends Block {
         super(materialIn);
     }
 
-    @Inject(method = "addCollisionBoxToList", at = @At("HEAD"), cancellable = true)
-    private void addCollisionBoxToList(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState, CallbackInfo ci){
-        if (!isActualState)
-        {
-            state = this.getActualState(state, worldIn, pos);
-        }
 
+    @Redirect(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 0))
+    private void addCollisionBoxToListClear(BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox){}
+
+    @Inject(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 0, shift = At.Shift.AFTER))
+    private void addCollisionBoxToListNone(IBlockState state, World worldIn, BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, Entity entityIn, boolean isActualState, CallbackInfo ci){
         if(!((Boolean)state.getValue(NORTH)).booleanValue()&&!((Boolean)state.getValue(SOUTH)).booleanValue()&&!((Boolean)state.getValue(EAST)).booleanValue()&&!((Boolean)state.getValue(WEST)).booleanValue()) {
             addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[0]);
         }
-
-        if (((Boolean)state.getValue(NORTH)).booleanValue())
-        {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.NORTH)]);
-//            System.out.println(getBoundingBoxIndex(EnumFacing.NORTH));
-        }
-
-        if (((Boolean)state.getValue(SOUTH)).booleanValue())
-        {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.SOUTH)]);
-//            System.out.println(getBoundingBoxIndex(EnumFacing.SOUTH));
-        }
-
-        if (((Boolean)state.getValue(EAST)).booleanValue())
-        {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.EAST)]);
-//            System.out.println(getBoundingBoxIndex(EnumFacing.EAST));
-        }
-
-        if (((Boolean)state.getValue(WEST)).booleanValue())
-        {
-            addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.WEST)]);
-//            System.out.println(getBoundingBoxIndex(EnumFacing.WEST));
-        }
-        ci.cancel();
     }
 
+    @Redirect(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 1))
+    private void addCollisionBoxToListNorth(BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox){
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.NORTH)]);
+    }
+
+    @Redirect(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 2))
+    private void addCollisionBoxToListSouth(BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox){
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.SOUTH)]);
+    }
+
+    @Redirect(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 3))
+    private void addCollisionBoxToListEast(BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox){
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.EAST)]);
+    }
+
+    @Redirect(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 4))
+    private void addCollisionBoxToListWest(BlockPos pos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox){
+        addCollisionBoxToList(pos, entityBox, collidingBoxes, AABB_BY_INDEX[getBoundingBoxIndex(EnumFacing.WEST)]);
+    }
 }
