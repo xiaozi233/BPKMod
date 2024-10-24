@@ -14,6 +14,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 public abstract class MixinEntityPlayerSP extends AbstractClientPlayer {
     @Shadow public MovementInput movementInput;
 
+    @Shadow public abstract void setSprinting(boolean sprinting);
+
     public MixinEntityPlayerSP(World worldIn, GameProfile playerProfile) {
         super(worldIn, playerProfile);
     }
@@ -21,10 +23,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer {
     @Redirect(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;setSprinting(Z)V", ordinal = 2))
     private void setSprint(EntityPlayerSP instance, boolean sprinting){
         boolean flag4 = (float)this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
-        if (!(this.isSprinting() && (this.movementInput.moveForward < 0.8F || !flag4)))
-        {
-            this.setSprinting(true);
-        }
+        this.setSprinting(!this.isSprinting() || (!(this.movementInput.moveForward < 0.8F) && flag4));
     }
 
 }
