@@ -4,6 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -36,8 +37,11 @@ public abstract class MixinEntityLivingBase extends Entity{
         if (f >= 1.0E-4F)
         {
             f = MathHelper.sqrt(f);
-            if (f < 1.0F) f = 1.0F;
-            else friction *= 0.98F;
+            if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) f = 1.0F;
+            else {
+                if (isSneaking()) friction *= 0.3F;
+                friction *= 0.98F;
+            }
             f = friction / f;
             strafe = strafe * f;
             up = up * f;

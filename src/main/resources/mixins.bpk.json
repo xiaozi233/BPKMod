@@ -6,6 +6,7 @@
   "refmap": "refmap.bpk.json",
   "mixins": [
     "block.MixinBlockChest",
+    "block.MixinBlockEnderChest",
     "block.MixinBlockPane",
     "block.MixinBlockTrapDoor",
     "entity.MixinEntityLivingBase"
