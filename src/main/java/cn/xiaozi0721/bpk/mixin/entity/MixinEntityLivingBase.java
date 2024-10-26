@@ -12,7 +12,8 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static cn.xiaozi0721.bpk.common.ConfigLoader.isNewTouch;
+import static cn.xiaozi0721.bpk.config.GeneralConfig.isNewTouch;
+
 
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity{
