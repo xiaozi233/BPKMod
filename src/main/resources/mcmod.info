@@ -5,11 +5,11 @@
   "description": "${mod_description}",
   "version": "${version}",
   "mcversion": "${mcversion}",
-  "url": "",
+  "url": "https://github.com/xiaozi233/BPKMod",
   "updateUrl": "",
   "authorList": ${mod_author},
   "credits": "",
-  "logoFile": "",
+  "logoFile": "bpkmod_logo.png",
   "screenshots": [],
   "dependencies": []
 }
