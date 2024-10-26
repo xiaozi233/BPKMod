@@ -5,6 +5,7 @@
   "target": "@env(DEFAULT)",
   "refmap": "refmap.bpk.json",
   "mixins": [
+    "block.MixinBlockCactus",
     "block.MixinBlockChest",
     "block.MixinBlockEnderChest",
     "block.MixinBlockPane",

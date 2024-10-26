@@ -10,15 +10,11 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockTrapDoor.class)
-public class MixinBlockTrapDoor extends Block {
+public class MixinBlockTrapDoor{
     @Mutable @Shadow @Final protected static AxisAlignedBB EAST_OPEN_AABB;
     @Mutable @Shadow @Final protected static AxisAlignedBB WEST_OPEN_AABB;
     @Mutable @Shadow @Final protected static AxisAlignedBB SOUTH_OPEN_AABB;
     @Mutable @Shadow @Final protected static AxisAlignedBB NORTH_OPEN_AABB;
-
-    public MixinBlockTrapDoor(Material materialIn) {
-        super(materialIn);
-    }
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void setAABB(CallbackInfo ci){
