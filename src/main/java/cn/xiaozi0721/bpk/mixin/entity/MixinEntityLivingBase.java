@@ -4,7 +4,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -12,6 +11,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+
+import static cn.xiaozi0721.bpk.common.ConfigLoader.isNewTouch;
 
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity{
@@ -31,16 +32,23 @@ public abstract class MixinEntityLivingBase extends Entity{
     @Shadow @Final public static IAttribute SWIM_SPEED;
     @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
 
+    @Shadow public abstract void fall(float distance, float damageMultiplier);
+
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRealative(float strafe, float up, float forward, float friction, CallbackInfo ci){
         float f = strafe * strafe + up * up + forward * forward;
         if (f >= 1.0E-4F)
         {
             f = MathHelper.sqrt(f);
-            if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) f = 1.0F;
+            if (!isNewTouch){
+                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) f = 1.0F;
+                else {
+                    if (isSneaking()) friction *= 0.3F;
+                    friction *= 0.98F;
+                }
+            }
             else {
-                if (isSneaking()) friction *= 0.3F;
-                friction *= 0.98F;
+                if (f < 1) f = 1.0F;
             }
             f = friction / f;
             strafe = strafe * f;
@@ -54,10 +62,23 @@ public abstract class MixinEntityLivingBase extends Entity{
             }
             float f1 = MathHelper.sin(this.rotationYaw * 0.017453292F);
             float f2 = MathHelper.cos(this.rotationYaw * 0.017453292F);
+            if(isNewTouch){
+                float f3 = MathHelper.sin(45 * 0.017453292F - (float)Math.acos(0.98));
+                float f4 = MathHelper.cos(45 * 0.017453292F - (float)Math.acos(0.98));
+                float tmp = strafe;
+                if (strafe * forward > 1.0E-4){
+                    strafe = tmp * f4 - forward * f3;
+                    forward =  forward * f4 + tmp * f3;
+                }
+                else if (strafe * forward < -1.0E-4){
+                    strafe = tmp * f4 + forward * f3;
+                    forward =  forward * f4 - tmp * f3;
+                }
+            }
             this.motionX += (double)(strafe * f2 - forward * f1);
             this.motionY += (double)up;
             this.motionZ += (double)(forward * f2 + strafe * f1);
-            ci.cancel();
         }
+        ci.cancel();
     }
 }
