@@ -13,7 +13,8 @@
     "entity.MixinEntityLivingBase"
   ],
   "client": [
-    "client.entity.MixinEntityPlayerSP"
+    "client.entity.MixinEntityPlayerSP",
+    "client.entity.player.MixinEntityPlayer"
   ],
   "server": [],
   "injectors": {

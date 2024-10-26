@@ -35,6 +35,11 @@ public abstract class MixinEntityLivingBase extends Entity{
 
     @Shadow public abstract void fall(float distance, float damageMultiplier);
 
+    @Redirect(method = "travel", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;jumpMovementFactor:F"))
+    private float setjumpMovementFactor(EntityLivingBase instance){
+        return instance.jumpMovementFactor;
+    }
+
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRealative(float strafe, float up, float forward, float friction, CallbackInfo ci){
         float f = strafe * strafe + up * up + forward * forward;

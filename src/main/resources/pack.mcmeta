@@ -1,6 +1,6 @@
 {
     "pack": {
-        "description": "BPKMod assets",
-        "pack_format": 3
+        "pack_format": 3,
+        "description": "Resources used by bpk"
     }
 }

@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = BPK.MOD_ID, category = "BPK Mod")
+@Config.LangKey("config.bpk")
 public class GeneralConfig {
     @Mod.EventBusSubscriber(modid = BPK.MOD_ID)
     public static class ConfigSyncHandler {
@@ -19,9 +20,13 @@ public class GeneralConfig {
         }
     }
 
-    @Config.Comment({"Simulate new touch strafe.", "If enabled, the strafe angle will be changed to 11.48(arccos(0.98))"})
+    @Config.Comment({"If enabled, the strafe angle will be changed to 11.48 degree(arccos(0.98))"})
     public static boolean isNewTouch = false;
 
-    @Config.Comment({"If enabled, you could sprint even if you are backward."})
-    public static boolean isSprintBackward = false;
+    @Config.Comment({"If enabled, you could sprint even if you are backward"})
+
+    public static boolean sprintBackward = false;
+
+    @Config.Comment("If disabled, sprint in air will not be delayed")
+    public static boolean sprintDelay = true;
 }
