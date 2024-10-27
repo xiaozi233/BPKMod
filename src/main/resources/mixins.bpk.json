@@ -1,0 +1,24 @@
+{
+  "compatibilityLevel": "JAVA_8",
+  "required": true,
+  "minVersion": "0.8.5",
+  "package": "cn.xiaozi0721.bpk.mixin",
+  "target": "@env(DEFAULT)",
+  "refmap": "mixins.bpk.refmap.json",
+  "mixins": [
+    "block.MixinBlockCactus",
+    "block.MixinBlockChest",
+    "block.MixinBlockEnderChest",
+    "block.MixinBlockPane",
+    "block.MixinBlockTrapDoor",
+    "entity.MixinEntityLivingBase"
+  ],
+  "client": [
+    "client.entity.MixinEntityPlayerSP",
+    "client.entity.player.MixinEntityPlayer"
+  ],
+  "server": [],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
