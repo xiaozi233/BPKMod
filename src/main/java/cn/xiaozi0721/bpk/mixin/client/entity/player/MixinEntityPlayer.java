@@ -5,9 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyConstant;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static cn.xiaozi0721.bpk.config.GeneralConfig.sprintDelay;
@@ -30,5 +28,15 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
                 this.jumpMovementFactor = (float)((double)this.jumpMovementFactor + (double)this.speedInAir * 0.3D);
             }
         }
+    }
+
+    @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
+    private float setSneakHeight(float sneakHight){
+        return 1.5F;
+    }
+
+    @ModifyConstant(method = "getEyeHeight", constant = @Constant(floatValue = 0.08F))
+    private float setEyeSneakHeight(float sneakEyeHeight){
+        return sneakEyeHeight + 0.15F;
     }
 }

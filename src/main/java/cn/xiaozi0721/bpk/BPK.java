@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 
 @Mod.EventBusSubscriber
-@Mod(modid = BPK.MOD_ID, guiFactory = "cn.xiaozi0721.bpk.config.ConfigGuiFactory")
+@Mod(modid = BPK.MOD_ID, dependencies = "after:aquaacrobatics",guiFactory = "cn.xiaozi0721.bpk.config.ConfigGuiFactory")
 public class BPK {
     public static final String MOD_ID = "bpk";
 
