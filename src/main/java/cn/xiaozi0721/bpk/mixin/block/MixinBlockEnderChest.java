@@ -1,8 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.block;
 
-import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockEnderChest;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.math.AxisAlignedBB;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;

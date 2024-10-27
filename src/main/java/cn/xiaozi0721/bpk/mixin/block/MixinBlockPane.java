@@ -26,10 +26,6 @@ public abstract class MixinBlockPane extends Block {
     @Shadow @Final public static PropertyBool EAST;
     @Shadow @Final public static PropertyBool WEST;
 
-    @Shadow private static int getBoundingBoxIndex(EnumFacing p_185729_0_) {
-        return 0;
-    }
-
     @Mutable @Shadow @Final protected static AxisAlignedBB[] AABB_BY_INDEX;
 
     public MixinBlockPane(Material materialIn) {

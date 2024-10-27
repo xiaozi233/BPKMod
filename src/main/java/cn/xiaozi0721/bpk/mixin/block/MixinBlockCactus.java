@@ -1,8 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockCactus;
-import net.minecraft.block.material.Material;
 import net.minecraft.util.math.AxisAlignedBB;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
