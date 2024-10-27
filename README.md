@@ -10,6 +10,6 @@ If you want to use high version blocks or climb ladder by simply pressing jump, 
 - - Pane
 - - TrapDoor
 - Cancel 45strafe accelerate.
-- Hit wall will not cancel sprint.
+- Hitting wall will not cancel sprint.
 - Simulate new touch strafe (enable in config)
 - Sprint backward (enable in config)
