@@ -12,31 +12,29 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static cn.xiaozi0721.bpk.config.GeneralConfig.inertiaThreshold;
 import static cn.xiaozi0721.bpk.config.GeneralConfig.isNewTouch;
 
 
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity{
+    @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
+    @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
+    @Shadow public abstract void fall(float distance, float damageMultiplier);
 
     public MixinEntityLivingBase(World worldIn) {
         super(worldIn);
     }
 
-    //Change Momentum Threshold
+    //Change Inertia Threshold
     @ModifyConstant(method = "onLivingUpdate", constant = @Constant(doubleValue = 0.003D))
-    private double onLivingUpdate(double value){
-        return 1.0E-4;
+    private double setInertiaThreshold(double value){
+        return inertiaThreshold;
     }
 
-    //
-
-    @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
-    @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
-
-    @Shadow public abstract void fall(float distance, float damageMultiplier);
-
+    //45 strafe-related method
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
-    private void moveRealative(float strafe, float up, float forward, float friction, CallbackInfo ci){
+    private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
         float f = strafe * strafe + up * up + forward * forward;
         if (f >= 1.0E-4F)
         {

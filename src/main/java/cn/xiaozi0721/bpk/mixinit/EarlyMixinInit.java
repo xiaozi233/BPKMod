@@ -1,6 +1,6 @@
 package cn.xiaozi0721.bpk.mixinit;
 
-import cn.xiaozi0721.bpk.BPK;
+import cn.xiaozi0721.bpk.Tags;
 import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.fml.relauncher.FMLLaunchHandler;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-@IFMLLoadingPlugin.Name(BPK.MOD_ID)
+@IFMLLoadingPlugin.Name(Tags.MOD_ID)
 @IFMLLoadingPlugin.MCVersion(ForgeVersion.mcVersion)
 public class EarlyMixinInit implements IFMLLoadingPlugin, IEarlyMixinLoader {
     //这个才是真正的unused(

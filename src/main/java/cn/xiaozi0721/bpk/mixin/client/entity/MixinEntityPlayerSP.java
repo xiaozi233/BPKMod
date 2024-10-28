@@ -21,9 +21,8 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer {
         super(worldIn, playerProfile);
     }
 
-
     @Redirect(method = "onLivingUpdate",at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
-    private float setmoveForward(MovementInput movementInput){
+    private float setMoveForward(MovementInput movementInput){
         return sprintBackward && movementInput.moveForward !=0 ? 1 : movementInput.moveForward;
     }
 
