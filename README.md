@@ -1,6 +1,6 @@
 # BPK Mod
 ### Do **NOT** use this mod in server *without permission*!
-#### **Requires [MixinBooter](https://github.com/CleanroomMC/MixinBooter) since 1.2.0.**
+#### **Requires [MixinBooter 9.4+](https://modrinth.com/mod/mixinbooter) since 1.2.0.**
 A 1.12.2 mod that bedrockify parkour-related things.\
 Some models are modified from Cynimal's [TrueModels](https://www.curseforge.com/minecraft/texture-packs/truemodels).\
 High version blocks and climb ladder by simply pressing jump: [Future MC](https://github.com/thedarkcolour/Future-MC) or sth else.\
