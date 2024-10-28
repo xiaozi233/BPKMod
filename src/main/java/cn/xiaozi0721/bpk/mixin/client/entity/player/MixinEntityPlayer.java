@@ -36,7 +36,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     }
 
     @ModifyConstant(method = "getEyeHeight", constant = @Constant(floatValue = 0.08F))
-    private float setEyeSneakHeight(float sneakEyeHeight){
+    private float setSneakEyeHeight(float sneakEyeHeight){
         return sneakEyeHeight + 0.15F;
     }
 }

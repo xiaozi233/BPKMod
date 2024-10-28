@@ -27,7 +27,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer {
     }
 
     @Redirect(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
-    private boolean setCollidedHorizontally(EntityPlayerSP instance){
+    private boolean ignoreCollidedHorizontally(EntityPlayerSP instance){
         return false;
     }
 }
