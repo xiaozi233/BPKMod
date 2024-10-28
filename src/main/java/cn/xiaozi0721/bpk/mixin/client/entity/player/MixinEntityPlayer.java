@@ -21,7 +21,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
     
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;travel(FFF)V", ordinal = 1))
     private void setJumpMovementFactor(float strafe, float vertical, float forward, CallbackInfo ci){
-        if (sprintDelay){
+        if (!sprintDelay){
             this.jumpMovementFactor = this.speedInAir;
             if (this.isSprinting())
             {
@@ -37,6 +37,6 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 
     @ModifyConstant(method = "getEyeHeight", constant = @Constant(floatValue = 0.08F))
     private float setSneakEyeHeight(float sneakEyeHeight){
-        return sneakEyeHeight + 0.15F;
+        return sneakEyeHeight + 0.21F;
     }
 }

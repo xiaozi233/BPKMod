@@ -36,6 +36,6 @@ public class GeneralConfig {
                     "JE 1.12.2: 0.003",
                     "BE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less"})
     @Config.RangeDouble(min =0, max = 0.005)
-    public static double inertiaThreshold = 1.0E-4;
+    public static double inertiaThreshold = 0.0001;
 
 }
