@@ -15,7 +15,9 @@
   ],
   "client": [
     "client.entity.MixinEntityPlayerSP",
-    "client.entity.player.MixinEntityPlayer"
+    "client.entity.player.MixinEntityPlayer",
+    "client.renderer.MixinActiveRenderInfo",
+    "client.renderer.MixinEntityRender"
   ],
   "server": [],
   "injectors": {

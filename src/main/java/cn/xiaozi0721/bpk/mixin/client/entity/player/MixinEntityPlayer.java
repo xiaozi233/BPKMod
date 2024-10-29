@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import static cn.xiaozi0721.bpk.config.GeneralConfig.sprintDelay;
 
@@ -14,6 +15,8 @@ import static cn.xiaozi0721.bpk.config.GeneralConfig.sprintDelay;
 public abstract class MixinEntityPlayer extends EntityLivingBase {
 
     @Shadow protected float speedInAir;
+
+    @Shadow(remap = false) public float eyeHeight;
 
     public MixinEntityPlayer(World worldIn) {
         super(worldIn);
@@ -37,6 +40,6 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 
     @ModifyConstant(method = "getEyeHeight", constant = @Constant(floatValue = 0.08F))
     private float setSneakEyeHeight(float sneakEyeHeight){
-        return sneakEyeHeight + 0.21F;
+        return 0.38F;
     }
 }
