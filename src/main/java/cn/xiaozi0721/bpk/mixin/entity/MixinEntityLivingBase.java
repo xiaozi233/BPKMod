@@ -40,9 +40,11 @@ public abstract class MixinEntityLivingBase extends Entity{
         {
             f = MathHelper.sqrt(f);
             if (!isNewTouch){
-                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) f = 1.0F;
+                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F)
+                    f = 1.0F;
                 else {
-                    if (isSneaking()) friction *= 0.3F;
+                    if (isSneaking())
+                        friction *= 0.3F;
                     friction *= 0.98F;
                 }
             }
