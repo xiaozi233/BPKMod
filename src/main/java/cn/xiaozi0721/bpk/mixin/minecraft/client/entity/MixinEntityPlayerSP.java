@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.client.entity;
+package cn.xiaozi0721.bpk.mixin.minecraft.client.entity;
 
 import cn.xiaozi0721.bpk.interfaces.IRenderViewEntity;
 import com.mojang.authlib.GameProfile;
