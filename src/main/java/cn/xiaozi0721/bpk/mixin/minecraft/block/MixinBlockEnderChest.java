@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.block;
+package cn.xiaozi0721.bpk.mixin.minecraft.block;
 
 import net.minecraft.block.BlockEnderChest;
 import net.minecraft.util.math.AxisAlignedBB;

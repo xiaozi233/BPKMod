@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.client.entity.player;
+package cn.xiaozi0721.bpk.mixin.minecraft.entity.player;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;

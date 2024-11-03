@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.client.renderer;
+package cn.xiaozi0721.bpk.mixin.minecraft.client.renderer;
 
 import cn.xiaozi0721.bpk.interfaces.IRenderViewEntity;
 import cn.xiaozi0721.bpk.interfaces.IEntityRender;

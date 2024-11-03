@@ -1,23 +1,25 @@
 {
   "compatibilityLevel": "JAVA_8",
-  "required": true,
+  "required": false,
   "minVersion": "0.8.5",
   "package": "cn.xiaozi0721.bpk.mixin",
   "target": "@env(DEFAULT)",
   "refmap": "mixins.bpk.refmap.json",
   "mixins": [
-    "block.MixinBlockCactus",
-    "block.MixinBlockChest",
-    "block.MixinBlockEnderChest",
-    "block.MixinBlockPane",
-    "block.MixinBlockTrapDoor",
-    "entity.MixinEntityLivingBase"
+    "aquaacrobatics.entity.player.ReMixinEntityPlayer",
+    "minecraft.block.MixinBlockCactus",
+    "minecraft.block.MixinBlockChest",
+    "minecraft.block.MixinBlockEnderChest",
+    "minecraft.block.MixinBlockPane",
+    "minecraft.block.MixinBlockTrapDoor",
+    "minecraft.entity.MixinEntityLivingBase"
   ],
   "client": [
-    "client.entity.MixinEntityPlayerSP",
-    "client.entity.player.MixinEntityPlayer",
-    "client.renderer.MixinActiveRenderInfo",
-    "client.renderer.MixinEntityRender"
+    "aquaacrobatics.client.entity.ReMixinEntityPlayerSP",
+    "minecraft.client.entity.MixinEntityPlayerSP",
+    "minecraft.entity.player.MixinEntityPlayer",
+    "minecraft.client.renderer.MixinActiveRenderInfo",
+    "minecraft.client.renderer.MixinEntityRender"
   ],
   "server": [],
   "injectors": {
