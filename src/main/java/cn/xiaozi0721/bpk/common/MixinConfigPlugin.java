@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Set;
 
-import static cn.xiaozi0721.bpk.config.ConfigHandler.SupportConfig.enableAquaAcrobatics;
+import cn.xiaozi0721.bpk.config.ConfigHandler;
 
 public class MixinConfigPlugin implements IMixinConfigPlugin {
     @Override
@@ -22,7 +22,12 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        return !mixinClassName.contains("aquaacrobatics") || enableAquaAcrobatics;
+        System.out.println(targetClassName + ConfigHandler.SupportConfig.enableAquaAcrobatics);
+        if(mixinClassName.contains("aquaacrobatics") && !ConfigHandler.SupportConfig.enableAquaAcrobatics)
+            return false;
+        if(mixinClassName.contains("Render") && ConfigHandler.SupportConfig.enableAquaAcrobatics)
+            return false;
+        return true;
     }
 
     @Override

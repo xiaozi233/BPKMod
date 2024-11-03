@@ -8,6 +8,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Config(modid = Tags.MOD_ID, category = "BPK Mod")
+@Mod.EventBusSubscriber
 public class ConfigHandler {
 
     @SuppressWarnings("unused")
