@@ -22,11 +22,6 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        System.out.println(targetClassName + ConfigHandler.SupportConfig.enableAquaAcrobatics);
-        if(mixinClassName.contains("aquaacrobatics") && !ConfigHandler.SupportConfig.enableAquaAcrobatics)
-            return false;
-        if(mixinClassName.contains("Render") && ConfigHandler.SupportConfig.enableAquaAcrobatics)
-            return false;
         return true;
     }
 

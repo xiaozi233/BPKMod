@@ -15,10 +15,6 @@ public class ConfigHandler {
     @Config.Name("General")
     public static GeneralConfig generalConfig;
 
-    @SuppressWarnings("unused")
-    @Config.Name("Support")
-    public static SupportConfig supportConfig;
-
     public static class GeneralConfig{
         @Config.Comment({"If enabled, the strafe angle will be changed to 11.48 degree(arccos(0.98))"})
         @Config.LangKey("config.bpk.general.isNewTouch")
@@ -46,12 +42,6 @@ public class ConfigHandler {
         @Config.RangeDouble(min =0, max = 0.005)
         @Config.LangKey("config.bpk.general.inertiaThreshold")
         public static double inertiaThreshold = 0.0001D;
-    }
-
-    public static class SupportConfig{
-        @Config.Name("Enable Aqua Acrobatics Patch")
-        @Config.RequiresMcRestart
-        public static boolean enableAquaAcrobatics = false;
     }
 
     @Mod.EventBusSubscriber(modid = Tags.MOD_ID)

@@ -7,7 +7,6 @@
   "target": "@env(DEFAULT)",
   "refmap": "mixins.bpk.refmap.json",
   "mixins": [
-    "aquaacrobatics.entity.player.ReMixinEntityPlayer",
     "minecraft.block.MixinBlockCactus",
     "minecraft.block.MixinBlockChest",
     "minecraft.block.MixinBlockEnderChest",
@@ -16,7 +15,6 @@
     "minecraft.entity.MixinEntityLivingBase"
   ],
   "client": [
-    "aquaacrobatics.client.entity.ReMixinEntityPlayerSP",
     "minecraft.client.entity.MixinEntityPlayerSP",
     "minecraft.entity.player.MixinEntityPlayer",
     "minecraft.client.renderer.MixinActiveRenderInfo",
