@@ -12,8 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static cn.xiaozi0721.bpk.config.GeneralConfig.inertiaThreshold;
-import static cn.xiaozi0721.bpk.config.GeneralConfig.isNewTouch;
+import static cn.xiaozi0721.bpk.config.GeneralConfig.*;
 
 
 @Mixin(EntityLivingBase.class)
@@ -64,8 +63,14 @@ public abstract class MixinEntityLivingBase extends Entity{
             float f1 = MathHelper.sin(this.rotationYaw * 0.017453292F);
             float f2 = MathHelper.cos(this.rotationYaw * 0.017453292F);
             if(isNewTouch){
-                float f3 = MathHelper.sin(45 * 0.017453292F - (float)Math.acos(0.98));
-                float f4 = MathHelper.cos(45 * 0.017453292F - (float)Math.acos(0.98));
+                float deltaYaw;
+                if(!byPitch){
+                    deltaYaw = (float)Math.acos(0.98);
+                }else{
+                    deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
+                }
+                float f3 = MathHelper.sin(45 * 0.017453292F - deltaYaw);
+                float f4 = MathHelper.cos(45 * 0.017453292F - deltaYaw);
                 float tmp = strafe;
                 if (strafe * forward > 1.0E-4){
                     strafe = tmp * f4 - forward * f3;

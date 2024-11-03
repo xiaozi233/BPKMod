@@ -1,0 +1,10 @@
+config.bpk.isNewTouch=新触控
+config.bpk.isNewTouch.tooltip=开启后，斜跑角度改为11.48度 (arccos(0.98))
+config.bpk.sprintBackward=反向疾跑
+config.bpk.sprintBackward.tooltip=开启后，玩家可以向后疾跑
+config.bpk.sprintDelay=疾跑延迟
+config.bpk.sprintDelay.tooltip=关闭后，空中疾跑不再有延迟
+config.bpk.inertiaThreshold=移动阻断阈值
+config.bpk.inertiaThreshold.tooltip=在玩家的速度小到可忽略时清零\nJE 1.8.9：0.005\nE 1.12.2：0.003\n基岩版没有这个机制，如果你想模拟BE，建议改成0.0001或更低的数值
+config.bpk.byPitch=考虑Pitch
+config.bpk.byPitch.tooltip=必须先启用新触控才有效\n通过Pitch来改变你的斜跑角度
