@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixinit;
+package cn.xiaozi0721.bpk.common;
 
 import cn.xiaozi0721.bpk.Tags;
 import net.minecraftforge.common.ForgeVersion;

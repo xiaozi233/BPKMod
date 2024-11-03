@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static cn.xiaozi0721.bpk.config.GeneralConfig.*;
+import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.*;
 
 
 @Mixin(EntityLivingBase.class)

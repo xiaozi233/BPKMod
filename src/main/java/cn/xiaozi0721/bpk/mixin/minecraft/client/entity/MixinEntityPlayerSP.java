@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import static cn.xiaozi0721.bpk.config.GeneralConfig.sprintBackward;
+import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.sprintBackward;
 
 
 @Mixin(EntityPlayerSP.class)

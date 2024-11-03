@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixinit;
+package cn.xiaozi0721.bpk.common;
 
 import org.objectweb.asm.tree.ClassNode;
 import org.spongepowered.asm.mixin.extensibility.IMixinConfigPlugin;
@@ -6,6 +6,8 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 
 import java.util.List;
 import java.util.Set;
+
+import static cn.xiaozi0721.bpk.config.ConfigHandler.SupportConfig.enableAquaAcrobatics;
 
 public class MixinConfigPlugin implements IMixinConfigPlugin {
     @Override
@@ -19,8 +21,8 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
     }
 
     @Override
-    public boolean shouldApplyMixin(String s, String s1) {
-        return false;
+    public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
+        return !mixinClassName.contains("aquaacrobatics") || enableAquaAcrobatics;
     }
 
     @Override

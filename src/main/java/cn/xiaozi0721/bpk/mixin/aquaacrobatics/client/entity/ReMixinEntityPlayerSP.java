@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 
-import static cn.xiaozi0721.bpk.config.GeneralConfig.sprintBackward;
+import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.sprintBackward;
 
 @Mixin(value = EntityPlayerSP.class, priority = 2000)
 public abstract class ReMixinEntityPlayerSP extends AbstractClientPlayer {

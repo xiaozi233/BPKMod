@@ -3,6 +3,7 @@
   "required": false,
   "minVersion": "0.8.5",
   "package": "cn.xiaozi0721.bpk.mixin",
+  "plugin": "cn.xiaozi0721.bpk.common.MixinConfigPlugin",
   "target": "@env(DEFAULT)",
   "refmap": "mixins.bpk.refmap.json",
   "mixins": [

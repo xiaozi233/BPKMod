@@ -22,7 +22,7 @@ public class ConfigGuiFactory implements IModGuiFactory {
 
     @Override
     public GuiScreen createConfigGui(GuiScreen parent) {
-        return new GuiConfig(parent, ConfigElement.from(GeneralConfig.class).getChildElements(), "bpk", false, false, "BPK Mod");
+        return new GuiConfig(parent, ConfigElement.from(ConfigHandler.class).getChildElements(), "bpk", false, false, "BPK Mod");
     }
 
     @Override

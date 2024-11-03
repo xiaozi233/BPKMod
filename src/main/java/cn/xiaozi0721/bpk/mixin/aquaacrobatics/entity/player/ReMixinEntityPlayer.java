@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import net.minecraft.enchantment.EnchantmentHelper;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static cn.xiaozi0721.bpk.config.GeneralConfig.sprintDelay;
+import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.sprintDelay;
 
 @Mixin(value = EntityPlayer.class, priority = 500)
 public abstract class ReMixinEntityPlayer extends EntityLivingBase implements IPlayerResizeable {
