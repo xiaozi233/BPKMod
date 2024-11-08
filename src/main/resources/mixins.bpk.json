@@ -1,6 +1,6 @@
 {
   "compatibilityLevel": "JAVA_8",
-  "required": false,
+  "required": true,
   "minVersion": "0.8.5",
   "package": "cn.xiaozi0721.bpk.mixin",
   "plugin": "cn.xiaozi0721.bpk.common.MixinConfigPlugin",

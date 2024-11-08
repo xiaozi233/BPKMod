@@ -71,6 +71,11 @@ public abstract class MixinEntityLivingBase extends Entity{
                 }
                 float f3 = MathHelper.sin(45 * 0.017453292F - deltaYaw);
                 float f4 = MathHelper.cos(45 * 0.017453292F - deltaYaw);
+                if(byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){;
+                    f3 *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                    f4 *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                }
+
                 float tmp = strafe;
                 if (strafe * forward > 1.0E-4){
                     strafe = tmp * f4 - forward * f3;
