@@ -5,7 +5,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
+@SuppressWarnings("unused")
 @Mod.EventBusSubscriber
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION, guiFactory = "cn.xiaozi0721.bpk.config.ConfigGuiFactory")
 public class BPK {

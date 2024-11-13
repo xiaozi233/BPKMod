@@ -7,11 +7,11 @@ import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+@SuppressWarnings("unused")
 @Config(modid = Tags.MOD_ID, category = "BPK Mod")
 @Mod.EventBusSubscriber
 public class ConfigHandler {
 
-    @SuppressWarnings("unused")
     @Config.Name("General")
     public static GeneralConfig generalConfig;
 

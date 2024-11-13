@@ -15,8 +15,6 @@ public abstract class MixinEntityPlayer extends EntityLivingBase {
 
     @Shadow protected float speedInAir;
 
-    @Shadow(remap = false) public float eyeHeight;
-
     public MixinEntityPlayer(World worldIn) {
         super(worldIn);
     }

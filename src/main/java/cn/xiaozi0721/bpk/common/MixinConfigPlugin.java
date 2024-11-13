@@ -7,8 +7,6 @@ import org.spongepowered.asm.mixin.extensibility.IMixinInfo;
 import java.util.List;
 import java.util.Set;
 
-import cn.xiaozi0721.bpk.config.ConfigHandler;
-
 public class MixinConfigPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String s) {
