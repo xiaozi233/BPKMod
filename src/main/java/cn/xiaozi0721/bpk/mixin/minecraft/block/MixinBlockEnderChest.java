@@ -9,7 +9,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockEnderChest.class)
 public abstract class MixinBlockEnderChest{
-
     @Mutable @Shadow @Final protected static AxisAlignedBB ENDER_CHEST_AABB;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))

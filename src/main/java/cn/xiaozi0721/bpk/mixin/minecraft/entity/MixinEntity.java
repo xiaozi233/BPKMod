@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
-public abstract class MixinEntity {
+public abstract class MixinEntity{
 
     @Shadow public float stepHeight;
     @Shadow public double motionX;
@@ -31,21 +31,21 @@ public abstract class MixinEntity {
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0,shift = At.Shift.BY, by = 2))
-    private void ClearMotionX(MoverType type, double x, double y, double z, CallbackInfo ci){
+    private void clearMotionX(MoverType type, double x, double y, double z, CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionX = 0;
         }
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 1,shift = At.Shift.BY, by = 2))
-    private void ClearMotionZ(MoverType type, double x, double y, double z, CallbackInfo ci){
+    private void clearMotionZ(MoverType type, double x, double y, double z, CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionZ = 0;
         }
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 2,shift = At.Shift.BY, by = 2))
-    private void ClearMotionXZ(MoverType type, double x, double y, double z, CallbackInfo ci){
+    private void clearMotionXZ(MoverType type, double x, double y, double z, CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionX = 0;
             this.motionZ = 0;

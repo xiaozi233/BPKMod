@@ -19,13 +19,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import javax.annotation.Nullable;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 @Mixin(BlockPane.class)
-public abstract class MixinBlockPane extends Block {
+public abstract class MixinBlockPane extends Block{
     @Shadow @Final public static PropertyBool NORTH;
     @Shadow @Final public static PropertyBool SOUTH;
     @Shadow @Final public static PropertyBool EAST;
     @Shadow @Final public static PropertyBool WEST;
-
     @Mutable @Shadow @Final protected static AxisAlignedBB[] AABB_BY_INDEX;
 
     public MixinBlockPane(Material materialIn) {

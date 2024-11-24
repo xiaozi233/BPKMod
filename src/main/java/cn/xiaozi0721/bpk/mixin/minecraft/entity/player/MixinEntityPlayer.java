@@ -11,8 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.sprintDelay;
 
 @Mixin(EntityPlayer.class)
-public abstract class MixinEntityPlayer extends EntityLivingBase {
-
+public abstract class MixinEntityPlayer extends EntityLivingBase{
     @Shadow protected float speedInAir;
 
     public MixinEntityPlayer(World worldIn) {

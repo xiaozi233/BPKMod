@@ -16,11 +16,11 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderer.class)
-public class MixinEntityRender implements IEntityRender {
-    @Unique
-    private float BPKMod$tickDelta;
-
+public class MixinEntityRender implements IEntityRender{
     @Shadow @Final private Minecraft mc;
+
+    @Unique private float BPKMod$tickDelta;
+
     @Inject(method = "orientCamera", at = @At(value = "HEAD"))
     private void getTickDelta(float tickDelta, CallbackInfo ci) {
         this.BPKMod$tickDelta = tickDelta;

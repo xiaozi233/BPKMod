@@ -17,9 +17,8 @@ import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.sprintBackwar
 
 
 @Mixin(EntityPlayerSP.class)
-public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements IRenderViewEntity {
+public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements IRenderViewEntity{
     @Shadow public abstract void setSprinting(boolean sprinting);
-
     @Shadow public abstract boolean isSneaking();
 
     @Unique private float BPKMod$lastCameraY;
@@ -29,20 +28,22 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         super(worldIn, playerProfile);
     }
 
-
     @Override
     public float BPKMod$getLastCameraY() {
         return BPKMod$lastCameraY;
     }
+
     @Override
     public float BPKMod$getCameraY() {
         return BPKMod$cameraY;
     }
+
     @Override
     public void BPKMod$updateCameraHeight(double tickDelta) {
         this.BPKMod$lastCameraY = this.BPKMod$getCameraY();
         BPKMod$cameraY = (float) MathHelper.clampedLerp(this.BPKMod$getLastCameraY(), getEyeHeight(), tickDelta / 2);
     }
+
     @Redirect(method = "onLivingUpdate",at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
     private float setMoveForward(MovementInput movementInput){
         return sprintBackward &&  !isSneaking() && movementInput.moveForward !=0 ? 1 : movementInput.moveForward;

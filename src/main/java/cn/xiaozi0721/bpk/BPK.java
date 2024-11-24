@@ -16,6 +16,7 @@ public class BPK {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        LOGGER.info("Hello From {}!", Tags.MOD_NAME);
     }
 
     @Mod.EventHandler
