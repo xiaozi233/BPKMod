@@ -8,7 +8,7 @@ import org.lwjgl.input.Keyboard;
 
 @SuppressWarnings("unused")
 public class KeyBindings {
-    public static KeyBinding NEW_TOUCH = new KeyBinding("key.bpk.newtouch", KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NONE,"key.category.bpk");
+    public static KeyBinding NEW_TOUCH = new KeyBinding("key.bpk.newTouch", KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NONE,"key.category.bpk");
 
     public static void init() {
         ClientRegistry.registerKeyBinding(NEW_TOUCH);

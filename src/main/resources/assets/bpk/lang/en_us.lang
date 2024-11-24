@@ -1,0 +1,15 @@
+config.bpk.general.isNewTouch=New Touch
+config.bpk.general.isNewTouch.tooltip=If enabled, the strafe angle will be changed to 11.48 degree(arccos(0.98))
+config.bpk.general.sprintBackward=Sprint Backward
+config.bpk.general.sprintBackward.tooltip=If enabled, you could sprint even if you are backward
+config.bpk.general.sprintDelay=Sprint Delay
+config.bpk.general.sprintDelay.tooltip=If disabled, sprint in air will not be delayed
+config.bpk.general.inertiaThreshold=Inertia Threshold
+config.bpk.general.inertiaThreshold.tooltip=Stops the player from moving when their momentum is deemed negligible\nJE 1.8.9: 0.005\nJE 1.12.2: 0.003\nBE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less
+config.bpk.general.byPitch=Use Pitch
+config.bpk.general.byPitch.tooltip=You have to enabled "isNewTouch" first\nchange your strafe direction by pitch
+config.bpk.general.beSneak=BE Sneak
+config.bpk.general.beSneak.tooltip=Toggle sneak to BE mode
+
+key.category.bpk=BPK Mod
+key.bpk.newTouch=Toggle New Touch

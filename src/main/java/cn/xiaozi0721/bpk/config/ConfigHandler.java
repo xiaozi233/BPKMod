@@ -42,6 +42,15 @@ public class ConfigHandler {
         @Config.RangeDouble(min =0, max = 0.005)
         @Config.LangKey("config.bpk.general.inertiaThreshold")
         public static double inertiaThreshold = 0.0001D;
+
+        @Config.Comment("Toggle sneak to BE mode")
+        @Config.LangKey("config.bpk.general.beSneak")
+        public static boolean beSneak = false;
+    }
+
+    public static void toggleNewTouch(){
+        GeneralConfig.isNewTouch = !GeneralConfig.isNewTouch;
+        ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
     }
 
     @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
