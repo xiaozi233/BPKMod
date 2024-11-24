@@ -11,23 +11,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity{
-
     @Shadow public float stepHeight;
     @Shadow public double motionX;
     @Shadow public double motionZ;
 
     @Redirect(
             method = "move",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;"),
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;"),
             slice = @Slice(
                     from = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 1),
                     to = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 3)
             )
     )
-    private AxisAlignedBB changeAABB(AxisAlignedBB aabb, double x, double y, double z){
-        return aabb.offset(x, (double)(-this.stepHeight), z).grow(-0.025, 0, -0.025);
+    private AxisAlignedBB shrinkAABB(AxisAlignedBB aabb, double x, double y, double z){
+        return GeneralConfig.beSneak ? aabb.offset(x, (double)(-this.stepHeight), z).grow(-0.025, 0, -0.025) : aabb.offset(x, (double)(-this.stepHeight), z);
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0,shift = At.Shift.BY, by = 2))

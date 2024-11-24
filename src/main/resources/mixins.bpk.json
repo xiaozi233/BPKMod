@@ -13,13 +13,13 @@
     "minecraft.block.MixinBlockPane",
     "minecraft.block.MixinBlockTrapDoor",
     "minecraft.entity.MixinEntity",
-    "minecraft.entity.MixinEntityLivingBase"
+    "minecraft.entity.MixinEntityLivingBase",
+    "minecraft.entity.player.MixinEntityPlayer"
   ],
   "client": [
     "minecraft.client.entity.MixinEntityPlayerSP",
     "minecraft.client.renderer.MixinActiveRenderInfo",
-    "minecraft.client.renderer.MixinEntityRender",
-    "minecraft.entity.player.MixinEntityPlayer"
+    "minecraft.client.renderer.MixinEntityRender"
   ],
   "server": [],
   "injectors": {

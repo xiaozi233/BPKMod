@@ -45,8 +45,8 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     }
 
     @Redirect(method = "onLivingUpdate",at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
-    private float setMoveForward(MovementInput movementInput){
-        return sprintBackward &&  !isSneaking() && movementInput.moveForward !=0 ? 1 : movementInput.moveForward;
+    private float sprintBackward(MovementInput movementInput){
+        return sprintBackward && !isSneaking() && movementInput.moveForward != 0 ? 1 : movementInput.moveForward;
     }
 
     @Redirect(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
