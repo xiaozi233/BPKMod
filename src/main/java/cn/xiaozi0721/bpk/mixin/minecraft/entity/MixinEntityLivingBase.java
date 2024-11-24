@@ -14,7 +14,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.*;
 
-
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity{
     @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
@@ -25,37 +24,31 @@ public abstract class MixinEntityLivingBase extends Entity{
         super(worldIn);
     }
 
-    //Change Inertia Threshold
     @ModifyConstant(method = "onLivingUpdate", constant = @Constant(doubleValue = 0.003D))
     private double setInertiaThreshold(double value){
         return inertiaThreshold;
     }
 
-    //45 strafe-related method
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
         float f = strafe * strafe + up * up + forward * forward;
-        if (f >= 1.0E-4F)
-        {
+        if (f >= 1.0E-4F) {
             f = MathHelper.sqrt(f);
-            if (!isNewTouch){
-                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F)
-                    f = 1.0F;
-                else {
-                    if (isSneaking())
-                        friction *= 0.3F;
-                    friction *= 0.98F;
-                }
+            if (isNewTouch){
+                if (f < 1) f = 1.0F;
             }
             else {
-                if (f < 1) f = 1.0F;
+                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) f = 1.0F;
+                else {
+                    if (isSneaking()) friction *= 0.3F;
+                    friction *= 0.98F;
+                }
             }
             f = friction / f;
             strafe = strafe * f;
             up = up * f;
             forward = forward * f;
-            if(this.isInWater() || this.isInLava())
-            {
+            if(this.isInWater() || this.isInLava()) {
                 strafe = strafe * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 up = up * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 forward = forward * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
@@ -64,10 +57,11 @@ public abstract class MixinEntityLivingBase extends Entity{
             float f2 = MathHelper.cos(this.rotationYaw * 0.017453292F);
             if(isNewTouch){
                 float deltaYaw;
-                if(!byPitch){
-                    deltaYaw = (float)Math.acos(0.98);
-                }else{
+                if(byPitch){
                     deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
+                }
+                else{
+                    deltaYaw = (float)Math.acos(0.98);
                 }
                 float f3 = MathHelper.sin(45 * 0.017453292F - deltaYaw);
                 float f4 = MathHelper.cos(45 * 0.017453292F - deltaYaw);

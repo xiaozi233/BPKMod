@@ -19,11 +19,10 @@ public abstract class MixinEntityPlayer extends EntityLivingBase{
     }
     
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;travel(FFF)V", ordinal = 1))
-    private void setJumpMovementFactor(float strafe, float vertical, float forward, CallbackInfo ci){
+    private void sprintDelay(float strafe, float vertical, float forward, CallbackInfo ci){
         if (!sprintDelay){
             this.jumpMovementFactor = this.speedInAir;
-            if (this.isSprinting())
-            {
+            if (this.isSprinting()){
                 this.jumpMovementFactor = (float)((double)this.jumpMovementFactor + (double)this.speedInAir * 0.3D);
             }
         }
