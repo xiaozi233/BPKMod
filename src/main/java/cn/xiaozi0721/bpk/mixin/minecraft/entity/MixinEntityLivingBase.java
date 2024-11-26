@@ -1,7 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.IEntityPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -16,7 +15,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
 @Mixin(EntityLivingBase.class)
-public abstract class MixinEntityLivingBase extends Entity implements IEntityPlayer {
+public abstract class MixinEntityLivingBase extends Entity{
     @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
     @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
     @Shadow public abstract void fall(float distance, float damageMultiplier);

@@ -2,7 +2,6 @@ package cn.xiaozi0721.bpk.mixin.minecraft.entity.player;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IEntityPlayer;
-import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -18,7 +17,6 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
     @Shadow protected float speedInAir;
 
     @Unique public boolean BPKMod$underBlock = false;
-//    @Unique public boolean BPKMod$isSneakingPose = false;
 
     public MixinEntityPlayer(World worldIn) {
         super(worldIn);
@@ -34,41 +32,54 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
         }
     }
 
-    @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
-    private float setSneakHeight(float sneakHeight){
-        return 1.5F;
-    }
-
     @ModifyConstant(method = "getEyeHeight", constant = @Constant(floatValue = 0.08F))
     private float setSneakEyeHeight(float sneakEyeHeight){
         return 0.38F;
     }
 
-    @Inject(method = "updateSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;collidesWithAnyBlock(Lnet/minecraft/util/math/AxisAlignedBB;)Z"))
-    private void updateUnderBlock(CallbackInfo ci){
-        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
-        axisalignedbb = new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + 0.6D, axisalignedbb.minY + 1.8D, axisalignedbb.minZ + 0.6D);
-        BPKMod$underBlock = this.world.collidesWithAnyBlock(axisalignedbb);
+    @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
+    private float setSneakHeight(float sneakHeight){
+        return 1.5F;
     }
 
-    @Inject(method = "updateSize", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;width:F"))
-    private void updateUnderBlock(CallbackInfo ci, @Local(ordinal = 0) float width, @Local(ordinal = 1) float height){
-        System.out.println("width:" + width + "height: " + height);
+    @Inject(method = "updateSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z", shift = At.Shift.AFTER))
+    private void updateUnderBlockFirst(CallbackInfo ci){
+        AxisAlignedBB normalAABB = this.getEntityBoundingBox();
+        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.5D, normalAABB.minZ + 0.6D);
+        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D, normalAABB.minZ + 0.6D);
+
+        BPKMod$underBlock = this.world.collidesWithAnyBlock(normalAABB) && !this.world.collidesWithAnyBlock(sneakAABB);
     }
 
+//    @Inject(method = "updateSize", at = @At("HEAD"))
+//    private void updateUnderBlockFirst(CallbackInfo ci){
+//        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
+//        axisalignedbb = new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + 0.6D, axisalignedbb.minY + 1.8D, axisalignedbb.minZ + 0.6D);
+//        BPKMod$underBlock = this.world.collidesWithAnyBlock(axisalignedbb);
+//    }
 
-    @Redirect(method = "updateSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"))
-    private boolean sneakPressing(EntityPlayer entityPlayer){
-        return entityPlayer.isSneaking();
-    }
+//    @Inject(method = "updateSize", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;width:F"))
+//    private void updateUnderBlock(CallbackInfo ci){
+//        if (isSneaking()){
+//            AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
+//            axisalignedbb = new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + 0.6D, axisalignedbb.minY + 1.8D, axisalignedbb.minZ + 0.6D);
+//            BPKMod$underBlock = this.world.collidesWithAnyBlock(axisalignedbb);
+//        }
+//    }
+
+//    @Inject(method = "updateSize", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;width:F"))
+//    private void updateUnderBlock(CallbackInfo ci, @Local(ordinal = 0) float width, @Local(ordinal = 1) float height){
+//        System.out.println("width:" + width + "height: " + height);
+//    }
+
+
+//    @Redirect(method = "updateSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"))
+//    private boolean sneakPressing(EntityPlayer entityPlayer){
+//        return entityPlayer.isSneaking() || BPKMod$underBlock;
+//    }
 
     @Override
     public boolean BPKMod$getUnderBlock(){
         return BPKMod$underBlock;
     }
-//
-//    @Override
-//    public boolean BPKMod$isSneakingPose(){
-//        return BPKMod$isSneakingPose;
-//    }
 }

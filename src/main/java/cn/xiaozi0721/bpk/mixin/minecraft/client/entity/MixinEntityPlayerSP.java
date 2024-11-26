@@ -66,10 +66,15 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         }
     }
 
-    @Redirect(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;sneak:Z"))
-    private boolean sneakOrUnderBlock(MovementInput movementInput){
-        return movementInput.sneak || BPKMod$getUnderBlock();
-    }
+//    @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;allowFlying:Z", ordinal = 1))
+//    private void sprintCancel(CallbackInfo ci){
+//        if(BPKMod$getUnderBlock()) this.setSprinting(false);
+//    }
+
+//    @Redirect(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;sneak:Z"))
+//    private boolean sneakOrUnderBlock(MovementInput movementInput){
+//        return movementInput.sneak || BPKMod$getUnderBlock();
+//    }
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
     private boolean isSneaking(boolean isSneaking){
