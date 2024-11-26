@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements IRenderViewEntity, IEntityPlayer {
+    @Shadow public MovementInput movementInput;
     @Shadow public abstract void setSprinting(boolean sprinting);
     @Shadow public abstract boolean isSneaking();
 
-    @Shadow public MovementInput movementInput;
     @Unique private float BPKMod$lastCameraY;
     @Unique private float BPKMod$cameraY;
 
@@ -65,16 +65,6 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
             movementInput.moveForward *= 0.3F;
         }
     }
-
-//    @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;allowFlying:Z", ordinal = 1))
-//    private void sprintCancel(CallbackInfo ci){
-//        if(BPKMod$getUnderBlock()) this.setSprinting(false);
-//    }
-
-//    @Redirect(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;sneak:Z"))
-//    private boolean sneakOrUnderBlock(MovementInput movementInput){
-//        return movementInput.sneak || BPKMod$getUnderBlock();
-//    }
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
     private boolean isSneaking(boolean isSneaking){

@@ -47,31 +47,8 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
         AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.5D, normalAABB.minZ + 0.6D);
         normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D, normalAABB.minZ + 0.6D);
-
         BPKMod$underBlock = this.world.collidesWithAnyBlock(normalAABB) && !this.world.collidesWithAnyBlock(sneakAABB);
     }
-
-//    @Inject(method = "updateSize", at = @At("HEAD"))
-//    private void updateUnderBlockFirst(CallbackInfo ci){
-//        AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
-//        axisalignedbb = new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + 0.6D, axisalignedbb.minY + 1.8D, axisalignedbb.minZ + 0.6D);
-//        BPKMod$underBlock = this.world.collidesWithAnyBlock(axisalignedbb);
-//    }
-
-//    @Inject(method = "updateSize", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;width:F"))
-//    private void updateUnderBlock(CallbackInfo ci){
-//        if (isSneaking()){
-//            AxisAlignedBB axisalignedbb = this.getEntityBoundingBox();
-//            axisalignedbb = new AxisAlignedBB(axisalignedbb.minX, axisalignedbb.minY, axisalignedbb.minZ, axisalignedbb.minX + 0.6D, axisalignedbb.minY + 1.8D, axisalignedbb.minZ + 0.6D);
-//            BPKMod$underBlock = this.world.collidesWithAnyBlock(axisalignedbb);
-//        }
-//    }
-
-//    @Inject(method = "updateSize", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/EntityPlayer;width:F"))
-//    private void updateUnderBlock(CallbackInfo ci, @Local(ordinal = 0) float width, @Local(ordinal = 1) float height){
-//        System.out.println("width:" + width + "height: " + height);
-//    }
-
 
 //    @Redirect(method = "updateSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z"))
 //    private boolean sneakPressing(EntityPlayer entityPlayer){
