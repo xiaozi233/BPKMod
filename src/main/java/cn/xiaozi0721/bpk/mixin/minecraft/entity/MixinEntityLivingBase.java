@@ -1,5 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.entity;
 
+import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
+import cn.xiaozi0721.bpk.interfaces.IEntityPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.IAttribute;
@@ -12,10 +14,9 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.*;
 
 @Mixin(EntityLivingBase.class)
-public abstract class MixinEntityLivingBase extends Entity{
+public abstract class MixinEntityLivingBase extends Entity implements IEntityPlayer {
     @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
     @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
     @Shadow public abstract void fall(float distance, float damageMultiplier);
@@ -26,63 +27,63 @@ public abstract class MixinEntityLivingBase extends Entity{
 
     @ModifyConstant(method = "onLivingUpdate", constant = @Constant(doubleValue = 0.003D))
     private double setInertiaThreshold(double value){
-        return inertiaThreshold;
+        return GeneralConfig.inertiaThreshold;
     }
 
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
-        float f = strafe * strafe + up * up + forward * forward;
-        if (f >= 1.0E-4F) {
-            f = MathHelper.sqrt(f);
-            if (isNewTouch){
-                if (f < 1) f = 1.0F;
+        float distance = strafe * strafe + up * up + forward * forward;
+        if (distance >= 1.0E-4F) {
+            distance = MathHelper.sqrt(distance);
+            if (GeneralConfig.isNewTouch){
+                if (distance < 1) distance = 1.0F;
             }
             else {
-                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) f = 1.0F;
+                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) distance = 1.0F;
                 else {
-                    if (isSneaking()) friction *= 0.3F;
                     friction *= 0.98F;
+                    if (isSneaking()) friction *= 0.3F;
                 }
             }
-            f = friction / f;
-            strafe = strafe * f;
-            up = up * f;
-            forward = forward * f;
+            distance = friction / distance;
+            strafe = strafe * distance;
+            up = up * distance;
+            forward = forward * distance;
             if(this.isInWater() || this.isInLava()) {
                 strafe = strafe * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 up = up * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 forward = forward * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
             }
-            float f1 = MathHelper.sin(this.rotationYaw * 0.017453292F);
-            float f2 = MathHelper.cos(this.rotationYaw * 0.017453292F);
-            if(isNewTouch){
+            float sinYaw = MathHelper.sin(this.rotationYaw * 0.017453292F);
+            float cosYaw = MathHelper.cos(this.rotationYaw * 0.017453292F);
+            if(GeneralConfig.isNewTouch){
                 float deltaYaw;
-                if(byPitch){
+                if(GeneralConfig.byPitch){
                     deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
                 }
                 else{
                     deltaYaw = (float)Math.acos(0.98);
                 }
-                float f3 = MathHelper.sin(45 * 0.017453292F - deltaYaw);
-                float f4 = MathHelper.cos(45 * 0.017453292F - deltaYaw);
-                if(byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){;
-                    f3 *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
-                    f4 *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
+                float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
+                if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){;
+                    newTouchSinYaw *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                    newTouchCosYaw *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                 }
 
                 float tmp = strafe;
                 if (strafe * forward > 1.0E-4){
-                    strafe = tmp * f4 - forward * f3;
-                    forward =  forward * f4 + tmp * f3;
+                    strafe = tmp * newTouchCosYaw - forward * newTouchSinYaw;
+                    forward =  forward * newTouchCosYaw + tmp * newTouchSinYaw;
                 }
                 else if (strafe * forward < -1.0E-4){
-                    strafe = tmp * f4 + forward * f3;
-                    forward =  forward * f4 - tmp * f3;
+                    strafe = tmp * newTouchCosYaw + forward * newTouchSinYaw;
+                    forward =  forward * newTouchCosYaw - tmp * newTouchSinYaw;
                 }
             }
-            this.motionX += (double)(strafe * f2 - forward * f1);
+            this.motionX += (double)(strafe * cosYaw - forward * sinYaw);
             this.motionY += (double)up;
-            this.motionZ += (double)(forward * f2 + strafe * f1);
+            this.motionZ += (double)(forward * cosYaw + strafe * sinYaw);
         }
         ci.cancel();
     }
