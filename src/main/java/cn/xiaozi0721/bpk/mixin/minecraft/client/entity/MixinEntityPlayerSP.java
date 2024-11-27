@@ -22,8 +22,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements IRenderViewEntity, IEntityPlayer {
     @Shadow public MovementInput movementInput;
-    @Shadow public abstract void setSprinting(boolean sprinting);
-    @Shadow public abstract boolean isSneaking();
 
     @Unique private float BPKMod$lastCameraY;
     @Unique private float BPKMod$cameraY;

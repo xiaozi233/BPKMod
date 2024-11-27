@@ -43,7 +43,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
     }
 
     @Inject(method = "updateSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z", shift = At.Shift.AFTER))
-    private void updateUnderBlockFirst(CallbackInfo ci){
+    private void updateUnderBlock(CallbackInfo ci){
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
         AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.5D, normalAABB.minZ + 0.6D);
         normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D, normalAABB.minZ + 0.6D);

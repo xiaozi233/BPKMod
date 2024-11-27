@@ -18,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntityLivingBase extends Entity{
     @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
     @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
-    @Shadow public abstract void fall(float distance, float damageMultiplier);
 
     public MixinEntityLivingBase(World worldIn) {
         super(worldIn);
