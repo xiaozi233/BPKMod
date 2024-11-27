@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntityPlayer extends EntityLivingBase implements IEntityPlayer {
     @Shadow protected float speedInAir;
 
+    @Unique public final double sneakHeight = 1.5F;
     @Unique public boolean BPKMod$underBlock = false;
 
     public MixinEntityPlayer(World worldIn) {
@@ -39,14 +40,14 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
 
     @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
     private float setSneakHeight(float sneakHeight){
-        return 1.5F;
+        return (float) this.sneakHeight;
     }
 
     @Inject(method = "updateSize", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/player/EntityPlayer;isSneaking()Z", shift = At.Shift.AFTER))
     private void updateUnderBlock(CallbackInfo ci){
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
-        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.5D, normalAABB.minZ + 0.6D);
-        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D, normalAABB.minZ + 0.6D);
+        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + this.sneakHeight - 1.0E-7, normalAABB.minZ + 0.6D);
+        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
         BPKMod$underBlock = this.world.collidesWithAnyBlock(normalAABB) && !this.world.collidesWithAnyBlock(sneakAABB);
     }
 
