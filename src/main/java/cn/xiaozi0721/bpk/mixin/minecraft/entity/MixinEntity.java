@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
-public abstract class MixinEntity implements IEntityPlayer{
+public abstract class MixinEntity{
     @Shadow public float stepHeight;
     @Shadow public double motionX;
     @Shadow public double motionZ;

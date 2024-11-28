@@ -74,7 +74,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     }
 
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), ordinal = 1, argsOnly = true)
-    private double consiedInaccuracy(double y){
+    private double considerInaccuracy(double y){
         return y - 1.0e-7;
     }
 }
