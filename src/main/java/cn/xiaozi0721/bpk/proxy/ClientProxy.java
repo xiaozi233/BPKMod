@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.Side;
 @Mod.EventBusSubscriber(Side.CLIENT)
 public class ClientProxy extends CommonProxy{
     @Override
-    public void onInit() {
+    public void init() {
         MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
         KeyBindings.init();
     }

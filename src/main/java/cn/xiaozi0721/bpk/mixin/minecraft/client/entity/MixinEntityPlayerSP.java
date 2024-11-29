@@ -6,6 +6,7 @@ import cn.xiaozi0721.bpk.interfaces.IRenderViewEntity;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -62,19 +63,25 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
     private void sneakFriction(CallbackInfo ci) {
-        if (!movementInput.sneak && BPKMod$getUnderBlock()) {
+        if (!movementInput.sneak && (BPKMod$getUnderBlock())) {
+            movementInput.sneak = true;
             movementInput.moveStrafe *= 0.3F;
             movementInput.moveForward *= 0.3F;
         }
     }
 
-    @ModifyVariable(method = "isSneaking", at = @At("STORE"))
-    private boolean isSneaking(boolean isSneaking){
-        return isSneaking || BPKMod$getUnderBlock();
-    }
+//    @ModifyVariable(method = "isSneaking", at = @Atbefore("STORE"))
+//    private boolean isSneaking(boolean isSneaking){
+//        return (isSneaking || BPKMod$getUnderBlock()) || (!isSneaking && isSneakingPose());
+//    }
 
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), ordinal = 1, argsOnly = true)
     private double considerInaccuracy(double y){
         return y - 1.0e-7;
+    }
+
+    @Unique
+    private boolean isSneakingPose(){
+        return height - BPKMod$getSneakHeight() < 1.0e-4;
     }
 }

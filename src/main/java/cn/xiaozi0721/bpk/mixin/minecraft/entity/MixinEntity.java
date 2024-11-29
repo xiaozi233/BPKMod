@@ -1,7 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.IEntityPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -9,7 +8,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity{

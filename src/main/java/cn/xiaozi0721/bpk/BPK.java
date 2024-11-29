@@ -1,9 +1,6 @@
 package cn.xiaozi0721.bpk;
 
-import cn.xiaozi0721.bpk.keys.KeyBindings;
-import cn.xiaozi0721.bpk.keys.KeyInputHandler;
 import cn.xiaozi0721.bpk.proxy.CommonProxy;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -28,7 +25,7 @@ public class BPK {
 
     @Mod.EventHandler
     public void init(FMLPreInitializationEvent event) {
-        proxy.onInit();
+        proxy.init();
     }
 
     @Mod.EventHandler

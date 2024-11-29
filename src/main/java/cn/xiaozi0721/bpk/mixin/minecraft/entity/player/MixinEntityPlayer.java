@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntityPlayer extends EntityLivingBase implements IEntityPlayer {
     @Shadow protected float speedInAir;
 
-    @Unique public final double sneakHeight = 1.5F;
+    @Unique public double sneakHeight = 1.5F;
     @Unique public boolean BPKMod$underBlock = false;
 
     public MixinEntityPlayer(World worldIn) {
@@ -59,5 +59,10 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
     @Override
     public boolean BPKMod$getUnderBlock(){
         return BPKMod$underBlock;
+    }
+
+    @Override
+    public double BPKMod$getSneakHeight(){
+        return sneakHeight;
     }
 }
