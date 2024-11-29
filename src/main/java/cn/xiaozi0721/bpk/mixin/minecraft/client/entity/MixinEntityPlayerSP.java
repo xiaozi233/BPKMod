@@ -6,11 +6,8 @@ import cn.xiaozi0721.bpk.interfaces.IRenderViewEntity;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 
 @Mixin(EntityPlayerSP.class)
@@ -30,6 +26,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Unique private float BPKMod$lastCameraY;
     @Unique private float BPKMod$cameraY;
+    @Unique private boolean BPKMod$underBlock;
 
     public MixinEntityPlayerSP(World worldIn, GameProfile playerProfile) {
         super(worldIn, playerProfile);
@@ -61,27 +58,30 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         return false;
     }
 
+    @Inject(method = "onLivingUpdate", at = @At("HEAD"))
+    private void updateUnderBlock(CallbackInfo ci) {
+        AxisAlignedBB normalAABB = this.getEntityBoundingBox();
+        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7, normalAABB.minZ + 0.6D);
+        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
+        BPKMod$underBlock = this.world.collidesWithAnyBlock(normalAABB) && !this.world.collidesWithAnyBlock(sneakAABB);
+    }
+
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
-    private void sneakFriction(CallbackInfo ci) {
-        if (!movementInput.sneak && (BPKMod$getUnderBlock())) {
+    private void updateSneakInput(CallbackInfo ci) {
+        if (!movementInput.sneak && BPKMod$underBlock) {
             movementInput.sneak = true;
             movementInput.moveStrafe *= 0.3F;
             movementInput.moveForward *= 0.3F;
         }
     }
 
-//    @ModifyVariable(method = "isSneaking", at = @Atbefore("STORE"))
-//    private boolean isSneaking(boolean isSneaking){
-//        return (isSneaking || BPKMod$getUnderBlock()) || (!isSneaking && isSneakingPose());
-//    }
-
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), ordinal = 1, argsOnly = true)
     private double considerInaccuracy(double y){
         return y - 1.0e-7;
     }
 
-    @Unique
-    private boolean isSneakingPose(){
-        return height - BPKMod$getSneakHeight() < 1.0e-4;
-    }
+//    @Unique
+//    private boolean isSneakingPose(){
+//        return height - BPKMod$getSneakHeight() < 1.0e-4;
+//    }
 }
