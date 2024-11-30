@@ -28,25 +28,34 @@ public abstract class MixinEntityLivingBase extends Entity{
         return GeneralConfig.inertiaThreshold;
     }
 
+    /*
+     * This function is responsible for the existence of 45° strafe.
+     * Note that:
+     *     - Sprint multiplier is contained within "friction"
+     *     - Sneak multiplier is contained within "strafe" and "forward"
+     *     - Only the parrot used "up". Kind useless.
+     */
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
+        System.out.println(up);
         float distance = strafe * strafe + up * up + forward * forward;
         if (distance >= 1.0E-4F) {
             distance = MathHelper.sqrt(distance);
-            if (GeneralConfig.isNewTouch){
-                if (distance < 1) distance = 1.0F;
-            }
-            else {
-                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F) distance = 1.0F;
-                else {
-                    friction *= 0.98F;
-                    if (isSneaking()) friction *= 0.3F;
+            if (GeneralConfig.isNewTouch || MathHelper.abs(up) >= 1.0E-4F){
+                if (distance < 1) {
+                    distance = 1.0F;
                 }
             }
-            distance = friction / distance;
-            strafe = strafe * distance;
-            up = up * distance;
-            forward = forward * distance;
+            else if (MathHelper.abs(strafe) <= 1.0E-4F || MathHelper.abs(forward) <= 1.0E-4F) {
+                distance = 1.0F;
+            }
+            else {
+                distance /= MathHelper.abs(strafe);
+            }
+            friction /= distance;
+            strafe = strafe * friction;
+            up = up * friction;
+            forward = forward * friction;
             if(this.isInWater() || this.isInLava()) {
                 strafe = strafe * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 up = up * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
@@ -64,7 +73,7 @@ public abstract class MixinEntityLivingBase extends Entity{
                 }
                 float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
                 float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
-                if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){;
+                if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){
                     newTouchSinYaw *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                     newTouchCosYaw *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                 }
