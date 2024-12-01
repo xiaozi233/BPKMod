@@ -9,9 +9,11 @@ import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings("unused")
 @Mod.EventBusSubscriber
-@Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION, guiFactory = "cn.xiaozi0721.bpk.config.ConfigGuiFactory")
+@Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION, dependencies = BPK.DEPENDENCIES, guiFactory = BPK.CONFIG_GUI)
 public class BPK {
     public static final Logger LOGGER = LogManager.getLogger(Tags.MOD_NAME);
+    public static final String DEPENDENCIES = "required-after:mixinbooter;";
+    public static final String CONFIG_GUI = "cn.xiaozi0721."+ Tags.MOD_ID + ".config.ConfigGuiFactory";
     private static final String CLIENT_PROXY = "cn.xiaozi0721." + Tags.MOD_ID + ".proxy.ClientProxy";
     private static final String COMMON_PROXY = "cn.xiaozi0721." + Tags.MOD_ID + ".proxy.CommonProxy";
 
@@ -31,6 +33,5 @@ public class BPK {
     @Mod.EventHandler
     public void postInit(FMLPreInitializationEvent event) {
     }
-
 
 }

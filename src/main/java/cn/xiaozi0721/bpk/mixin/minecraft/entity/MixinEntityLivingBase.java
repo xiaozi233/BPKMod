@@ -37,7 +37,6 @@ public abstract class MixinEntityLivingBase extends Entity{
      */
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
-        System.out.println(up);
         float distance = strafe * strafe + up * up + forward * forward;
         if (distance >= 1.0E-4F) {
             distance = MathHelper.sqrt(distance);
