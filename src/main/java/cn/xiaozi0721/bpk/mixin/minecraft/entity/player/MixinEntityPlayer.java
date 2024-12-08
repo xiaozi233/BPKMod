@@ -46,7 +46,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
     }
 
     @Inject(method = "updateSize", at = @At("HEAD"))
-    private void updateWillUnderBlock(CallbackInfo ci){
+    private void updateUnderBlock(CallbackInfo ci){
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
         AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7, normalAABB.minZ + 0.6D);
         normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
