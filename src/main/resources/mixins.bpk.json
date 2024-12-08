@@ -10,6 +10,7 @@
     "minecraft.block.MixinBlockCactus",
     "minecraft.block.MixinBlockChest",
     "minecraft.block.MixinBlockEnderChest",
+    "minecraft.block.MixinBlockMobSpawner",
     "minecraft.block.MixinBlockPane",
     "minecraft.block.MixinBlockTrapDoor",
     "minecraft.entity.MixinEntity",
