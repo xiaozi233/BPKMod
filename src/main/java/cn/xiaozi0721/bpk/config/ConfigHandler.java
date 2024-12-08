@@ -16,13 +16,14 @@ public class ConfigHandler {
     public static GeneralConfig generalConfig;
 
     public static class GeneralConfig{
-        @Config.Comment({"If enabled, the strafe angle will be changed to 11.48 degree(arccos(0.98))"})
+        @Config.Comment({"If enabled, the strafe angle will be changed to 11.48 degree(arc-cos(0.98))"})
         @Config.LangKey("config.bpk.general.isNewTouch")
         public static boolean isNewTouch = false;
 
-        @Config.Comment(
-                {"You have to enabled \"isNewTouch\" first",
-                        "change your strafe direction by pitch"})
+        @Config.Comment({
+                "You have to enabled \"isNewTouch\" first",
+                "change your strafe direction by pitch"
+        })
         @Config.LangKey("config.bpk.general.byPitch")
         public static boolean byPitch = false;
 
@@ -38,14 +39,22 @@ public class ConfigHandler {
                 "Stops the player from moving when their momentum is deemed negligible",
                 "JE 1.8.9: 0.005",
                 "JE 1.12.2: 0.003",
-                "BE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less"})
-        @Config.RangeDouble(min =0, max = 0.005)
+                "BE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less"
+        })
+        @Config.RangeDouble(min = 0, max = 0.005)
         @Config.LangKey("config.bpk.general.inertiaThreshold")
         public static double inertiaThreshold = 0.0001D;
 
         @Config.Comment("Toggle sneak to BE mode")
         @Config.LangKey("config.bpk.general.beSneak")
         public static boolean beSneak = false;
+
+        @Config.Comment({
+                "Toggle 45-Strafe Accelerate",
+                "Priority is lower than NewTouch"
+        })
+        @Config.LangKey("config.bpk.general.45strafe")
+        public static boolean strafeAccelerateAllowed = false;
     }
 
     public static void toggleNewTouch(){

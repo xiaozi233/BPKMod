@@ -29,27 +29,29 @@ public abstract class MixinEntityLivingBase extends Entity{
     }
 
     /*
-     * This function is responsible for the existence of 45° strafe.
-     * Note that:
-     *     - Sprint multiplier is contained within "friction"
-     *     - Sneak multiplier is contained within "strafe" and "forward"
-     *     - Only the parrot used "up". Kind useless.
+     *  This function is responsible for the existence of 45° strafe.
+     *  Note that:
+     *      - Sprint multiplier is contained within "friction"
+     *      - Sneak multiplier is contained within "strafe" and "forward"
+     *      - Only the parrot used "up". Kind useless.
+     *      - Horse's strafe and forward are unequaled.
      */
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
         float distance = strafe * strafe + up * up + forward * forward;
+        boolean hasStrafe = MathHelper.abs(strafe) >= 1.0E-4F;
+        boolean hasForward = MathHelper.abs(forward) >= 1.0E-4F;
+        boolean hasUp = MathHelper.abs(up) >= 1.0E-4F;
         if (distance >= 1.0E-4F) {
             distance = MathHelper.sqrt(distance);
-            if (GeneralConfig.isNewTouch || MathHelper.abs(up) >= 1.0E-4F){
+            if (GeneralConfig.isNewTouch || GeneralConfig.strafeAccelerateAllowed || hasUp || hasStrafe && hasForward && MathHelper.abs(strafe) - MathHelper.abs(forward) >= 1.0E-4F){
                 if (distance < 1) {
                     distance = 1.0F;
                 }
-            }
-            else if (MathHelper.abs(strafe) <= 1.0E-4F || MathHelper.abs(forward) <= 1.0E-4F) {
+            } else if (!hasStrafe || !hasForward) {
                 distance = 1.0F;
-            }
-            else {
-                distance /= MathHelper.abs(strafe);
+            } else {
+                distance /= MathHelper.abs(forward);
             }
             friction /= distance;
             strafe = strafe * friction;
@@ -66,23 +68,21 @@ public abstract class MixinEntityLivingBase extends Entity{
                 float deltaYaw;
                 if(GeneralConfig.byPitch){
                     deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
-                }
-                else{
+                } else{
                     deltaYaw = (float)Math.acos(0.98);
                 }
                 float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
                 float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
                 if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){
-                    newTouchSinYaw *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
-                    newTouchCosYaw *= (float) (0.98/MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                    newTouchSinYaw *= (float) (0.98 / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                    newTouchCosYaw *= (float) (0.98 / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                 }
 
                 float tmp = strafe;
                 if (strafe * forward > 1.0E-4){
                     strafe = tmp * newTouchCosYaw - forward * newTouchSinYaw;
                     forward =  forward * newTouchCosYaw + tmp * newTouchSinYaw;
-                }
-                else if (strafe * forward < -1.0E-4){
+                } else if (strafe * forward < -1.0E-4){
                     strafe = tmp * newTouchCosYaw + forward * newTouchSinYaw;
                     forward =  forward * newTouchCosYaw - tmp * newTouchSinYaw;
                 }

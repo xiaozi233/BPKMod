@@ -5,6 +5,8 @@ import cn.xiaozi0721.bpk.interfaces.IEntityRender;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -28,13 +30,16 @@ public class MixinEntityRender implements IEntityRender{
 
     @Redirect(method = "orientCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getEyeHeight()F"))
     private float lerpSneak(Entity entity) {
-        return (float) MathHelper.clampedLerp(((IRenderViewEntity) entity).BPKMod$getLastCameraY(), ((IRenderViewEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta);
+        return entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(((IRenderViewEntity) entity).BPKMod$getLastCameraY(), ((IRenderViewEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta)
+                                                : entity.getEyeHeight();
     }
 
     @Inject(method = "updateRenderer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/math/BlockPos;)F"))
     private void updateCameraHeight(CallbackInfo ci) {
-        if (this.mc.getRenderViewEntity() != null) {
+        if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
             ((IRenderViewEntity) this.mc.getRenderViewEntity()).BPKMod$updateCameraHeight(BPKMod$tickDelta);
+        }else{
+            this.mc.world.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1F)));
         }
     }
 

@@ -1,7 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.entity.player;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.IEntityPlayer;
+import cn.xiaozi0721.bpk.interfaces.IEntityPlayerSP;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
@@ -12,10 +12,10 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityPlayer.class)
-public abstract class MixinEntityPlayer extends EntityLivingBase implements IEntityPlayer {
+public abstract class MixinEntityPlayer extends EntityLivingBase implements IEntityPlayerSP {
     @Shadow protected float speedInAir;
 
-    @Unique public double sneakHeight = 1.5D;
+    @Unique public double BPKMod$sneakHeight;
 
     public MixinEntityPlayer(World worldIn) {
         super(worldIn);
@@ -33,16 +33,17 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IEnt
 
     @ModifyConstant(method = "getEyeHeight", constant = @Constant(floatValue = 0.08F))
     private float setSneakEyeHeight(float sneakEyeHeight){
-        return 0.38F;
+        return GeneralConfig.beSneak ? 0.38F : 0.08F;
     }
 
     @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
     private float setSneakHeight(float sneakHeight){
-        return (float) this.sneakHeight;
+        BPKMod$sneakHeight = GeneralConfig.beSneak ? 1.5D : 1.65D;
+        return (float) BPKMod$sneakHeight;
     }
 
     @Override
     public double BPKMod$getSneakHeight(){
-        return sneakHeight;
+        return BPKMod$sneakHeight;
     }
 }

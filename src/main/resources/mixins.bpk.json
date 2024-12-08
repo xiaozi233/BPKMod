@@ -18,7 +18,6 @@
   ],
   "client": [
     "minecraft.client.entity.MixinEntityPlayerSP",
-    "minecraft.client.renderer.MixinActiveRenderInfo",
     "minecraft.client.renderer.MixinEntityRender"
   ],
   "server": [],

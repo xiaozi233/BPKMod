@@ -1,6 +1,8 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
+import cn.xiaozi0721.bpk.interfaces.IEntityPlayer;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -14,6 +16,8 @@ public abstract class MixinEntity{
     @Shadow public float stepHeight;
     @Shadow public double motionX;
     @Shadow public double motionZ;
+
+    @Shadow public abstract boolean isSneaking();
 
     @Redirect(
             method = "move",
@@ -47,6 +51,14 @@ public abstract class MixinEntity{
             this.motionX = 0;
             this.motionZ = 0;
         }
+    }
+
+    @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
+    public boolean isSneaking(Entity entity) {
+        if (GeneralConfig.beSneak && entity instanceof EntityPlayerSP) {
+            return ((IEntityPlayer)entity).BPKMod$isSneakPressed();
+        }
+        return this.isSneaking();
     }
 
 //    @Inject(method = "isSneaking", at = @At("RETURN"), cancellable = true)
