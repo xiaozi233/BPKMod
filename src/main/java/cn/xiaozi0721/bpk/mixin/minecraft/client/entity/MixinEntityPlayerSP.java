@@ -27,8 +27,6 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Unique private float BPKMod$lastCameraY;
     @Unique private float BPKMod$cameraY;
-    @Unique private boolean BPKMod$underBlock;
-    @Unique private boolean BPKMod$resizingAllowed;
 
     public MixinEntityPlayerSP(World worldIn, GameProfile playerProfile) {
         super(worldIn, playerProfile);
@@ -44,23 +42,18 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         return false;
     }
 
-    @Inject(method = "onLivingUpdate", at = @At("HEAD"))
-    private void updateSneakPose(CallbackInfo ci) {
-        AxisAlignedBB normalAABB = this.getEntityBoundingBox();
-        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7, normalAABB.minZ + 0.6D);
-        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
-        BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
-        BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
-    }
-
-//    @ModifyVariable(method = "onLivingUpdate", at = @At("STORE"), ordinal = 1)
-//    private boolean sneakPressedOrUnderBlock(boolean sneakPressed){
-//        return sneakPressed || BPKMod$underBlock;
+//    @Inject(method = "onLivingUpdate", at = @At("HEAD"))
+//    private void updateSneakPose(CallbackInfo ci) {
+//        AxisAlignedBB normalAABB = this.getEntityBoundingBox();
+//        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7, normalAABB.minZ + 0.6D);
+//        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
+//        BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
+//        BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
 //    }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
     private void updateSneakInput(CallbackInfo ci) {
-        if (GeneralConfig.beSneak && !movementInput.sneak && (BPKMod$underBlock || BPKMod$isSneakingPose()) && !this.capabilities.isFlying) {
+        if (GeneralConfig.beSneak && !movementInput.sneak && (BPKMod$getUnderBlock() || BPKMod$isSneakingPose()) && !this.capabilities.isFlying) {
             movementInput.moveStrafe *= 0.3F;
             movementInput.moveForward *= 0.3F;
         }
@@ -68,18 +61,18 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
     private boolean isSneakingOrUnderBlock(boolean isSneaking){
-        return isSneaking || (GeneralConfig.beSneak && (BPKMod$underBlock || BPKMod$isSneakingPose() && !BPKMod$resizingAllowed));
+        return isSneaking || (GeneralConfig.beSneak && (BPKMod$getUnderBlock() || BPKMod$isSneakingPose() && !BPKMod$getResizingAllowed()));
     }
 
-    @Redirect(method = "onUpdateWalkingPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isSneaking()Z"))
-    private boolean onUpdateWalkingPlayerIsSneaking(EntityPlayerSP playerIn) {
-        return BPKMod$isSneakPressed();
-    }
+//    @Redirect(method = "onUpdateWalkingPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isSneaking()Z"))
+//    private boolean onUpdateWalkingPlayerIsSneaking(EntityPlayerSP playerIn) {
+//        return BPKMod$isSneakPressed();
+//    }
 
     @Override
     public boolean BPKMod$isSneakPressed(){
-        boolean flag = this.movementInput != null && this.movementInput.sneak;
-        return flag && !this.sleeping;
+        boolean flag = movementInput != null && movementInput.sneak;
+        return flag && !sleeping;
     }
 
     @Unique
