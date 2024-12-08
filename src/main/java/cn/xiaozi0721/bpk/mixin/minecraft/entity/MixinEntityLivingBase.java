@@ -5,17 +5,19 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
 @Mixin(EntityLivingBase.class)
-public abstract class MixinEntityLivingBase extends Entity{
+public abstract class MixinEntityLivingBase extends Entity {
     @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
     @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
 
@@ -39,16 +41,14 @@ public abstract class MixinEntityLivingBase extends Entity{
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
         float distance = strafe * strafe + up * up + forward * forward;
-        boolean hasStrafe = MathHelper.abs(strafe) >= 1.0E-4F;
-        boolean hasForward = MathHelper.abs(forward) >= 1.0E-4F;
-        boolean hasUp = MathHelper.abs(up) >= 1.0E-4F;
         if (distance >= 1.0E-4F) {
+            boolean isPlayer = ((EntityLivingBase)(Object)this) instanceof EntityPlayer;
             distance = MathHelper.sqrt(distance);
-            if (GeneralConfig.isNewTouch || GeneralConfig.strafeAccelerateAllowed || hasUp || hasStrafe && hasForward && MathHelper.abs(strafe) - MathHelper.abs(forward) >= 1.0E-4F){
+            if (!isPlayer || isPlayer && (GeneralConfig.isNewTouch || GeneralConfig.strafeAccelerateAllowed)){
                 if (distance < 1) {
                     distance = 1.0F;
                 }
-            } else if (!hasStrafe || !hasForward) {
+            } else if (MathHelper.abs(strafe) < 1.0E-4F || MathHelper.abs(forward) < 1.0E-4F) {
                 distance = 1.0F;
             } else {
                 distance /= MathHelper.abs(forward);
@@ -64,7 +64,7 @@ public abstract class MixinEntityLivingBase extends Entity{
             }
             float sinYaw = MathHelper.sin(this.rotationYaw * 0.017453292F);
             float cosYaw = MathHelper.cos(this.rotationYaw * 0.017453292F);
-            if(GeneralConfig.isNewTouch){
+            if(GeneralConfig.isNewTouch && isPlayer){
                 float deltaYaw;
                 if(GeneralConfig.byPitch){
                     deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
