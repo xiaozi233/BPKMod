@@ -1,7 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.client.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.ISneakPressed;
+import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
 import com.mojang.authlib.GameProfile;
@@ -21,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
 @Mixin(EntityPlayerSP.class)
-public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements ILerpSneakCameraEntity, ISneakPressed {
+public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements ILerpSneakCameraEntity, IPlayerPressingSneak {
     @Shadow public MovementInput movementInput;
 
     @Unique private float BPKMod$lastCameraY;
