@@ -30,8 +30,7 @@ public class MixinEntityRender implements ILerpSneakGameRenderer {
 
     @Redirect(method = "orientCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getEyeHeight()F"))
     private float lerpSneak(Entity entity) {
-        return entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(((ILerpSneakCameraEntity) entity).BPKMod$getLastCameraY(), ((ILerpSneakCameraEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta)
-                                                : entity.getEyeHeight();
+        return entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(((ILerpSneakCameraEntity) entity).BPKMod$getLastCameraY(), ((ILerpSneakCameraEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta) : entity.getEyeHeight();
     }
 
     @Inject(method = "updateRenderer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/math/BlockPos;)F"))

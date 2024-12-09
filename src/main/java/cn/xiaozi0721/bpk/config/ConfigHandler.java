@@ -55,6 +55,10 @@ public class ConfigHandler {
         })
         @Config.LangKey("config.bpk.general.45strafe")
         public static boolean strafeAccelerateAllowed = false;
+
+        @Config.Comment("Ignore Collided Horizontally")
+        @Config.LangKey("config.bpk.general.ignoreCollidedHorizontally")
+        public static boolean ignoreCollidedHorizontally = true;
     }
 
     public static void toggleNewTouch(){

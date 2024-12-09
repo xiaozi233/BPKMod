@@ -4,6 +4,7 @@ import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -31,14 +32,14 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         super(worldIn, playerProfile);
     }
 
-    @Redirect(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
-    private float sprintBackward(MovementInput movementInput){
-        return GeneralConfig.sprintBackward && !isSneaking() && movementInput.moveForward != 0 ? 1 : movementInput.moveForward;
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
+    private float sprintBackward(float moveForward){
+        return GeneralConfig.sprintBackward && !isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
-    @Redirect(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
-    private boolean ignoreCollidedHorizontally(EntityPlayerSP instance){
-        return false;
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
+    private boolean ignoreCollidedHorizontally(boolean collidedHorizontally){
+        return GeneralConfig.ignoreCollidedHorizontally ? false : collidedHorizontally;
     }
 
 //    @Inject(method = "onLivingUpdate", at = @At("HEAD"))
@@ -70,8 +71,8 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Override
     public boolean BPKMod$isSneakPressed(){
-        boolean flag = movementInput != null && movementInput.sneak;
-        return flag && !sleeping;
+        boolean sneakPressed = movementInput != null && movementInput.sneak;
+        return sneakPressed && !sleeping;
     }
 
     @Unique

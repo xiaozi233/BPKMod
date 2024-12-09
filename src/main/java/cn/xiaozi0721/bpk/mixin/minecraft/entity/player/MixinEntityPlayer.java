@@ -41,7 +41,6 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IPla
 
     @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
     private float setSneakHeight(float sneakHeight){
-        BPKMod$sneakHeight = GeneralConfig.beSneak ? 1.5D : 1.65D;
         return (float) BPKMod$sneakHeight;
     }
 
@@ -52,6 +51,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IPla
         normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
         BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
         BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
+        BPKMod$sneakHeight = GeneralConfig.beSneak ? 1.5D : 1.65D;
     }
 
     @Override

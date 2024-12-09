@@ -12,6 +12,8 @@ config.bpk.general.beSneak=BE潜行
 config.bpk.general.beSneak.tooltip=切换潜行为BE模式
 config.bpk.general.45strafe=启用斜跑加速
 config.bpk.general.45strafe.tooltip=切换斜跑加速\n优先级比新触控低
+config.bpk.general.ignoreCollidedHorizontally=忽略水平碰撞
+config.bpk.general.ignoreCollidedHorizontally.tooltip=忽略水平碰撞
 
 key.category.bpk=BPK Mod
 key.bpk.newTouch=切换新触控

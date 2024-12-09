@@ -2,6 +2,7 @@ package cn.xiaozi0721.bpk.mixin.minecraft.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -18,7 +19,7 @@ public abstract class MixinEntity{
 
     @Shadow public abstract boolean isSneaking();
 
-    @Redirect(
+    @ModifyExpressionValue(
             method = "move",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;"),
             slice = @Slice(
@@ -26,9 +27,21 @@ public abstract class MixinEntity{
                     to = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 3)
             )
     )
-    private AxisAlignedBB shrinkAABB(AxisAlignedBB aabb, double x, double y, double z){
-        return GeneralConfig.beSneak ? aabb.offset(x, (double)(-this.stepHeight), z).grow(-0.025, 0, -0.025) : aabb.offset(x, (double)(-this.stepHeight), z);
+    private AxisAlignedBB shrinkAABB(AxisAlignedBB aabb){
+        return GeneralConfig.beSneak ? aabb.grow(-0.025, 0, -0.025) : aabb;
     }
+
+//    @Redirect(
+//            method = "move",
+//            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;"),
+//            slice = @Slice(
+//                    from = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 1),
+//                    to = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 3)
+//            )
+//    )
+//    private AxisAlignedBB shrinkAABB(AxisAlignedBB aabb, double x, double y, double z){
+//        return GeneralConfig.beSneak ? aabb.offset(x, (double)(-this.stepHeight), z).grow(-0.025, 0, -0.025) : aabb.offset(x, (double)(-this.stepHeight), z);
+//    }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0, shift = At.Shift.BY, by = 2))
     private void clearMotionX(MoverType type, double x, double y, double z, CallbackInfo ci){
