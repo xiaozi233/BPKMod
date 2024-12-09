@@ -67,16 +67,8 @@ public abstract class MixinEntity{
 
     @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
     public boolean isSneaking(Entity entity) {
-        if (GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak) {
-            return ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed();
-        }
-        return this.isSneaking();
+        return GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
     }
-
-//    @Inject(method = "isSneaking", at = @At("RETURN"), cancellable = true)
-//    private void isSneaking(CallbackInfoReturnable<Boolean> cir){
-//        cir.setReturnValue(cir.getReturnValueZ() || BPKMod$getUnderBlock());
-//    }
 
 //    @ModifyVariable(
 //            method = "move",

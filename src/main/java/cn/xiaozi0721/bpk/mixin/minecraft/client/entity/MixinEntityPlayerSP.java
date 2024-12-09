@@ -39,7 +39,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
     private boolean ignoreCollidedHorizontally(boolean collidedHorizontally){
-        return GeneralConfig.ignoreCollidedHorizontally ? false : collidedHorizontally;
+        return !GeneralConfig.ignoreCollidedHorizontally && collidedHorizontally;
     }
 
 //    @Inject(method = "onLivingUpdate", at = @At("HEAD"))
@@ -77,7 +77,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Unique
     private boolean BPKMod$isSneakingPose(){
-        return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0e-4;
+        return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0E-4;
     }
 
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), ordinal = 1, argsOnly = true)
