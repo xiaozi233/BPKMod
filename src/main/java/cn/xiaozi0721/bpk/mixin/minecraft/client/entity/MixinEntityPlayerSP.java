@@ -39,17 +39,8 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
     private boolean ignoreCollidedHorizontally(boolean collidedHorizontally){
-        return GeneralConfig.ignoreCollidedHorizontally ? false : collidedHorizontally;
+        return !GeneralConfig.ignoreCollidedHorizontally && collidedHorizontally;
     }
-
-//    @Inject(method = "onLivingUpdate", at = @At("HEAD"))
-//    private void updateSneakPose(CallbackInfo ci) {
-//        AxisAlignedBB normalAABB = this.getEntityBoundingBox();
-//        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7, normalAABB.minZ + 0.6D);
-//        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
-//        BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
-//        BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
-//    }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
     private void updateSneakInput(CallbackInfo ci) {
@@ -77,7 +68,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Unique
     private boolean BPKMod$isSneakingPose(){
-        return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0e-4;
+        return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0E-4;
     }
 
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), ordinal = 1, argsOnly = true)

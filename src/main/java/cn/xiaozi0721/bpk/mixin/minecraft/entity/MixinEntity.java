@@ -31,18 +31,6 @@ public abstract class MixinEntity{
         return GeneralConfig.beSneak ? aabb.grow(-0.025, 0, -0.025) : aabb;
     }
 
-//    @Redirect(
-//            method = "move",
-//            at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;"),
-//            slice = @Slice(
-//                    from = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 1),
-//                    to = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;offset(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 3)
-//            )
-//    )
-//    private AxisAlignedBB shrinkAABB(AxisAlignedBB aabb, double x, double y, double z){
-//        return GeneralConfig.beSneak ? aabb.offset(x, (double)(-this.stepHeight), z).grow(-0.025, 0, -0.025) : aabb.offset(x, (double)(-this.stepHeight), z);
-//    }
-
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0, shift = At.Shift.BY, by = 2))
     private void clearMotionX(MoverType type, double x, double y, double z, CallbackInfo ci){
         if(GeneralConfig.beSneak){
@@ -67,16 +55,8 @@ public abstract class MixinEntity{
 
     @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
     public boolean isSneaking(Entity entity) {
-        if (GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak) {
-            return ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed();
-        }
-        return this.isSneaking();
+        return GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
     }
-
-//    @Inject(method = "isSneaking", at = @At("RETURN"), cancellable = true)
-//    private void isSneaking(CallbackInfoReturnable<Boolean> cir){
-//        cir.setReturnValue(cir.getReturnValueZ() || BPKMod$getUnderBlock());
-//    }
 
 //    @ModifyVariable(
 //            method = "move",
