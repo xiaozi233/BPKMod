@@ -1,7 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.client.renderer;
 
-import cn.xiaozi0721.bpk.interfaces.IRenderViewEntity;
-import cn.xiaozi0721.bpk.interfaces.IEntityRender;
+import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
+import cn.xiaozi0721.bpk.interfaces.ILerpSneakGameRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;
@@ -18,7 +18,7 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderer.class)
-public class MixinEntityRender implements IEntityRender{
+public class MixinEntityRender implements ILerpSneakGameRenderer {
     @Shadow @Final private Minecraft mc;
 
     @Unique private float BPKMod$tickDelta;
@@ -30,14 +30,14 @@ public class MixinEntityRender implements IEntityRender{
 
     @Redirect(method = "orientCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getEyeHeight()F"))
     private float lerpSneak(Entity entity) {
-        return entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(((IRenderViewEntity) entity).BPKMod$getLastCameraY(), ((IRenderViewEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta)
+        return entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(((ILerpSneakCameraEntity) entity).BPKMod$getLastCameraY(), ((ILerpSneakCameraEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta)
                                                 : entity.getEyeHeight();
     }
 
     @Inject(method = "updateRenderer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/math/BlockPos;)F"))
     private void updateCameraHeight(CallbackInfo ci) {
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
-            ((IRenderViewEntity) this.mc.getRenderViewEntity()).BPKMod$updateCameraHeight(BPKMod$tickDelta);
+            ((ILerpSneakCameraEntity) this.mc.getRenderViewEntity()).BPKMod$updateCameraHeight(BPKMod$tickDelta);
         }else{
             this.mc.world.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1F)));
         }

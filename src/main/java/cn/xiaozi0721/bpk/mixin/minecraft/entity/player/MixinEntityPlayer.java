@@ -1,7 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.entity.player;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.IEntityPlayerSP;
+import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityPlayer.class)
-public abstract class MixinEntityPlayer extends EntityLivingBase implements IEntityPlayerSP {
+public abstract class MixinEntityPlayer extends EntityLivingBase implements IPlayerResizable {
     @Shadow protected float speedInAir;
 
     @Unique public double BPKMod$sneakHeight;
