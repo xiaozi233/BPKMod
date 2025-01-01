@@ -67,7 +67,7 @@ public abstract class MixinEntityLivingBase extends Entity {
                 float deltaYaw;
                 if(GeneralConfig.byPitch){
                     deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
-                } else{
+                } else {
                     deltaYaw = (float)Math.acos(0.98);
                 }
                 float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
@@ -77,13 +77,13 @@ public abstract class MixinEntityLivingBase extends Entity {
                     newTouchCosYaw *= (float) (0.98 / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                 }
 
-                float tmp = strafe;
-                if (strafe * forward > 1.0E-4){
-                    strafe = tmp * newTouchCosYaw - forward * newTouchSinYaw;
-                    forward =  forward * newTouchCosYaw + tmp * newTouchSinYaw;
+                float strafe1 = strafe;
+                if (strafe * forward > 1.0E-4) {
+                    strafe = strafe1 * newTouchCosYaw - forward * newTouchSinYaw;
+                    forward =  forward * newTouchCosYaw + strafe1 * newTouchSinYaw;
                 } else if (strafe * forward < -1.0E-4){
-                    strafe = tmp * newTouchCosYaw + forward * newTouchSinYaw;
-                    forward =  forward * newTouchCosYaw - tmp * newTouchSinYaw;
+                    strafe = strafe1 * newTouchCosYaw + forward * newTouchSinYaw;
+                    forward =  forward * newTouchCosYaw - strafe1 * newTouchSinYaw;
                 }
             }
             this.motionX += (double)(strafe * cosYaw - forward * sinYaw);

@@ -13,7 +13,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity{
-    @Shadow public float stepHeight;
     @Shadow public double motionX;
     @Shadow public double motionZ;
 
