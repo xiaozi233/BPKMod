@@ -32,8 +32,12 @@ public class ConfigHandler {
         public static boolean sprintBackward = false;
 
         @Config.Comment("If disabled, sprint in air will not be delayed")
-        @Config.LangKey("config.bpk.general.sprintDelay")
-        public static boolean sprintDelay = true;
+        @Config.LangKey("config.bpk.general.sprintDelayInAir")
+        public static boolean sprintDelayInAir = true;
+
+        @Config.Comment("If disabled, sprint on ground will not be delayed")
+        @Config.LangKey("config.bpk.general.sprintDelayOnGround")
+            public static boolean sprintDelayOnGround = false;
 
         @Config.Comment({
                 "Stops the player from moving when their momentum is deemed negligible",

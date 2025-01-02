@@ -5,9 +5,12 @@ import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -38,21 +41,26 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     }
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
+    private boolean sprintDelayedOnGround(boolean original, @Local(ordinal = 2) boolean prevMovedForward){
+        return original || GeneralConfig.sprintDelayOnGround && !prevMovedForward;
+    }
+
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
     private boolean ignoreCollidedHorizontally(boolean collidedHorizontally){
         return !GeneralConfig.ignoreCollidedHorizontally && collidedHorizontally;
     }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
     private void updateSneakInput(CallbackInfo ci) {
-        if (GeneralConfig.beSneak && !movementInput.sneak && (((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose()) && !this.capabilities.isFlying) {
-            movementInput.moveStrafe *= 0.3F;
-            movementInput.moveForward *= 0.3F;
+        if (GeneralConfig.beSneak && !this.movementInput.sneak && (((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose()) && !this.capabilities.isFlying) {
+            this.movementInput.moveStrafe *= 0.3F;
+            this.movementInput.moveForward *= 0.3F;
         }
     }
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
     private boolean isSneakingOrUnderBlock(boolean isSneaking){
-        return isSneaking || (GeneralConfig.beSneak && (((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose() && !((IPlayerResizable)this).BPKMod$getResizingAllowed()));
+        return isSneaking || (GeneralConfig.beSneak && ((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose() && !((IPlayerResizable)this).BPKMod$getResizingAllowed());
     }
 
 //    @Redirect(method = "onUpdateWalkingPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isSneaking()Z"))
@@ -92,3 +100,4 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         BPKMod$cameraY = (float) MathHelper.clampedLerp(this.BPKMod$getLastCameraY(), getEyeHeight(), tickDelta / 2);
     }
 }
+    

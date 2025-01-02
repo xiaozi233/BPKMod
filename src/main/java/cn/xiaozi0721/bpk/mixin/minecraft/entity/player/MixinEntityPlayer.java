@@ -26,7 +26,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IPla
     
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;travel(FFF)V", ordinal = 1))
     private void sprintDelay(float strafe, float vertical, float forward, CallbackInfo ci){
-        if (!GeneralConfig.sprintDelay){
+        if (!GeneralConfig.sprintDelayInAir){
             this.jumpMovementFactor = this.speedInAir;
             if (this.isSprinting()){
                 this.jumpMovementFactor = (float)((double)this.jumpMovementFactor + (double)this.speedInAir * 0.3D);
