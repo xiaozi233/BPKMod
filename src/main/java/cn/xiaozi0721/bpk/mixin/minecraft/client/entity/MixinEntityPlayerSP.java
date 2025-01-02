@@ -4,12 +4,16 @@ import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
+import cn.xiaozi0721.bpk.mixin.minecraft.accessor.EntityLivingBaseAccessor;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
@@ -20,7 +24,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import org.spongepowered.asm.mixin.injection.Redirect;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
@@ -28,6 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements ILerpSneakCameraEntity, IPlayerPressingSneak {
     @Shadow public MovementInput movementInput;
 
+    @Unique private boolean BPKMod$prevSprinting;
     @Unique private float BPKMod$lastCameraY;
     @Unique private float BPKMod$cameraY;
 
@@ -40,9 +44,16 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         return GeneralConfig.sprintBackward && !isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
-    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
-    private boolean sprintDelayedOnGround(boolean original, @Local(ordinal = 2) boolean prevMovedForward){
-        return original || GeneralConfig.sprintDelayOnGround && !prevMovedForward;
+    @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;onGround:Z", ordinal = 0))
+    private void updatePrevSprint(CallbackInfo ci){
+        BPKMod$prevSprinting = isSprinting();
+    }
+
+    @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;allowFlying:Z", ordinal = 1))
+    private void sprintDelayOnGround(CallbackInfo ci, @Local(ordinal = 2) boolean prevMovedForward){
+        if (GeneralConfig.sprintDelayOnGround && !BPKMod$prevSprinting && isSprinting() && EntityLivingBaseAccessor.getSpringSpeedBoostID() != null){
+            this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(EntityLivingBaseAccessor.getSpringSpeedBoost());
+        }
     }
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
