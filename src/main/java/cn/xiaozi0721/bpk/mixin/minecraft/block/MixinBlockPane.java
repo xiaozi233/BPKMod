@@ -27,7 +27,7 @@ public abstract class MixinBlockPane extends Block{
     @Shadow @Final public static PropertyBool SOUTH;
     @Shadow @Final public static PropertyBool EAST;
     @Shadow @Final public static PropertyBool WEST;
-    @Mutable @Shadow @Final protected static AxisAlignedBB[] AABB_BY_INDEX;
+    @Shadow @Mutable @Final protected static AxisAlignedBB[] AABB_BY_INDEX;
 
     public MixinBlockPane(Material materialIn) {
         super(materialIn);

@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockCactus.class)
 public abstract class MixinBlockCactus{
-    @Mutable @Shadow @Final protected static AxisAlignedBB CACTUS_COLLISION_AABB;
+    @Shadow @Mutable @Final protected static AxisAlignedBB CACTUS_COLLISION_AABB;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void setAABB(CallbackInfo ci){

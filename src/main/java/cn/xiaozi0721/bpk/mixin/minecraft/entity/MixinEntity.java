@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntity{
     @Shadow public double motionX;
     @Shadow public double motionZ;
-
     @Shadow public abstract boolean isSneaking();
 
     @ModifyExpressionValue(

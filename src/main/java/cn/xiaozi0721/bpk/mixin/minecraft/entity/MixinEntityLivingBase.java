@@ -56,13 +56,16 @@ public abstract class MixinEntityLivingBase extends Entity {
             strafe = strafe * friction;
             up = up * friction;
             forward = forward * friction;
+
             if(this.isInWater() || this.isInLava()) {
                 strafe = strafe * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 up = up * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 forward = forward * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
             }
+
             float sinYaw = MathHelper.sin(this.rotationYaw * 0.017453292F);
             float cosYaw = MathHelper.cos(this.rotationYaw * 0.017453292F);
+
             if(GeneralConfig.isNewTouch && isPlayer){
                 float deltaYaw;
                 if(GeneralConfig.byPitch){
@@ -70,18 +73,19 @@ public abstract class MixinEntityLivingBase extends Entity {
                 } else {
                     deltaYaw = (float)Math.acos(0.98);
                 }
+
                 float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
                 float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
                 if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){
-                    newTouchSinYaw *= (float) (0.98 / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
-                    newTouchCosYaw *= (float) (0.98 / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                    newTouchSinYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                    newTouchCosYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                 }
 
                 float strafe1 = strafe;
-                if (strafe * forward > 1.0E-4) {
+                if (strafe * forward >= 1.0E-4F) {
                     strafe = strafe1 * newTouchCosYaw - forward * newTouchSinYaw;
                     forward =  forward * newTouchCosYaw + strafe1 * newTouchSinYaw;
-                } else if (strafe * forward < -1.0E-4){
+                } else if (strafe * forward <= -1.0E-4F){
                     strafe = strafe1 * newTouchCosYaw + forward * newTouchSinYaw;
                     forward =  forward * newTouchCosYaw - strafe1 * newTouchSinYaw;
                 }
