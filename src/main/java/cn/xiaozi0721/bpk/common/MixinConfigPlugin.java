@@ -9,6 +9,7 @@ import java.util.Set;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler;
 
+
 public class MixinConfigPlugin implements IMixinConfigPlugin {
     @Override
     public void onLoad(String s) {
@@ -22,10 +23,12 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
 
     @Override
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
-        if(mixinClassName.contains("aquaacrobatics") && !ConfigHandler.SupportConfig.enableAquaAcrobatics)
+        if(mixinClassName.contains("aquaacrobatics") && EarlyMixinInit.hasAquaAcrobatics){
             return false;
-        if(mixinClassName.contains("Render") && ConfigHandler.SupportConfig.enableAquaAcrobatics)
+        }
+        if(mixinClassName.contains("Render") && EarlyMixinInit.hasAquaAcrobatics){
             return false;
+        }
         return true;
     }
 
