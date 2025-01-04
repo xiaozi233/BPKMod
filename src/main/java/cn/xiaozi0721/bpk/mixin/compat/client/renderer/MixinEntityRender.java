@@ -1,7 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.compat.client.renderer;
 
-import cn.xiaozi0721.bpk.mixin.interfaces.ILerpSneakCameraEntity;
-import cn.xiaozi0721.bpk.mixin.interfaces.ILerpSneakGameRenderer;
+import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
+import cn.xiaozi0721.bpk.interfaces.ILerpSneakGameRenderer;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.EntityRenderer;
 import net.minecraft.entity.Entity;

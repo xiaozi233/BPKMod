@@ -1,7 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.compat.entity.player;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.mixin.interfaces.IPlayerResizable;
+import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;

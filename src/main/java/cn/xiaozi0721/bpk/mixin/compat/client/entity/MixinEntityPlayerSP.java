@@ -2,9 +2,9 @@ package cn.xiaozi0721.bpk.mixin.compat.client.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.mixin.accessor.EntityLivingBaseAccessor;
-import cn.xiaozi0721.bpk.mixin.interfaces.ILerpSneakCameraEntity;
-import cn.xiaozi0721.bpk.mixin.interfaces.IPlayerPressingSneak;
-import cn.xiaozi0721.bpk.mixin.interfaces.IPlayerResizable;
+import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
+import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
+import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;

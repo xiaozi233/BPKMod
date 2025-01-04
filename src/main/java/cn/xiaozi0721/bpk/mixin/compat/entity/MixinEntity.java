@@ -1,7 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.compat.entity;
 
-import cn.xiaozi0721.bpk.config.ConfigHandler;
-import cn.xiaozi0721.bpk.mixin.interfaces.IPlayerPressingSneak;
+import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
+import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import net.minecraft.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -14,6 +14,6 @@ public abstract class MixinEntity {
 
     @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
     public boolean isSneaking(Entity entity) {
-        return ConfigHandler.GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
+        return GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
     }
 }
