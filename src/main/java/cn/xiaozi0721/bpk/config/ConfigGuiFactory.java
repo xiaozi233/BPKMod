@@ -9,6 +9,7 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import java.util.Collections;
 import java.util.Set;
 
+@SuppressWarnings("unused")
 public class ConfigGuiFactory implements IModGuiFactory {
     @Override
     public void initialize(Minecraft mc) {

@@ -1,9 +1,11 @@
 package cn.xiaozi0721.bpk.mixin.minecraft.entity;
 
+import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Final;
@@ -12,78 +14,85 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import static cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig.*;
-
 
 @Mixin(EntityLivingBase.class)
-public abstract class MixinEntityLivingBase extends Entity{
+public abstract class MixinEntityLivingBase extends Entity {
     @Shadow(remap = false) @Final public static IAttribute SWIM_SPEED;
     @Shadow public abstract IAttributeInstance getEntityAttribute(IAttribute attribute);
-    @Shadow public abstract void fall(float distance, float damageMultiplier);
 
     public MixinEntityLivingBase(World worldIn) {
         super(worldIn);
     }
 
-    //Change Inertia Threshold
     @ModifyConstant(method = "onLivingUpdate", constant = @Constant(doubleValue = 0.003D))
     private double setInertiaThreshold(double value){
-        return inertiaThreshold;
+        return GeneralConfig.inertiaThreshold;
     }
 
-    //45 strafe-related method
+    /*
+     *  This function is responsible for the existence of 45° strafe.
+     *  Note that:
+     *      - Sprint multiplier is contained within "friction"
+     *      - Sneak multiplier is contained within "strafe" and "forward"
+     *      - Only the parrot used "up". Kind useless.
+     *      - Horse's strafe and forward are unequaled.
+     */
     @Inject(method = "moveRelative", at = @At("HEAD"), cancellable = true)
     private void moveRelative(float strafe, float up, float forward, float friction, CallbackInfo ci){
-        float f = strafe * strafe + up * up + forward * forward;
-        if (f >= 1.0E-4F)
-        {
-            f = MathHelper.sqrt(f);
-            if (!isNewTouch){
-                if (Math.abs(strafe) <= 1.0E-4F || Math.abs(forward) <= 1.0E-4F)
-                    f = 1.0F;
-                else {
-                    if (isSneaking())
-                        friction *= 0.3F;
-                    friction *= 0.98F;
+        float distance = strafe * strafe + up * up + forward * forward;
+        if (distance >= 1.0E-4F) {
+            boolean isPlayer = ((EntityLivingBase)(Object)this) instanceof EntityPlayer;
+            distance = MathHelper.sqrt(distance);
+            if (!isPlayer || isPlayer && (GeneralConfig.isNewTouch || GeneralConfig.strafeAccelerateAllowed)){
+                if (distance < 1) {
+                    distance = 1.0F;
                 }
+            } else if (MathHelper.abs(strafe) < 1.0E-4F || MathHelper.abs(forward) < 1.0E-4F) {
+                distance = 1.0F;
+            } else {
+                distance /= MathHelper.abs(forward);
             }
-            else {
-                if (f < 1) f = 1.0F;
-            }
-            f = friction / f;
-            strafe = strafe * f;
-            up = up * f;
-            forward = forward * f;
-            if(this.isInWater() || this.isInLava())
-            {
+            friction /= distance;
+            strafe = strafe * friction;
+            up = up * friction;
+            forward = forward * friction;
+
+            if(this.isInWater() || this.isInLava()) {
                 strafe = strafe * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 up = up * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
                 forward = forward * (float)this.getEntityAttribute(SWIM_SPEED).getAttributeValue();
             }
-            float f1 = MathHelper.sin(this.rotationYaw * 0.017453292F);
-            float f2 = MathHelper.cos(this.rotationYaw * 0.017453292F);
-            if(isNewTouch){
+
+            float sinYaw = MathHelper.sin(this.rotationYaw * 0.017453292F);
+            float cosYaw = MathHelper.cos(this.rotationYaw * 0.017453292F);
+
+            if(GeneralConfig.isNewTouch && isPlayer){
                 float deltaYaw;
-                if(!byPitch){
-                    deltaYaw = (float)Math.acos(0.98);
-                }else{
+                if(GeneralConfig.byPitch){
                     deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
+                } else {
+                    deltaYaw = (float)Math.acos(0.98);
                 }
-                float f3 = MathHelper.sin(45 * 0.017453292F - deltaYaw);
-                float f4 = MathHelper.cos(45 * 0.017453292F - deltaYaw);
-                float tmp = strafe;
-                if (strafe * forward > 1.0E-4){
-                    strafe = tmp * f4 - forward * f3;
-                    forward =  forward * f4 + tmp * f3;
+
+                float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
+                float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
+                if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){
+                    newTouchSinYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
+                    newTouchCosYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                 }
-                else if (strafe * forward < -1.0E-4){
-                    strafe = tmp * f4 + forward * f3;
-                    forward =  forward * f4 - tmp * f3;
+
+                float strafe1 = strafe;
+                if (strafe * forward >= 1.0E-4F) {
+                    strafe = strafe1 * newTouchCosYaw - forward * newTouchSinYaw;
+                    forward =  forward * newTouchCosYaw + strafe1 * newTouchSinYaw;
+                } else if (strafe * forward <= -1.0E-4F){
+                    strafe = strafe1 * newTouchCosYaw + forward * newTouchSinYaw;
+                    forward =  forward * newTouchCosYaw - strafe1 * newTouchSinYaw;
                 }
             }
-            this.motionX += (double)(strafe * f2 - forward * f1);
+            this.motionX += (double)(strafe * cosYaw - forward * sinYaw);
             this.motionY += (double)up;
-            this.motionZ += (double)(forward * f2 + strafe * f1);
+            this.motionZ += (double)(forward * cosYaw + strafe * sinYaw);
         }
         ci.cancel();
     }
