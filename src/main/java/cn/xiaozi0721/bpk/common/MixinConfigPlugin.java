@@ -25,7 +25,7 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
         if (mixinClassName.contains("aquaacrobatics") && !hasAquaAcrobatics){
             return false;
         }
-        if (mixinClassName.contains("compact") && hasAquaAcrobatics){
+        if (mixinClassName.contains("compat") && hasAquaAcrobatics){
             return false;
         }
         return true;
