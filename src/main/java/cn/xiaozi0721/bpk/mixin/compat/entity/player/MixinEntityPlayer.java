@@ -1,7 +1,7 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.entity.player;
+package cn.xiaozi0721.bpk.mixin.compat.entity.player;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
+import cn.xiaozi0721.bpk.mixin.interfaces.IPlayerResizable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -25,7 +25,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IPla
     }
     
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;travel(FFF)V", ordinal = 1))
-    private void sprintDelay(float strafe, float vertical, float forward, CallbackInfo ci){
+    private void sprintDelayInAir(float strafe, float vertical, float forward, CallbackInfo ci){
         if (!GeneralConfig.sprintDelayInAir){
             this.jumpMovementFactor = this.speedInAir;
             if (this.isSprinting()){

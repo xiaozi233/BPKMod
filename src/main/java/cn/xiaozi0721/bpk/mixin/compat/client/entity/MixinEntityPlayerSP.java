@@ -1,20 +1,16 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.client.entity;
+package cn.xiaozi0721.bpk.mixin.compat.client.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
-import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
-import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
-import cn.xiaozi0721.bpk.mixin.minecraft.accessor.EntityLivingBaseAccessor;
+import cn.xiaozi0721.bpk.mixin.accessor.EntityLivingBaseAccessor;
+import cn.xiaozi0721.bpk.mixin.interfaces.ILerpSneakCameraEntity;
+import cn.xiaozi0721.bpk.mixin.interfaces.IPlayerPressingSneak;
+import cn.xiaozi0721.bpk.mixin.interfaces.IPlayerResizable;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
@@ -44,6 +40,11 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         return GeneralConfig.sprintBackward && !isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
+    private boolean ignoreCollidedHorizontally(boolean collidedHorizontally){
+        return !GeneralConfig.ignoreCollidedHorizontally && collidedHorizontally;
+    }
+
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;onGround:Z", ordinal = 0))
     private void updatePrevSprint(CallbackInfo ci){
         BPKMod$prevSprinting = isSprinting();
@@ -54,11 +55,6 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         if (GeneralConfig.sprintDelayOnGround && !BPKMod$prevSprinting && isSprinting() && EntityLivingBaseAccessor.getSpringSpeedBoostID() != null){
             this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(EntityLivingBaseAccessor.getSpringSpeedBoost());
         }
-    }
-
-    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
-    private boolean ignoreCollidedHorizontally(boolean collidedHorizontally){
-        return !GeneralConfig.ignoreCollidedHorizontally && collidedHorizontally;
     }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))

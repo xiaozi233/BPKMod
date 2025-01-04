@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.accessor;
+package cn.xiaozi0721.bpk.mixin.accessor;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.attributes.AttributeModifier;

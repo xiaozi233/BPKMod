@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.interfaces;
+package cn.xiaozi0721.bpk.mixin.interfaces;
 
 public interface ILerpSneakCameraEntity {
     float BPKMod$getLastCameraY();

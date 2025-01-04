@@ -78,7 +78,7 @@ minecraft {
     useDependencyAccessTransformers.set(propertyBool('use_dependency_at_files'))
 
     username.set(propertyString('minecraft_username'))
-    
+
     // Add any additional tweaker classes here
     extraTweakClasses.addAll(propertyStringList('extra_tweak_classes'))
 
@@ -150,6 +150,7 @@ dependencies {
         testImplementation 'org.junit.jupiter:junit-jupiter:5.7.1'
         testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
+    implementation 'curse.maven:aquaacrobatics-321792:5225456'
 }
 
 apply from: 'gradle/scripts/dependencies.gradle'
@@ -187,7 +188,7 @@ processResources {
                 'mixin_package': propertyString('mixin_package')
         )
     }
-    
+
     if (propertyBool('use_access_transformer')) {
         rename '(.+_at.cfg)', 'META-INF/$1'
     }
