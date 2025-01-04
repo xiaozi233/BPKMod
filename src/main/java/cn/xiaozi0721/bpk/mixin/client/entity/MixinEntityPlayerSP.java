@@ -1,20 +1,16 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.client.entity;
+package cn.xiaozi0721.bpk.mixin.client.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
-import cn.xiaozi0721.bpk.mixin.minecraft.accessor.EntityLivingBaseAccessor;
+import cn.xiaozi0721.bpk.mixin.accessor.EntityLivingBaseAccessor;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.mojang.authlib.GameProfile;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.util.MovementInput;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;

@@ -7,20 +7,20 @@
   "target": "@env(DEFAULT)",
   "refmap": "mixins.bpk.refmap.json",
   "mixins": [
-    "minecraft.accessor.EntityLivingBaseAccessor",
-    "minecraft.block.MixinBlockCactus",
-    "minecraft.block.MixinBlockChest",
-    "minecraft.block.MixinBlockEnderChest",
-    "minecraft.block.MixinBlockMobSpawner",
-    "minecraft.block.MixinBlockPane",
-    "minecraft.block.MixinBlockTrapDoor",
-    "minecraft.entity.MixinEntity",
-    "minecraft.entity.MixinEntityLivingBase",
-    "minecraft.entity.player.MixinEntityPlayer"
+    "accessor.EntityLivingBaseAccessor",
+    "block.MixinBlockCactus",
+    "block.MixinBlockChest",
+    "block.MixinBlockEnderChest",
+    "block.MixinBlockMobSpawner",
+    "block.MixinBlockPane",
+    "block.MixinBlockTrapDoor",
+    "entity.MixinEntity",
+    "entity.MixinEntityLivingBase",
+    "entity.player.MixinEntityPlayer"
   ],
   "client": [
-    "minecraft.client.entity.MixinEntityPlayerSP",
-    "minecraft.client.renderer.MixinEntityRender"
+    "client.entity.MixinEntityPlayerSP",
+    "client.renderer.MixinEntityRender"
   ],
   "server": [],
   "injectors": {

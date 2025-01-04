@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.block;
+package cn.xiaozi0721.bpk.mixin.block;
 
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.BlockMobSpawner;

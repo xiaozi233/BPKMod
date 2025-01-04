@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.client.renderer;
+package cn.xiaozi0721.bpk.mixin.client.renderer;
 
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakGameRenderer;

@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.block;
+package cn.xiaozi0721.bpk.mixin.block;
 
 import com.llamalad7.mixinextras.injector.v2.WrapWithCondition;
 import com.llamalad7.mixinextras.sugar.Local;

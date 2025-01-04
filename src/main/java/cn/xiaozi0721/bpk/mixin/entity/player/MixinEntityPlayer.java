@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.entity.player;
+package cn.xiaozi0721.bpk.mixin.entity.player;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;

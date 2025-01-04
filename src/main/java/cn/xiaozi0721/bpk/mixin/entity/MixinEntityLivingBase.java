@@ -1,4 +1,4 @@
-package cn.xiaozi0721.bpk.mixin.minecraft.entity;
+package cn.xiaozi0721.bpk.mixin.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import net.minecraft.entity.Entity;
