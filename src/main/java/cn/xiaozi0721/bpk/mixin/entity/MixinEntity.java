@@ -52,7 +52,7 @@ public abstract class MixinEntity{
     }
 
     @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
-    public boolean isSneaking(Entity entity) {
+    public boolean isPlayerPressedSneak(Entity entity) {
         return GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
     }
 

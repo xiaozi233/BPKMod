@@ -13,7 +13,7 @@ config.bpk.general.byPitch.tooltip=You have to enabled "isNewTouch" first\nchang
 config.bpk.general.beSneak=BE Sneak
 config.bpk.general.beSneak.tooltip=Toggle sneak to BE mode
 config.bpk.general.45strafe=Toggle 45strafe
-config.bpk.general.45strafe.tooltip=Toggle 45-Strafe Accelerate\nPriority is lower than NewTouch
+config.bpk.general.45strafe.tooltip=Toggle 45-Strafe Accelerate
 config.bpk.general.ignoreCollidedHorizontally=Ignore Collided Horizontally
 config.bpk.general.ignoreCollidedHorizontally.tooltip=Ignore Collided Horizontally
 

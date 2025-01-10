@@ -20,7 +20,8 @@
   ],
   "client": [
     "client.entity.MixinEntityPlayerSP",
-    "client.renderer.MixinEntityRender"
+    "client.renderer.MixinEntityRender",
+    "util.MixinMovementInputFromOptions"
   ],
   "server": [],
   "injectors": {

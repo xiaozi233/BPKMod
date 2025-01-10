@@ -33,6 +33,7 @@ public class MixinEntityRender implements ILerpSneakGameRenderer {
         return entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(((ILerpSneakCameraEntity) entity).BPKMod$getLastCameraY(), ((ILerpSneakCameraEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta) : entity.getEyeHeight();
     }
 
+    @SuppressWarnings("DataFlowIssue")
     @Inject(method = "updateRenderer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/math/BlockPos;)F"))
     private void updateCameraHeight(CallbackInfo ci) {
         if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {

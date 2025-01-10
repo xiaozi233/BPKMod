@@ -17,9 +17,7 @@ import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
+import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 
@@ -38,6 +36,28 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
     private float sprintBackward(float moveForward){
         return GeneralConfig.sprintBackward && !isSneaking() && moveForward != 0 ? 1 : moveForward;
+    }
+
+    @ModifyConstant(
+            method = "onLivingUpdate",
+            constant = @Constant(floatValue = 0.8F),
+            slice = @Slice(
+                    from = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 0),
+                    to = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;allowFlying:Z", ordinal = 1)
+            )
+    )
+    private float lowerThreshold(float threshold){
+        return 1.0E-5F;
+    }
+
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z", ordinal = 1))
+    private boolean setSprintTrueConsiderSneak(boolean origin){
+        return origin && !this.movementInput.sneak;
+    }
+
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
+    private boolean setSprintFalseConsiderSneak2(boolean origin){
+        return origin || this.movementInput.sneak;
     }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;onGround:Z", ordinal = 0))
@@ -66,7 +86,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     }
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
-    private boolean isSneakingOrUnderBlock(boolean isSneaking){
+    private boolean keepSneaking(boolean isSneaking){
         return isSneaking || (GeneralConfig.beSneak && ((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose() && !((IPlayerResizable)this).BPKMod$getResizingAllowed());
     }
 
@@ -107,4 +127,3 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         BPKMod$cameraY = (float) MathHelper.clampedLerp(this.BPKMod$getLastCameraY(), getEyeHeight(), tickDelta / 2);
     }
 }
-    
