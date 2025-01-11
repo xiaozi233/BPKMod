@@ -1,8 +1,6 @@
 package cn.xiaozi0721.bpk.proxy;
 
-import cn.xiaozi0721.bpk.keys.KeyBindings;
 import cn.xiaozi0721.bpk.keys.KeyInputHandler;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.relauncher.Side;
 
@@ -11,8 +9,6 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientProxy extends CommonProxy{
     @Override
     public void init() {
-        MinecraftForge.EVENT_BUS.register(new KeyInputHandler());
-        KeyBindings.init();
-        super.init();
+        KeyInputHandler.init();
     }
 }

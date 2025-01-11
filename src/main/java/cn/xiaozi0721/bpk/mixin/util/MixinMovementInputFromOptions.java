@@ -15,7 +15,7 @@ public class MixinMovementInputFromOptions extends MovementInput {
     private void strafe(CallbackInfo ci){
         if(!GeneralConfig.strafeAccelerateAllowed){
             float distance = MathHelper.sqrt(this.moveForward * this.moveForward + this.moveStrafe * this.moveStrafe);
-            if (distance >= 1.0E-4){
+            if (distance >= 1.0E-4F){
                 this.moveForward /= distance;
                 this.moveStrafe /= distance;
             }
