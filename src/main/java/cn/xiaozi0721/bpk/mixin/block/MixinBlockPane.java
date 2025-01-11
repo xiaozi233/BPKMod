@@ -21,13 +21,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import javax.annotation.Nullable;
 import java.util.List;
 
+@SuppressWarnings({"UnnecessaryUnboxing", "RedundantCast"})
 @Mixin(BlockPane.class)
 public abstract class MixinBlockPane extends Block{
     @Shadow @Final public static PropertyBool NORTH;
     @Shadow @Final public static PropertyBool SOUTH;
     @Shadow @Final public static PropertyBool EAST;
     @Shadow @Final public static PropertyBool WEST;
-    @Shadow @Mutable @Final protected static AxisAlignedBB[] AABB_BY_INDEX;
+    @Shadow @Final @Mutable protected static AxisAlignedBB[] AABB_BY_INDEX;
 
     public MixinBlockPane(Material materialIn) {
         super(materialIn);
@@ -51,12 +52,16 @@ public abstract class MixinBlockPane extends Block{
                 new AxisAlignedBB(0.4375, 0.0, 0.0, 1.0, 1.0, 0.5625),
                 new AxisAlignedBB(0.4375, 0.0, 0.0, 1.0, 1.0, 1.0),
                 new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 0.5625),
-                new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0)};
+                new AxisAlignedBB(0.0, 0.0, 0.0, 1.0, 1.0, 1.0)
+        };
     }
 
     @WrapWithCondition(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 0))
     private boolean onlyDisconnected(BlockPos blockPos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox, @Local(argsOnly = true) IBlockState state){
-        return !((Boolean)state.getValue(NORTH)).booleanValue()&&!((Boolean)state.getValue(SOUTH)).booleanValue()&&!((Boolean)state.getValue(EAST)).booleanValue()&&!((Boolean)state.getValue(WEST)).booleanValue();
+        return !((Boolean)state.getValue(NORTH)).booleanValue()
+                && !((Boolean)state.getValue(SOUTH)).booleanValue()
+                && !((Boolean)state.getValue(EAST)).booleanValue()
+                && !((Boolean)state.getValue(WEST)).booleanValue();
     }
 
 //    @Redirect(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 0))

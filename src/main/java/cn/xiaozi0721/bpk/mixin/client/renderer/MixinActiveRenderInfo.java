@@ -21,7 +21,15 @@ public class MixinActiveRenderInfo{
 
     @ModifyArg(method = "updateRenderInfo(Lnet/minecraft/entity/Entity;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;<init>(DDD)V"), index = 1)
     private static double modifySetPosY(double y) {
-        return MathHelper.clampedLerp(BPKMod$EntityPlayer.prevPosY, BPKMod$EntityPlayer.posY + MathHelper.clampedLerp(((ILerpSneakCameraEntity) BPKMod$EntityPlayer).BPKMod$getLastCameraY(), ((ILerpSneakCameraEntity) BPKMod$EntityPlayer).BPKMod$getCameraY(), ((ILerpSneakGameRenderer) Minecraft.getMinecraft().entityRenderer).BPKMod$getTickDelta()), ((ILerpSneakGameRenderer) Minecraft.getMinecraft().entityRenderer).BPKMod$getTickDelta());
+        return MathHelper.clampedLerp(
+                BPKMod$EntityPlayer.prevPosY,
+                BPKMod$EntityPlayer.posY + MathHelper.clampedLerp(
+                        ((ILerpSneakCameraEntity) BPKMod$EntityPlayer).BPKMod$getLastCameraY(),
+                        ((ILerpSneakCameraEntity) BPKMod$EntityPlayer).BPKMod$getCameraY(),
+                        ((ILerpSneakGameRenderer) Minecraft.getMinecraft().entityRenderer).BPKMod$getTickDelta()
+                ),
+                ((ILerpSneakGameRenderer) Minecraft.getMinecraft().entityRenderer).BPKMod$getTickDelta()
+        );
     }
 
     @Inject(method = "updateRenderInfo(Lnet/minecraft/entity/Entity;Z)V", at = @At(value = "HEAD"), remap = false)

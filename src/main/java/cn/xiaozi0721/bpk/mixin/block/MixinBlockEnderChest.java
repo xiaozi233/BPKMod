@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockEnderChest.class)
 public abstract class MixinBlockEnderChest{
-    @Shadow @Mutable @Final protected static AxisAlignedBB ENDER_CHEST_AABB;
+    @Shadow @Final @Mutable protected static AxisAlignedBB ENDER_CHEST_AABB;
 
     @Inject(method = "<clinit>", at = @At("TAIL"))
     private static void setAABB(CallbackInfo ci){

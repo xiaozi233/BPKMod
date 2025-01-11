@@ -20,7 +20,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-
 @Mixin(EntityPlayerSP.class)
 public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements ILerpSneakCameraEntity, IPlayerPressingSneak {
     @Shadow public MovementInput movementInput;
@@ -35,6 +34,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
     private float sprintBackward(float moveForward){
+        System.out.println(moveForward);
         return GeneralConfig.sprintBackward && !isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
@@ -46,7 +46,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
                     to = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;allowFlying:Z", ordinal = 1)
             )
     )
-    private float lowerThreshold(float threshold){
+    private float hasForwardImpulse(float threshold){
         return 1.0E-5F;
     }
 
@@ -61,7 +61,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;onGround:Z", ordinal = 0))
-    private void updatePrevSprint(CallbackInfo ci){
+    private void updatePrevSprinting(CallbackInfo ci){
         BPKMod$prevSprinting = isSprinting();
     }
 
@@ -86,7 +86,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     }
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
-    private boolean keepSneaking(boolean isSneaking){
+    private boolean isSneaking(boolean isSneaking){
         return isSneaking || (GeneralConfig.beSneak && ((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose() && !((IPlayerResizable)this).BPKMod$getResizingAllowed());
     }
 

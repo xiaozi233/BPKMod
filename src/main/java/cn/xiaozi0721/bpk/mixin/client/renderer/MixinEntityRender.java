@@ -1,5 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.client.renderer;
 
+import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakGameRenderer;
 import net.minecraft.client.Minecraft;
@@ -30,15 +31,19 @@ public class MixinEntityRender implements ILerpSneakGameRenderer {
 
     @Redirect(method = "orientCamera", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;getEyeHeight()F"))
     private float lerpSneak(Entity entity) {
-        return entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(((ILerpSneakCameraEntity) entity).BPKMod$getLastCameraY(), ((ILerpSneakCameraEntity) entity).BPKMod$getCameraY(), BPKMod$tickDelta) : entity.getEyeHeight();
+        return GeneralConfig.beSneak && entity instanceof EntityPlayer ? (float) MathHelper.clampedLerp(
+                        ((ILerpSneakCameraEntity) entity).BPKMod$getLastCameraY(),
+                        ((ILerpSneakCameraEntity) entity).BPKMod$getCameraY(),
+                        BPKMod$tickDelta
+                ) : entity.getEyeHeight();
     }
 
     @SuppressWarnings("DataFlowIssue")
     @Inject(method = "updateRenderer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/multiplayer/WorldClient;getLightBrightness(Lnet/minecraft/util/math/BlockPos;)F"))
     private void updateCameraHeight(CallbackInfo ci) {
-        if (this.mc.getRenderViewEntity() instanceof EntityPlayer) {
+        if (GeneralConfig.beSneak && this.mc.getRenderViewEntity() instanceof EntityPlayer) {
             ((ILerpSneakCameraEntity) this.mc.getRenderViewEntity()).BPKMod$updateCameraHeight(BPKMod$tickDelta);
-        }else{
+        } else {
             this.mc.world.getLightBrightness(new BlockPos(this.mc.getRenderViewEntity().getPositionEyes(1F)));
         }
     }
