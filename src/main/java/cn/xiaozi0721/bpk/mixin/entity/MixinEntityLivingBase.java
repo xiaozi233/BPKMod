@@ -8,6 +8,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -25,12 +26,13 @@ public abstract class MixinEntityLivingBase extends Entity {
     }
 
     @SuppressWarnings({"ConstantValue"})
-    @Inject(method = "moveRelative", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;motionX:D", ordinal = 0))
+    @Inject(method = "moveRelative", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;motionX:D", opcode = Opcodes.PUTFIELD))
     private void newTouchMovement(CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalFloatRef strafeRef, @Local(argsOnly = true, ordinal = 2) LocalFloatRef forwardRef){
         if(GeneralConfig.isNewTouch && ((EntityLivingBase)(Object)this) instanceof EntityPlayer){
                 float deltaYaw = GeneralConfig.byPitch ? MathHelper.abs(this.rotationPitch) * 0.017453292F : (float)Math.acos(0.98);
                 float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
                 float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
+
                 if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){
                     newTouchSinYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                     newTouchCosYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));

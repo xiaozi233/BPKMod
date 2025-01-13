@@ -107,7 +107,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
         return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0E-4F;
     }
 
-    @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), ordinal = 1, argsOnly = true)
+    @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), argsOnly = true, ordinal = 1)
     private double considerInaccuracy(double y){
         return y - 1.0E-7D;
     }
