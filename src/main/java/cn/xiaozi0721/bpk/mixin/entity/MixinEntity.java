@@ -4,7 +4,6 @@ import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.MoverType;
 import net.minecraft.util.math.AxisAlignedBB;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,21 +30,21 @@ public abstract class MixinEntity{
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0, shift = At.Shift.BY, by = 2))
-    private void clearMotionX(MoverType type, double x, double y, double z, CallbackInfo ci){
+    private void clearMotionX(CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionX = 0;
         }
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 1, shift = At.Shift.BY, by = 2))
-    private void clearMotionZ(MoverType type, double x, double y, double z, CallbackInfo ci){
+    private void clearMotionZ(CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionZ = 0;
         }
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 2, shift = At.Shift.BY, by = 2))
-    private void clearMotionXZ(MoverType type, double x, double y, double z, CallbackInfo ci){
+    private void clearMotionXZ(CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionX = 0;
             this.motionZ = 0;
@@ -53,7 +52,7 @@ public abstract class MixinEntity{
     }
 
     @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
-    public boolean isPlayerPressedSneak(Entity entity) {
+    public boolean isPlayerPressingSneak(Entity entity) {
         return GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
     }
 

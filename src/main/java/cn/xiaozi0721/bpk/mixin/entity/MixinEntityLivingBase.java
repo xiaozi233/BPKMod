@@ -26,15 +26,9 @@ public abstract class MixinEntityLivingBase extends Entity {
 
     @SuppressWarnings({"ConstantValue"})
     @Inject(method = "moveRelative", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;motionX:D", ordinal = 0))
-    private void newTouchMovement(CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalFloatRef strafe, @Local(argsOnly = true, ordinal = 2) LocalFloatRef forward){
+    private void newTouchMovement(CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalFloatRef strafeRef, @Local(argsOnly = true, ordinal = 2) LocalFloatRef forwardRef){
         if(GeneralConfig.isNewTouch && ((EntityLivingBase)(Object)this) instanceof EntityPlayer){
-                float deltaYaw;
-                if(GeneralConfig.byPitch){
-                    deltaYaw = MathHelper.abs(this.rotationPitch) * 0.017453292F;
-                } else {
-                    deltaYaw = (float)Math.acos(0.98);
-                }
-
+                float deltaYaw = GeneralConfig.byPitch ? MathHelper.abs(this.rotationPitch) * 0.017453292F : (float)Math.acos(0.98);
                 float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
                 float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
                 if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){
@@ -42,14 +36,14 @@ public abstract class MixinEntityLivingBase extends Entity {
                     newTouchCosYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
                 }
 
-                float strafeCopy = strafe.get();
-                float forwardCopy = forward.get();
-                if (strafeCopy * forwardCopy >= 1.0E-4F) {
-                    strafe.set(strafeCopy * newTouchCosYaw - forwardCopy * newTouchSinYaw);
-                    forward.set(forwardCopy * newTouchCosYaw + strafeCopy * newTouchSinYaw);
-                } else if (strafeCopy * forwardCopy <= -1.0E-4F){
-                    strafe.set(strafeCopy * newTouchCosYaw + forwardCopy * newTouchSinYaw);
-                    forward.set(forwardCopy * newTouchCosYaw - strafeCopy * newTouchSinYaw);
+                float strafe = strafeRef.get();
+                float forward = forwardRef.get();
+                if (strafe * forward >= 1.0E-4F) {
+                    strafeRef.set(strafe * newTouchCosYaw - forward * newTouchSinYaw);
+                    forwardRef.set(forward * newTouchCosYaw + strafe * newTouchSinYaw);
+                } else if (strafe * forward <= -1.0E-4F){
+                    strafeRef.set(strafe * newTouchCosYaw + forward * newTouchSinYaw);
+                    forwardRef.set(forward * newTouchCosYaw - strafe * newTouchSinYaw);
                 }
             }
     }

@@ -7,6 +7,8 @@ import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
 import cn.xiaozi0721.bpk.mixin.accessor.EntityLivingBaseAccessor;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
+import com.llamalad7.mixinextras.sugar.Share;
+import com.llamalad7.mixinextras.sugar.ref.LocalBooleanRef;
 import com.mojang.authlib.GameProfile;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
@@ -24,7 +26,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implements ILerpSneakCameraEntity, IPlayerPressingSneak {
     @Shadow public MovementInput movementInput;
 
-    @Unique private boolean BPKMod$prevSprinting;
     @Unique private float BPKMod$lastCameraY;
     @Unique private float BPKMod$cameraY;
 
@@ -34,7 +35,6 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
     private float sprintBackward(float moveForward){
-        System.out.println(moveForward);
         return GeneralConfig.sprintBackward && !isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
@@ -43,10 +43,10 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
             constant = @Constant(floatValue = 0.8F),
             slice = @Slice(
                     from = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 0),
-                    to = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;allowFlying:Z", ordinal = 1)
+                    to = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z")
             )
     )
-    private float hasForwardImpulse(float threshold){
+    private float hasForwardImpulse(float origin){
         return 1.0E-5F;
     }
 
@@ -56,18 +56,19 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     }
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
-    private boolean setSprintFalseConsiderSneak2(boolean origin){
+    private boolean setSprintFalseConsiderSneak(boolean origin){
         return origin || this.movementInput.sneak;
     }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;onGround:Z", ordinal = 0))
-    private void updatePrevSprinting(CallbackInfo ci){
-        BPKMod$prevSprinting = isSprinting();
+    private void updatePrevSprinting(CallbackInfo ci, @Share("prevSprinting") LocalBooleanRef prevSprintingRef){
+        prevSprintingRef.set(this.isSprinting());
     }
 
-    @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/player/PlayerCapabilities;allowFlying:Z", ordinal = 1))
-    private void sprintDelayOnGround(CallbackInfo ci, @Local(ordinal = 2) boolean prevMovedForward){
-        if (GeneralConfig.sprintDelayOnGround && !BPKMod$prevSprinting && isSprinting() && EntityLivingBaseAccessor.getSpringSpeedBoostID() != null){
+    @SuppressWarnings("ConstantValue")
+    @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;capabilities:Lnet/minecraft/entity/player/PlayerCapabilities;", ordinal = 1))
+    private void sprintDelayOnGround(CallbackInfo ci, @Local(ordinal = 2) boolean prevMovedForward, @Share("prevSprinting") LocalBooleanRef prevSprintingRef){
+        if (GeneralConfig.sprintDelayOnGround && !prevSprintingRef.get() && this.isSprinting() && EntityLivingBaseAccessor.getSpringSpeedBoostID() != null){
             this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(EntityLivingBaseAccessor.getSpringSpeedBoost());
         }
     }
@@ -103,12 +104,12 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Unique
     private boolean BPKMod$isSneakingPose(){
-        return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0E-4;
+        return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0E-4F;
     }
 
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), ordinal = 1, argsOnly = true)
     private double considerInaccuracy(double y){
-        return y - 1.0E-7;
+        return y - 1.0E-7D;
     }
 
     @Override
