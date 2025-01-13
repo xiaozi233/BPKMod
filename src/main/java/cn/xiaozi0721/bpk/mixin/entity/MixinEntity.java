@@ -29,21 +29,21 @@ public abstract class MixinEntity{
         return GeneralConfig.beSneak ? aabb.grow(-0.025, 0, -0.025) : aabb;
     }
 
-    @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 0, shift = At.Shift.BY, by = 2))
+    @Inject(method = "move", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;isEmpty()Z", ordinal = 0, shift = At.Shift.AFTER))
     private void clearMotionX(CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionX = 0;
         }
     }
 
-    @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 1, shift = At.Shift.BY, by = 2))
+    @Inject(method = "move", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;isEmpty()Z", ordinal = 1, shift = At.Shift.AFTER))
     private void clearMotionZ(CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionZ = 0;
         }
     }
 
-    @Inject(method = "move", at = @At(value = "INVOKE", target = "Ljava/util/List;isEmpty()Z", ordinal = 2, shift = At.Shift.BY, by = 2))
+    @Inject(method = "move", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;isEmpty()Z", ordinal = 2, shift = At.Shift.AFTER))
     private void clearMotionXZ(CallbackInfo ci){
         if(GeneralConfig.beSneak){
             this.motionX = 0;
