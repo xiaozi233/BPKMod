@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent;
 import org.lwjgl.input.Keyboard;
 
 public class KeyInputHandler {
-    public static final KeyBinding NEW_TOUCH = new KeyBinding("key.bpk.newTouch", KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NONE,"key.category.bpk");
+    private static final KeyBinding NEW_TOUCH = new KeyBinding("key.bpk.newTouch", KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NONE,"key.category.bpk");
 
     public static void init() {
         ClientRegistry.registerKeyBinding(NEW_TOUCH);

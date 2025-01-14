@@ -9,6 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 public class ClientProxy extends CommonProxy{
     @Override
     public void init() {
+        super.init();
         KeyInputHandler.init();
     }
 }

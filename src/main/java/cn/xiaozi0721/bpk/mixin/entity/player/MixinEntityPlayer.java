@@ -48,14 +48,14 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IPla
     private void updateUnderBlock(CallbackInfo ci){
         BPKMod$sneakHeight = GeneralConfig.beSneak ? 1.5F : 1.65F;
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
-        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7, normalAABB.minZ + 0.6D);
+        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7D, normalAABB.minZ + 0.6D);
         normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
         BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
         BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
     }
 
     @Override
-    public double BPKMod$getSneakHeight(){
+    public float BPKMod$getSneakHeight(){
         return BPKMod$sneakHeight;
     }
 
