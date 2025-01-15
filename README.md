@@ -12,11 +12,11 @@ A 1.12.2 mod that bedrockify parkour-related things.\
 - Configurable inertia threshold.
 - Be style sneak (WIP).
 
-Climbing ladder by simply pressing jump is not included, try [Future MC](https://github.com/thedarkcolour/Future-MC) instead.
+Climbing ladder by simply pressing jump is not included, try [Future MC](https://github.com/thedarkcolour/Future-MC) instead.\
+If config get wrong, try to delete config\bpk.cfg and restart the game.
 
 ### Compatibility
-**Conflicts with [Aqua Acrobatics](https://github.com/embeddedt/aquaacrobatics).**\
-If config get wrong, try to delete config\bpk.cfg and restart the game.
+Conflicts with [Aqua Acrobatics](https://github.com/embeddedt/aquaacrobatics).
 
 ## Credit
 Cynimal, some models are modified from his [TrueModels](https://www.curseforge.com/minecraft/texture-packs/truemodels).\
