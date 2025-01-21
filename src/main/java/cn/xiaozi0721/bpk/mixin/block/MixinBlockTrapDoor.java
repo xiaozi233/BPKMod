@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(BlockTrapDoor.class)
-public class MixinBlockTrapDoor{
+public abstract class MixinBlockTrapDoor{
     @Shadow @Final @Mutable protected static AxisAlignedBB EAST_OPEN_AABB;
     @Shadow @Final @Mutable protected static AxisAlignedBB WEST_OPEN_AABB;
     @Shadow @Final @Mutable protected static AxisAlignedBB SOUTH_OPEN_AABB;
