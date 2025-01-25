@@ -21,8 +21,8 @@ import java.util.List;
 @Mixin(BlockPane.class)
 public abstract class MixinBlockPane extends Block{
     @Shadow @Final public static PropertyBool NORTH;
-    @Shadow @Final public static PropertyBool SOUTH;
     @Shadow @Final public static PropertyBool EAST;
+    @Shadow @Final public static PropertyBool SOUTH;
     @Shadow @Final public static PropertyBool WEST;
     @Shadow @Final @Mutable protected static AxisAlignedBB[] AABB_BY_INDEX;
 
