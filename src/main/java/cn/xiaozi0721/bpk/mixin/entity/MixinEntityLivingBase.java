@@ -10,11 +10,14 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity {
+    @Unique private static final float newTouchYaw = (float)Math.acos(0.98);
+
     public MixinEntityLivingBase(World worldIn) {
         super(worldIn);
     }
@@ -28,24 +31,25 @@ public abstract class MixinEntityLivingBase extends Entity {
     @Inject(method = "moveRelative", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;motionX:D", opcode = Opcodes.PUTFIELD))
     private void newTouchMovement(CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalFloatRef strafeRef, @Local(argsOnly = true, ordinal = 2) LocalFloatRef forwardRef){
         if(GeneralConfig.isNewTouch && (EntityLivingBase)(Object)this instanceof EntityPlayer){
-                float deltaYaw = GeneralConfig.byPitch ? MathHelper.abs(this.rotationPitch) * 0.017453292F : (float)Math.acos(0.98);
-                float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
-                float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
+            float absPitch = MathHelper.abs(this.rotationPitch);
+            float deltaYaw = GeneralConfig.byPitch ? absPitch * 0.017453292F : newTouchYaw;
+            float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
+            float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
 
-                if(GeneralConfig.byPitch && MathHelper.abs(this.rotationPitch) * 0.017453292F < Math.acos(0.98)){
-                    newTouchSinYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
-                    newTouchCosYaw *= (0.98F / MathHelper.cos(MathHelper.abs(this.rotationPitch) * 0.017453292F));
-                }
-
-                float strafe = strafeRef.get();
-                float forward = forwardRef.get();
-                if (strafe * forward >= 1.0E-4F) {
-                    strafeRef.set(strafe * newTouchCosYaw - forward * newTouchSinYaw);
-                    forwardRef.set(forward * newTouchCosYaw + strafe * newTouchSinYaw);
-                } else if (strafe * forward <= -1.0E-4F){
-                    strafeRef.set(strafe * newTouchCosYaw + forward * newTouchSinYaw);
-                    forwardRef.set(forward * newTouchCosYaw - strafe * newTouchSinYaw);
-                }
+            if(GeneralConfig.byPitch && absPitch * 0.017453292F < newTouchYaw){
+                newTouchSinYaw *= (0.98F / MathHelper.cos(absPitch * 0.017453292F));
+                newTouchCosYaw *= (0.98F / MathHelper.cos(absPitch * 0.017453292F));
             }
+
+            float strafe = strafeRef.get();
+            float forward = forwardRef.get();
+            if (strafe * forward >= 1.0E-4F) {
+                strafeRef.set(strafe * newTouchCosYaw - forward * newTouchSinYaw);
+                forwardRef.set(forward * newTouchCosYaw + strafe * newTouchSinYaw);
+            } else if (strafe * forward <= -1.0E-4F){
+                strafeRef.set(strafe * newTouchCosYaw + forward * newTouchSinYaw);
+                forwardRef.set(forward * newTouchCosYaw - strafe * newTouchSinYaw);
+            }
+        }
     }
 }
