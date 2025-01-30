@@ -52,12 +52,12 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z", ordinal = 1))
     private boolean setSprintTrueConsiderSneak(boolean origin){
-        return origin && !this.movementInput.sneak;
+        return origin && !this.BPKMod$isSneakingPose();
     }
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z"))
     private boolean setSprintFalseConsiderSneak(boolean origin){
-        return origin || this.movementInput.sneak;
+        return origin || this.BPKMod$isSneakingPose();
     }
 
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;onGround:Z", ordinal = 0))
@@ -80,7 +80,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
     private void updateSneakInput(CallbackInfo ci) {
-        if (GeneralConfig.beSneak && !this.movementInput.sneak && (((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose()) && !this.capabilities.isFlying) {
+        if (GeneralConfig.beSneak && !this.movementInput.sneak && BPKMod$isSneakingPose() && !this.capabilities.isFlying) {
             this.movementInput.moveStrafe *= 0.3F;
             this.movementInput.moveForward *= 0.3F;
         }
@@ -88,7 +88,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
     private boolean isSneaking(boolean isSneaking){
-        return isSneaking || (GeneralConfig.beSneak && ((IPlayerResizable)this).BPKMod$getUnderBlock() || BPKMod$isSneakingPose() && !((IPlayerResizable)this).BPKMod$getResizingAllowed());
+        return isSneaking || (GeneralConfig.beSneak && getPlayer().BPKMod$getUnderBlock() && !getPlayer().BPKMod$getResizingAllowed());
     }
 
 //    @Redirect(method = "onUpdateWalkingPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isSneaking()Z"))
@@ -98,13 +98,13 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Override
     public boolean BPKMod$isSneakPressed(){
-        boolean sneakPressed = movementInput != null && movementInput.sneak;
-        return sneakPressed && !sleeping;
+        boolean sneakPressed = this.movementInput != null && this.movementInput.sneak;
+        return sneakPressed && !this.sleeping;
     }
 
     @Unique
     private boolean BPKMod$isSneakingPose(){
-        return height - ((IPlayerResizable)this).BPKMod$getSneakHeight() < 1.0E-4F;
+        return this.height == getPlayer().BPKMod$getSneakHeight();
     }
 
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), argsOnly = true, ordinal = 1)
@@ -114,17 +114,22 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Override
     public float BPKMod$getLastCameraY() {
-        return BPKMod$lastCameraY;
+        return this.BPKMod$lastCameraY;
     }
 
     @Override
     public float BPKMod$getCameraY() {
-        return BPKMod$cameraY;
+        return this.BPKMod$cameraY;
     }
 
     @Override
     public void BPKMod$updateCameraHeight(double tickDelta) {
         this.BPKMod$lastCameraY = this.BPKMod$getCameraY();
-        BPKMod$cameraY = (float) MathHelper.clampedLerp(this.BPKMod$getLastCameraY(), getEyeHeight(), tickDelta / 2);
+        this.BPKMod$cameraY = (float) MathHelper.clampedLerp(this.BPKMod$getLastCameraY(), getEyeHeight(), tickDelta / 2);
+    }
+
+    @Unique
+    private IPlayerResizable getPlayer(){
+        return ((IPlayerResizable)this);
     }
 }
