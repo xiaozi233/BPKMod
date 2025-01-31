@@ -13,11 +13,11 @@ import org.apache.logging.log4j.Logger;
 @Mod.EventBusSubscriber
 @Mod(modid = Tags.MOD_ID, name = Tags.MOD_NAME, version = Tags.VERSION, dependencies = BPK.DEPENDENCIES, guiFactory = BPK.CONFIG_GUI)
 public class BPK {
+    public static final Logger LOGGER = LogManager.getLogger(Tags.MOD_NAME);
     static final String DEPENDENCIES = "required-after:mixinbooter;";
     static final String CONFIG_GUI = "cn.xiaozi0721."+ Tags.MOD_ID + ".config.ConfigGuiFactory";
     private static final String CLIENT_PROXY = "cn.xiaozi0721." + Tags.MOD_ID + ".proxy.ClientProxy";
     private static final String COMMON_PROXY = "cn.xiaozi0721." + Tags.MOD_ID + ".proxy.CommonProxy";
-    private static final Logger LOGGER = LogManager.getLogger(Tags.MOD_NAME);
 
     @SidedProxy(clientSide = CLIENT_PROXY, serverSide = COMMON_PROXY)
     private static CommonProxy proxy;
