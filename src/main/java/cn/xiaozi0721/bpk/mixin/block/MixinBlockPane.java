@@ -15,7 +15,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import javax.annotation.Nullable;
 import java.util.List;
 
-@SuppressWarnings({"UnnecessaryUnboxing", "RedundantCast"})
 @Mixin(BlockPane.class)
 public abstract class MixinBlockPane extends Block{
     @Shadow @Final public static PropertyBool NORTH;
@@ -47,9 +46,6 @@ public abstract class MixinBlockPane extends Block{
 
     @WrapWithCondition(method = "addCollisionBoxToList", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/BlockPane;addCollisionBoxToList(Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/util/math/AxisAlignedBB;Ljava/util/List;Lnet/minecraft/util/math/AxisAlignedBB;)V", ordinal = 0))
     private boolean onlyNotConnected(BlockPos blockPos, AxisAlignedBB entityBox, List<AxisAlignedBB> collidingBoxes, @Nullable AxisAlignedBB blockBox, @Local(argsOnly = true) IBlockState state){
-        return !((Boolean)state.getValue(NORTH)).booleanValue()
-                && !((Boolean)state.getValue(SOUTH)).booleanValue()
-                && !((Boolean)state.getValue(EAST)).booleanValue()
-                && !((Boolean)state.getValue(WEST)).booleanValue();
+        return !state.getValue(NORTH) && !state.getValue(SOUTH) && !state.getValue(EAST) && !state.getValue(WEST);
     }
 }
