@@ -19,7 +19,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityRenderer.class)
-public class MixinEntityRender implements ILerpSneakGameRenderer {
+public abstract class MixinEntityRender implements ILerpSneakGameRenderer {
     @Shadow @Final private Minecraft mc;
 
     @Unique private float BPKMod$tickDelta;

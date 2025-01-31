@@ -16,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @SuppressWarnings("UnusedMixin")
 @Mixin(ActiveRenderInfo.class)
 //unused now
-public class MixinActiveRenderInfo{
+public abstract class MixinActiveRenderInfo{
     @Unique private static Entity BPKMod$EntityPlayer;
 
     @ModifyArg(method = "updateRenderInfo(Lnet/minecraft/entity/Entity;Z)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/Vec3d;<init>(DDD)V"), index = 1)

@@ -35,7 +35,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 5))
     private float sprintBackward(float moveForward){
-        return GeneralConfig.sprintBackward && !isSneaking() && moveForward != 0 ? 1 : moveForward;
+        return GeneralConfig.sprintBackward && !this.isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
     @ModifyConstant(
@@ -67,7 +67,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @SuppressWarnings("ConstantValue")
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;capabilities:Lnet/minecraft/entity/player/PlayerCapabilities;", ordinal = 1))
-    private void sprintDelayOnGround(CallbackInfo ci, @Local(ordinal = 2) boolean prevMovedForward, @Share("prevSprinting") LocalBooleanRef prevSprintingRef){
+    private void sprintDelayOnGround(CallbackInfo ci, @Share("prevSprinting") LocalBooleanRef prevSprintingRef){
         if (GeneralConfig.sprintDelayOnGround && !prevSprintingRef.get() && this.isSprinting() && EntityLivingBaseAccessor.getSpringSpeedBoostID() != null){
             this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(EntityLivingBaseAccessor.getSpringSpeedBoost());
         }
@@ -125,7 +125,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
     @Override
     public void BPKMod$updateCameraHeight(double tickDelta) {
         this.BPKMod$lastCameraY = this.BPKMod$getCameraY();
-        this.BPKMod$cameraY = (float) MathHelper.clampedLerp(this.BPKMod$getLastCameraY(), getEyeHeight(), tickDelta / 2);
+        this.BPKMod$cameraY = (float) MathHelper.clampedLerp(this.BPKMod$getLastCameraY(), this.getEyeHeight(), tickDelta / 2);
     }
 
     @Unique
