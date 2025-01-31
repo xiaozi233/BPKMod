@@ -1,5 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.entity.player;
 
+import cn.xiaozi0721.bpk.config.ConfigHandler;
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import net.minecraft.entity.EntityLivingBase;
@@ -16,7 +17,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class MixinEntityPlayer extends EntityLivingBase implements IPlayerResizable {
     @Shadow protected float speedInAir;
 
-    @Unique protected float BPKMod$sneakHeight;
     @Unique protected boolean BPKMod$underBlock;
     @Unique protected boolean BPKMod$resizingAllowed;
 
@@ -41,22 +41,16 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IPla
 
     @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
     private float setSneakHeight(float sneakHeight){
-        return BPKMod$sneakHeight;
+        return ConfigHandler.sneakHeight;
     }
 
     @Inject(method = "updateSize", at = @At("HEAD"))
     private void updateUnderBlock(CallbackInfo ci){
-        BPKMod$sneakHeight = GeneralConfig.beSneak ? 1.5F : 1.65F;
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
-        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + BPKMod$getSneakHeight() - 1.0E-7D, normalAABB.minZ + 0.6D);
-        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8D - 1.0E-7, normalAABB.minZ + 0.6D);
+        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + ConfigHandler.sneakHeight - 1.0E-7D, normalAABB.minZ + 0.6D);
+        normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8F - 1.0E-7D, normalAABB.minZ + 0.6D);
         BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
         BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
-    }
-
-    @Override
-    public float BPKMod$getSneakHeight(){
-        return BPKMod$sneakHeight;
     }
 
     @Override

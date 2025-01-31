@@ -1,5 +1,6 @@
 package cn.xiaozi0721.bpk;
 
+import cn.xiaozi0721.bpk.config.ConfigHandler;
 import cn.xiaozi0721.bpk.proxy.CommonProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
@@ -34,6 +35,6 @@ public class BPK {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
+        ConfigHandler.postInit();
     }
-
 }

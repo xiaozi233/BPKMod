@@ -1,5 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.client.entity;
 
+import cn.xiaozi0721.bpk.config.ConfigHandler;
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
@@ -104,7 +105,7 @@ public abstract class MixinEntityPlayerSP extends AbstractClientPlayer implement
 
     @Unique
     private boolean BPKMod$isSneakingPose(){
-        return this.height == getPlayer().BPKMod$getSneakHeight();
+        return this.height == ConfigHandler.sneakHeight;
     }
 
     @ModifyVariable(method = "pushOutOfBlocks", at = @At("HEAD"), argsOnly = true, ordinal = 1)
