@@ -12,9 +12,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 @Config(modid = Tags.MOD_ID, category = "BPK Mod")
 @Mod.EventBusSubscriber
 public class ConfigHandler {
-    @Ignore
-    public static float sneakHeight;
-
     @Name("General")
     public static GeneralConfig generalConfig;
 
@@ -56,6 +53,9 @@ public class ConfigHandler {
         @LangKey("config.bpk.general.beSneak")
         public static boolean beSneak = false;
 
+        @Ignore
+        public static float sneakHeight;
+
         @Comment("Toggle 45-Strafe Accelerate")
         @LangKey("config.bpk.general.45strafe")
         public static boolean strafeAccelerateAllowed = false;
@@ -70,8 +70,8 @@ public class ConfigHandler {
         ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
     }
 
-    public static void postInit(){
-        sneakHeight = GeneralConfig.beSneak ? 1.5F : 1.65F;
+    public static void syncField(){
+        GeneralConfig.sneakHeight = GeneralConfig.beSneak ? 1.5F : 1.65F;
     }
 
     @Mod.EventBusSubscriber(modid = Tags.MOD_ID)
@@ -80,7 +80,7 @@ public class ConfigHandler {
         public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
             if (event.getModID().equals(Tags.MOD_ID)) {
                 ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
-                postInit();
+                syncField();
             }
         }
     }

@@ -35,6 +35,6 @@ public class BPK {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        ConfigHandler.postInit();
+        proxy.postInit();
     }
 }

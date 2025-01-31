@@ -1,10 +1,9 @@
 package cn.xiaozi0721.bpk.mixin.entity.player;
 
-import cn.xiaozi0721.bpk.config.ConfigHandler;
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
-import cn.xiaozi0721.bpk.interfaces.IPlayerResizable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerCapabilities;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,8 +13,10 @@ import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityPlayer.class)
-public abstract class MixinEntityPlayer extends EntityLivingBase implements IPlayerResizable {
+public abstract class MixinEntityPlayer extends EntityLivingBase{
     @Shadow protected float speedInAir;
+    @Shadow protected boolean sleeping;
+    @Shadow public PlayerCapabilities capabilities;
 
     @Unique protected boolean BPKMod$underBlock;
     @Unique protected boolean BPKMod$resizingAllowed;
@@ -41,25 +42,15 @@ public abstract class MixinEntityPlayer extends EntityLivingBase implements IPla
 
     @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
     private float setSneakHeight(float sneakHeight){
-        return ConfigHandler.sneakHeight;
+        return GeneralConfig.sneakHeight;
     }
 
     @Inject(method = "updateSize", at = @At("HEAD"))
     private void updateUnderBlock(CallbackInfo ci){
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
-        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + ConfigHandler.sneakHeight - 1.0E-7D, normalAABB.minZ + 0.6D);
+        AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + GeneralConfig.sneakHeight - 1.0E-7D, normalAABB.minZ + 0.6D);
         normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8F - 1.0E-7D, normalAABB.minZ + 0.6D);
         BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
         BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
-    }
-
-    @Override
-    public boolean BPKMod$getUnderBlock(){
-        return BPKMod$underBlock;
-    }
-
-    @Override
-    public boolean BPKMod$getResizingAllowed(){
-        return BPKMod$resizingAllowed;
     }
 }
