@@ -67,6 +67,7 @@ public class ConfigHandler {
 
     public static void toggleNewTouch(){
         GeneralConfig.isNewTouch = !GeneralConfig.isNewTouch;
+        GeneralConfig.strafeAccelerateAllowed = GeneralConfig.isNewTouch;
         ConfigManager.sync(Tags.MOD_ID, Config.Type.INSTANCE);
     }
 

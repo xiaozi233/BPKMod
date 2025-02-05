@@ -28,7 +28,7 @@ public abstract class MixinEntityLivingBase extends Entity {
     }
 
     @SuppressWarnings({"ConstantValue"})
-    @Inject(method = "moveRelative", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;motionX:D", opcode = Opcodes.PUTFIELD))
+    @Inject(method = "moveRelative", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;motionX:D", opcode = Opcodes.GETFIELD))
     private void newTouchMovement(CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalFloatRef strafeRef, @Local(argsOnly = true, ordinal = 2) LocalFloatRef forwardRef){
         if(GeneralConfig.isNewTouch && (EntityLivingBase)(Object)this instanceof EntityPlayer){
             float absPitch = MathHelper.abs(this.rotationPitch);
