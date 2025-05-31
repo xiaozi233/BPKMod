@@ -63,6 +63,13 @@ public class ConfigHandler {
         @Comment("Ignore Collided Horizontally")
         @LangKey("config.bpk.general.ignoreCollidedHorizontally")
         public static boolean ignoreCollidedHorizontally = true;
+
+        @Comment({
+                "You cannot enter the sprinting state while strafing.",
+                "It only takes effect when you turn off strafeAccelerateAllowed."
+        })
+        @LangKey("config.bpk.general.nonSprintingStrafe")
+        public static boolean nonSprintingStrafe = false;
     }
 
     public static void toggleNewTouch(){

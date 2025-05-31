@@ -16,6 +16,8 @@ config.bpk.general.45strafe=启用斜跑加速
 config.bpk.general.45strafe.tooltip=切换斜跑加速
 config.bpk.general.ignoreCollidedHorizontally=忽略水平碰撞
 config.bpk.general.ignoreCollidedHorizontally.tooltip=忽略水平碰撞
+config.bpk.general.nonSprintingStrafe=无疾跑斜跑
+config.bpk.general.nonSprintingStrafe.tooltip=无法在斜跑时进入疾跑状态\n当且仅当你关闭strafeAccelerateAllowed时生效
 
 key.category.bpk=BPK Mod
 key.bpk.newTouch=切换新触控

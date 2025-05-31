@@ -35,9 +35,19 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
         return GeneralConfig.sprintBackward && !this.isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
-    @ModifyConstant(
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z", ordinal = 0))
+    private boolean cannotSprintWhenStrafe(boolean original){
+        return original && !GeneralConfig.nonSprintingStrafe;
+    }
+
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 4))
+    private float cannotSprintWhenStrafe2(float origin){
+        return GeneralConfig.nonSprintingStrafe ? 1F : origin;
+    }
+
+    @ModifyExpressionValue(
             method = "onLivingUpdate",
-            constant = @Constant(floatValue = 0.8F),
+            at = @At(value = "CONSTANT", args = "floatValue=0.8"),
             slice = @Slice(
                     from = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 0),
                     to = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z")
@@ -46,6 +56,19 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
     private float hasForwardImpulse(float origin){
         return 1.0E-5F;
     }
+
+//    @ModifyConstant(
+//            method = "onLivingUpdate",
+//            constant = @Constant(floatValue = 0.8F),
+//            slice = @Slice(
+//                    from = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 0),
+//                    to = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z")
+//            )
+//    )
+//    private float hasForwardImpulse(float origin){
+//        return 1.0E-5F;
+//    }
+
 
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z", ordinal = 1))
     private boolean setSprintTrueConsiderSneak(boolean origin){
