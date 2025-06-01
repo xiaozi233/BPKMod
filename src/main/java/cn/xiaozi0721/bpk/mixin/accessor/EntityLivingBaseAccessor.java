@@ -9,10 +9,10 @@ import java.util.UUID;
 
 @Mixin(EntityLivingBase.class)
 public interface EntityLivingBaseAccessor {
-    @Accessor("SPRINTING_SPEED_BOOST_ID")
-    static UUID getSpringSpeedBoostID() {
-        throw new AssertionError();
-    }
+//    @Accessor("SPRINTING_SPEED_BOOST_ID")
+//    static UUID getSpringSpeedBoostID() {
+//        throw new AssertionError();
+//    }
 
     @Accessor("SPRINTING_SPEED_BOOST")
     static AttributeModifier getSpringSpeedBoost() {

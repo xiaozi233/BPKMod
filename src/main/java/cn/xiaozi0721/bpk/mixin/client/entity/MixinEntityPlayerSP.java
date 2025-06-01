@@ -1,5 +1,6 @@
 package cn.xiaozi0721.bpk.mixin.client.entity;
 
+import cn.xiaozi0721.bpk.BPK;
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
@@ -57,19 +58,6 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
         return 1.0E-5F;
     }
 
-//    @ModifyConstant(
-//            method = "onLivingUpdate",
-//            constant = @Constant(floatValue = 0.8F),
-//            slice = @Slice(
-//                    from = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 0),
-//                    to = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z")
-//            )
-//    )
-//    private float hasForwardImpulse(float origin){
-//        return 1.0E-5F;
-//    }
-
-
     @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z", ordinal = 1))
     private boolean setSprintTrueConsiderSneak(boolean origin){
         return origin && !this.BPKMod$isSneakingPose();
@@ -85,10 +73,9 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
         prevSprintingRef.set(this.isSprinting());
     }
 
-    @SuppressWarnings("ConstantValue")
     @Inject(method = "onLivingUpdate", at = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;capabilities:Lnet/minecraft/entity/player/PlayerCapabilities;", ordinal = 1))
     private void sprintDelayOnGround(CallbackInfo ci, @Share("prevSprinting") LocalBooleanRef prevSprintingRef){
-        if (GeneralConfig.sprintDelayOnGround && !prevSprintingRef.get() && this.isSprinting() && EntityLivingBaseAccessor.getSpringSpeedBoostID() != null){
+        if (GeneralConfig.sprintDelayOnGround && !prevSprintingRef.get() && this.isSprinting()){
             this.getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).removeModifier(EntityLivingBaseAccessor.getSpringSpeedBoost());
         }
     }
