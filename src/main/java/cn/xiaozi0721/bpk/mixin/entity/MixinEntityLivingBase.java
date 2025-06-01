@@ -1,6 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.entity;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import com.llamalad7.mixinextras.sugar.Local;
 import com.llamalad7.mixinextras.sugar.ref.LocalFloatRef;
 import net.minecraft.entity.Entity;
@@ -22,7 +23,7 @@ public abstract class MixinEntityLivingBase extends Entity {
         super(worldIn);
     }
 
-    @ModifyConstant(method = "onLivingUpdate", constant = @Constant(doubleValue = 0.003D))
+    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "CONSTANT", args = "doubleValue=0.003"))
     private double setInertiaThreshold(double value){
         return GeneralConfig.inertiaThreshold;
     }

@@ -1,6 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.entity.player;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.PlayerCapabilities;
@@ -35,12 +36,12 @@ public abstract class MixinEntityPlayer extends EntityLivingBase{
         }
     }
 
-    @ModifyConstant(method = "getEyeHeight", constant = @Constant(floatValue = 0.08F))
+    @ModifyExpressionValue(method = "getEyeHeight", at = @At(value = "CONSTANT", args = "floatValue=0.08"))
     private float setSneakEyeHeight(float sneakEyeHeight){
         return GeneralConfig.beSneak ? 0.38F : 0.08F;
     }
 
-    @ModifyConstant(method = {"updateSize", "getEyeHeight"}, constant = @Constant(floatValue = 1.65F))
+    @ModifyExpressionValue(method = {"updateSize", "getEyeHeight"}, at = @At(value = "CONSTANT", args = "floatValue=1.65"))
     private float setSneakHeight(float sneakHeight){
         return GeneralConfig.sneakHeight;
     }

@@ -50,8 +50,8 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
             method = "onLivingUpdate",
             at = @At(value = "CONSTANT", args = "floatValue=0.8"),
             slice = @Slice(
-                    from = @At(value = "FIELD", target = "Lnet/minecraft/util/MovementInput;moveForward:F", ordinal = 0),
-                    to = @At(value = "FIELD", target = "Lnet/minecraft/client/entity/EntityPlayerSP;collidedHorizontally:Z")
+                    from = @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 1),
+                    to = @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 5)
             )
     )
     private float hasForwardImpulse(float origin){
