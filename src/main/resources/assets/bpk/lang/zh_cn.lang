@@ -18,6 +18,8 @@ config.bpk.general.ignoreCollidedHorizontally=忽略水平碰撞
 config.bpk.general.ignoreCollidedHorizontally.tooltip=忽略水平碰撞
 config.bpk.general.nonSprintingStrafe=无疾跑斜跑
 config.bpk.general.nonSprintingStrafe.tooltip=无法在斜跑时进入疾跑状态\n当且仅当你关闭strafeAccelerateAllowed时生效
+config.bpk.general.climbableTrapdoor=可攀爬活版门
+config.bpk.general.climbableTrapdoor.tooltip=活版门下边有梯子的话就可以攀爬
 
 key.category.bpk=BPK Mod
 key.bpk.newTouch=切换新触控

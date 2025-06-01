@@ -70,6 +70,10 @@ public class ConfigHandler {
         })
         @LangKey("config.bpk.general.nonSprintingStrafe")
         public static boolean nonSprintingStrafe = false;
+
+        @Comment("Trapdoor is climbable if there is a ladder underneath")
+        @LangKey("config.bpk.general.climbableTrapdoor")
+        public static boolean climbableTrapdoor = true;
     }
 
     public static void toggleNewTouch(){
