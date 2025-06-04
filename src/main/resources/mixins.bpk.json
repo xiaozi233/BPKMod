@@ -14,6 +14,7 @@
     "block.MixinBlockMobSpawner",
     "block.MixinBlockPane",
     "block.MixinBlockTrapDoor",
+    "block.MixinBlockWall",
     "entity.MixinEntity",
     "entity.MixinEntityLivingBase",
     "entity.player.MixinEntityPlayer"
