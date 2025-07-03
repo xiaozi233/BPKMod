@@ -74,6 +74,9 @@ public class ConfigHandler {
         @Comment("Trapdoor is climbable if there is a ladder underneath")
         @LangKey("config.bpk.general.climbableTrapdoor")
         public static boolean climbableTrapdoor = true;
+
+        @LangKey("config.bpk.general.removeHorizontalSpeedLimitOnLadder")
+        public static boolean removeHorizontalSpeedLimitOnLadder = false;
     }
 
     public static void toggleNewTouch(){

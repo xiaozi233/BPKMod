@@ -53,4 +53,14 @@ public abstract class MixinEntityLivingBase extends Entity {
             }
         }
     }
+
+    @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(DDD)D", ordinal = 0))
+    private double removeMotionXLimit(double original){
+        return GeneralConfig.removeHorizontalSpeedLimitOnLadder ? this.motionX : original;
+    }
+
+    @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(DDD)D", ordinal = 1))
+    private double removeMotionZLimit(double original){
+        return GeneralConfig.removeHorizontalSpeedLimitOnLadder ? this.motionZ : original;
+    }
 }
