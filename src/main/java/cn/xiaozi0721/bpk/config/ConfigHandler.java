@@ -51,7 +51,7 @@ public class ConfigHandler {
 
         @Comment("Toggle sneak to BE mode")
         @LangKey("config.bpk.general.beSneak")
-        public static boolean beSneak = false;
+        public static boolean isBESneak = false;
 
         @Ignore
         public static float sneakHeight;
@@ -75,8 +75,8 @@ public class ConfigHandler {
         @LangKey("config.bpk.general.climbableTrapdoor")
         public static boolean climbableTrapdoor = true;
 
-        @LangKey("config.bpk.general.removeSpeedLimitOnLadder")
-        public static boolean removeSpeedLimitOnLadder = false;
+        @LangKey("config.bpk.general.beLadder")
+        public static boolean isBELadder = false;
     }
 
     public static void toggleNewTouch(){
@@ -86,7 +86,7 @@ public class ConfigHandler {
     }
 
     public static void syncField(){
-        GeneralConfig.sneakHeight = GeneralConfig.beSneak ? 1.5F : 1.65F;
+        GeneralConfig.sneakHeight = GeneralConfig.isBESneak ? 1.5F : 1.65F;
     }
 
     @Mod.EventBusSubscriber(modid = Tags.MOD_ID)

@@ -26,26 +26,26 @@ public abstract class MixinEntity{
             )
     )
     private AxisAlignedBB shrinkAABB(AxisAlignedBB aabb){
-        return GeneralConfig.beSneak ? aabb.grow(-0.025, 0, -0.025) : aabb;
+        return GeneralConfig.isBESneak ? aabb.grow(-0.025, 0, -0.025) : aabb;
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;isEmpty()Z", ordinal = 0, shift = At.Shift.AFTER))
     private void clearMotionX(CallbackInfo ci){
-        if(GeneralConfig.beSneak){
+        if(GeneralConfig.isBESneak){
             this.motionX = 0;
         }
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;isEmpty()Z", ordinal = 1, shift = At.Shift.AFTER))
     private void clearMotionZ(CallbackInfo ci){
-        if(GeneralConfig.beSneak){
+        if(GeneralConfig.isBESneak){
             this.motionZ = 0;
         }
     }
 
     @Inject(method = "move", at = @At(value = "INVOKE_ASSIGN", target = "Ljava/util/List;isEmpty()Z", ordinal = 2, shift = At.Shift.AFTER))
     private void clearMotionXZ(CallbackInfo ci){
-        if(GeneralConfig.beSneak){
+        if(GeneralConfig.isBESneak){
             this.motionX = 0;
             this.motionZ = 0;
         }
@@ -53,7 +53,7 @@ public abstract class MixinEntity{
 
     @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
     public boolean isPlayerPressingSneak(Entity entity) {
-        return GeneralConfig.beSneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
+        return GeneralConfig.isBESneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
     }
 
 //    @ModifyVariable(

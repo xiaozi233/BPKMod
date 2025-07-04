@@ -20,7 +20,7 @@ config.bpk.general.nonSprintingStrafe=无疾跑斜跑
 config.bpk.general.nonSprintingStrafe.tooltip=无法在斜跑时进入疾跑状态\n当且仅当你关闭strafeAccelerateAllowed时生效
 config.bpk.general.climbableTrapdoor=可攀爬活版门
 config.bpk.general.climbableTrapdoor.tooltip=活版门下边有梯子的话就可以攀爬
-config.bpk.general.removeSpeedLimitOnLadder=移除爬梯时的速度限制
+config.bpk.general.beLadder=BE梯子
 
 key.category.bpk=BPK Mod
 key.bpk.newTouch=切换新触控

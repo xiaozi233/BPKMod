@@ -1,6 +1,5 @@
 package cn.xiaozi0721.bpk.mixin.client.entity;
 
-import cn.xiaozi0721.bpk.BPK;
 import cn.xiaozi0721.bpk.config.ConfigHandler.GeneralConfig;
 import cn.xiaozi0721.bpk.interfaces.IPlayerPressingSneak;
 import cn.xiaozi0721.bpk.interfaces.ILerpSneakCameraEntity;
@@ -87,7 +86,7 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
 
     @Inject(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/MovementInput;updatePlayerMoveState()V", shift = At.Shift.AFTER))
     private void updateSneakInput(CallbackInfo ci) {
-        if (GeneralConfig.beSneak && !this.movementInput.sneak && BPKMod$isSneakingPose() && !this.capabilities.isFlying) {
+        if (GeneralConfig.isBESneak && !this.movementInput.sneak && BPKMod$isSneakingPose() && !this.capabilities.isFlying) {
             this.movementInput.moveStrafe *= 0.3F;
             this.movementInput.moveForward *= 0.3F;
         }
@@ -95,7 +94,7 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
 
     @ModifyVariable(method = "isSneaking", at = @At("STORE"))
     private boolean isSneaking(boolean isSneaking){
-        return isSneaking || (GeneralConfig.beSneak && this.BPKMod$underBlock && !this.BPKMod$resizingAllowed);
+        return isSneaking || (GeneralConfig.isBESneak && this.BPKMod$underBlock && !this.BPKMod$resizingAllowed);
     }
 
 //    @Redirect(method = "onUpdateWalkingPlayer", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/entity/EntityPlayerSP;isSneaking()Z"))

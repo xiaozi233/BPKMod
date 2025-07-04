@@ -20,7 +20,7 @@ config.bpk.general.nonSprintingStrafe=Non-Sprinting Strafe
 config.bpk.general.nonSprintingStrafe.tooltip=You cannot enter the sprinting state while strafing.\nIt only takes effect when you turn off strafeAccelerateAllowed.
 config.bpk.general.climbableTrapdoor=Climbable Trapdoor
 config.bpk.general.climbableTrapdoor.tooltip=Trapdoor is climbable if there is a ladder underneath
-config.bpk.general.removeSpeedLimitOnLadder=Remove Speed Limit On Ladder
+config.bpk.general.beLadder=BE Ladder
 
 key.category.bpk=BPK Mod
 key.bpk.newTouch=Toggle New Touch
