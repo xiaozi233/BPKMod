@@ -9,10 +9,10 @@ A 1.12.2 mod that bedrockify parkour-related things.\
 - Hitting wall will not cancel sprint.
 - Simulate new touch movement (WIP).
 - Sprint backward & delay.
-- Configurable inertia threshold.
-- Be style sneak (WIP).
+- Configurable inertia threshold (from 0 to 0.005).
+- BE style sneak (WIP).
+- BE style ladder (WIP).
 
-Climbing ladder by simply pressing jump is not included, try [Future MC](https://github.com/thedarkcolour/Future-MC) instead.\
 If config get wrong, try to delete config\bpk.cfg and restart the game.
 
 ### Compatibility
