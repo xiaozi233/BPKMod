@@ -75,8 +75,8 @@ public class ConfigHandler {
         @LangKey("config.bpk.general.climbableTrapdoor")
         public static boolean climbableTrapdoor = true;
 
-        @LangKey("config.bpk.general.removeHorizontalSpeedLimitOnLadder")
-        public static boolean removeHorizontalSpeedLimitOnLadder = false;
+        @LangKey("config.bpk.general.removeSpeedLimitOnLadder")
+        public static boolean removeSpeedLimitOnLadder = false;
     }
 
     public static void toggleNewTouch(){

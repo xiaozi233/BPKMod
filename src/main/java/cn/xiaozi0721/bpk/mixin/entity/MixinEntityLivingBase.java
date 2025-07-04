@@ -11,12 +11,15 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity {
+    @Shadow public abstract boolean isOnLadder();
+
     @Unique private static final float newTouchYaw = (float)Math.acos(0.98);
 
     public MixinEntityLivingBase(World worldIn) {
@@ -55,12 +58,24 @@ public abstract class MixinEntityLivingBase extends Entity {
     }
 
     @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(DDD)D", ordinal = 0))
-    private double removeMotionXLimit(double original){
-        return GeneralConfig.removeHorizontalSpeedLimitOnLadder ? this.motionX : original;
+    private double removeMotionXLimitOnLadder(double original){
+        return GeneralConfig.removeSpeedLimitOnLadder ? this.motionX : original;
     }
 
     @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(DDD)D", ordinal = 1))
-    private double removeMotionZLimit(double original){
-        return GeneralConfig.removeHorizontalSpeedLimitOnLadder ? this.motionZ : original;
+    private double removeMotionZLimitOnLadder(double original){
+        return GeneralConfig.removeSpeedLimitOnLadder ? this.motionZ : original;
+    }
+
+    @ModifyExpressionValue(method = "travel", at = @At(value = "CONSTANT", args = "doubleValue=-0.15"))
+    private double modifyMotionYLimitOnLadder(double original){
+        return GeneralConfig.removeSpeedLimitOnLadder ? -0.2D : original;
+    }
+
+    @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/BlockPos$PooledMutableBlockPos;release()V"))
+    private void setMotionYWhenClimbing(CallbackInfo ci){
+        if (this.collidedHorizontally && this.isOnLadder() && GeneralConfig.removeSpeedLimitOnLadder){
+            motionY = 0.2D;
+        }
     }
 }
