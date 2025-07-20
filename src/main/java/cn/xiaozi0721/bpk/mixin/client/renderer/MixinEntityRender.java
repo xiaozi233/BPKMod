@@ -35,7 +35,7 @@ public abstract class MixinEntityRender implements ILerpSneakGameRenderer {
             return (float) MathHelper.clampedLerp(
                     ((ILerpSneakCameraEntity) entity).BPKMod$getLastCameraY(),
                     ((ILerpSneakCameraEntity) entity).BPKMod$getCameraY(),
-                    BPKMod$tickDelta
+                    this.BPKMod$tickDelta
             );
         } else {
             return original.call(entity);
@@ -46,12 +46,12 @@ public abstract class MixinEntityRender implements ILerpSneakGameRenderer {
     private void updateCameraHeight(CallbackInfo ci) {
         Entity renderViewEntity = this.mc.getRenderViewEntity();
         if (GeneralConfig.isBESneak && renderViewEntity instanceof EntityPlayer) {
-            ((ILerpSneakCameraEntity) renderViewEntity).BPKMod$updateCameraHeight(BPKMod$tickDelta);
+            ((ILerpSneakCameraEntity) renderViewEntity).BPKMod$updateCameraHeight(this.BPKMod$tickDelta);
         }
     }
 
     @Override
     public float BPKMod$getTickDelta() {
-        return BPKMod$tickDelta;
+        return this.BPKMod$tickDelta;
     }
 }

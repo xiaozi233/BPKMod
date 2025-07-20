@@ -27,7 +27,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase{
     }
     
     @Inject(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/EntityLivingBase;travel(FFF)V", ordinal = 1))
-    private void sprintDelay(CallbackInfo ci){
+    private void sprintDelayInAir(CallbackInfo ci){
         if (!GeneralConfig.sprintDelayInAir){
             this.jumpMovementFactor = this.speedInAir;
             if (this.isSprinting()){
@@ -51,7 +51,7 @@ public abstract class MixinEntityPlayer extends EntityLivingBase{
         AxisAlignedBB normalAABB = this.getEntityBoundingBox();
         AxisAlignedBB sneakAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + GeneralConfig.sneakHeight - 1.0E-7D, normalAABB.minZ + 0.6D);
         normalAABB = new AxisAlignedBB(normalAABB.minX, normalAABB.minY, normalAABB.minZ, normalAABB.minX + 0.6D, normalAABB.minY + 1.8F - 1.0E-7D, normalAABB.minZ + 0.6D);
-        BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
-        BPKMod$underBlock = !BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
+        this.BPKMod$resizingAllowed = !this.world.collidesWithAnyBlock(normalAABB);
+        this.BPKMod$underBlock = !this.BPKMod$resizingAllowed && !this.world.collidesWithAnyBlock(sneakAABB);
     }
 }

@@ -62,8 +62,8 @@ public abstract class MixinEntityLivingBase extends Entity {
     }
 
     @ModifyExpressionValue(method = "travel", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;collidedHorizontally:Z", ordinal = 1))
-    private boolean canClimbWhenJumping(boolean original){
-        return GeneralConfig.isBELadder ? original || this.isJumping : original;
+    private boolean canClimbWhenJumping(boolean collidedHorizontally){
+        return GeneralConfig.isBELadder ? collidedHorizontally || this.isJumping : collidedHorizontally;
     }
 
     @ModifyExpressionValue(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/MathHelper;clamp(DDD)D", ordinal = 0))
