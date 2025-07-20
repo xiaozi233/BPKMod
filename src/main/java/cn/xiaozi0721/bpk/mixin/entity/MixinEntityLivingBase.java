@@ -18,10 +18,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(EntityLivingBase.class)
 public abstract class MixinEntityLivingBase extends Entity {
+    @Shadow protected boolean isJumping;
     @Shadow public abstract boolean isOnLadder();
 
-    @Shadow protected boolean isJumping;
-    @Unique private static final float newTouchYaw = (float)Math.acos(0.98);
+    @Unique private final float BEST_NEW_TOUCH_YAW = (float)Math.acos(0.98);
 
     public MixinEntityLivingBase(World worldIn) {
         super(worldIn);
@@ -35,26 +35,29 @@ public abstract class MixinEntityLivingBase extends Entity {
     @SuppressWarnings({"ConstantValue"})
     @Inject(method = "moveRelative", at = @At(value = "FIELD", target = "Lnet/minecraft/entity/EntityLivingBase;motionX:D", opcode = Opcodes.GETFIELD))
     private void newTouchMovement(CallbackInfo ci, @Local(argsOnly = true, ordinal = 0) LocalFloatRef strafeRef, @Local(argsOnly = true, ordinal = 2) LocalFloatRef forwardRef){
-        if(GeneralConfig.isNewTouch && (EntityLivingBase)(Object)this instanceof EntityPlayer){
-            float absPitch = MathHelper.abs(this.rotationPitch);
-            float deltaYaw = GeneralConfig.byPitch ? absPitch * 0.017453292F : newTouchYaw;
-            float newTouchSinYaw = MathHelper.sin(45 * 0.017453292F - deltaYaw);
-            float newTouchCosYaw = MathHelper.cos(45 * 0.017453292F - deltaYaw);
+        if(!GeneralConfig.isNewTouch || !((EntityLivingBase)(Object)this instanceof EntityPlayer)){
+            return;
+        }
 
-            if(GeneralConfig.byPitch && absPitch * 0.017453292F < newTouchYaw){
-                newTouchSinYaw *= (0.98F / MathHelper.cos(absPitch * 0.017453292F));
-                newTouchCosYaw *= (0.98F / MathHelper.cos(absPitch * 0.017453292F));
-            }
+        float strafe = strafeRef.get();
+        float forward = forwardRef.get();
+        float product = strafe * forward;
 
-            float strafe = strafeRef.get();
-            float forward = forwardRef.get();
-            if (strafe * forward >= 1.0E-4F) {
-                strafeRef.set(strafe * newTouchCosYaw - forward * newTouchSinYaw);
-                forwardRef.set(forward * newTouchCosYaw + strafe * newTouchSinYaw);
-            } else if (strafe * forward <= -1.0E-4F){
-                strafeRef.set(strafe * newTouchCosYaw + forward * newTouchSinYaw);
-                forwardRef.set(forward * newTouchCosYaw - strafe * newTouchSinYaw);
+        if(MathHelper.abs(product) >= 1.0E-4){
+            final float sign = Math.signum(product);
+            final float absPitch = MathHelper.abs(this.rotationPitch * 0.017453292F);
+            float newTouchYaw = GeneralConfig.byPitch ? absPitch : this.BEST_NEW_TOUCH_YAW;
+            float sinRotation = MathHelper.sin(sign * (45 * 0.017453292F - newTouchYaw));
+            float cosRotation = MathHelper.cos(sign * (45 * 0.017453292F - newTouchYaw));
+
+            strafeRef.set(strafe * cosRotation - forward * sinRotation);
+            if(newTouchYaw < this.BEST_NEW_TOUCH_YAW){
+                strafe *= 0.98F;
+                forward *= 0.98F;
+                sinRotation = MathHelper.sin(sign * 45 * 0.017453292F);
+                cosRotation = MathHelper.cos(sign * 45 * 0.017453292F);
             }
+            forwardRef.set(forward * cosRotation + strafe * sinRotation);
         }
     }
 
