@@ -35,15 +35,14 @@ public abstract class MixinEntityPlayerSP extends MixinEntityPlayer implements I
         return GeneralConfig.sprintBackward && !this.isSneaking() && moveForward != 0 ? 1 : moveForward;
     }
 
-    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/settings/KeyBinding;isKeyDown()Z", ordinal = 0))
-    private boolean cannotSprintWhenStrafe(boolean original){
-        return original && !GeneralConfig.nonSprintingStrafe;
-    }
-
-    @ModifyExpressionValue(method = "onLivingUpdate", at = @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 4))
-    private float cannotSprintWhenStrafe2(float origin){
+    @ModifyExpressionValue(method = "onLivingUpdate", at = {
+            @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 3),
+            @At(value = "CONSTANT", args = "floatValue=0.8", ordinal = 4)
+    })
+    private float cannotSprintWhenStrafe(float origin){
         return GeneralConfig.nonSprintingStrafe ? 1F : origin;
     }
+
 
     @ModifyExpressionValue(
             method = "onLivingUpdate",
