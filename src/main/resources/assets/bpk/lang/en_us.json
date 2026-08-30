@@ -1,16 +1,16 @@
 {
   "text.autoconfig.bpk.title": "BPK Mod",
   "text.autoconfig.bpk.category.general": "General",
-  "text.autoconfig.bpk.option.general.sprintBackward": "Sprint Backward",
-  "text.autoconfig.bpk.option.general.sprintBackward.tooltip": "If enabled, you could sprint even if you are backward",
-  "text.autoconfig.bpk.option.general.inertiaThreshold": "Inertia Threshold",
-  "text.autoconfig.bpk.option.general.inertiaThreshold.tooltip": "Stops the player from moving when their momentum is deemed negligible\nJE 1.8.9: 0.005\nBE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less",
-  "text.autoconfig.bpk.option.general.isBESneak": "BE Sneak",
-  "text.autoconfig.bpk.option.general.isBESneak.tooltip": "Clears horizontal motion when sneaking against edges (BE mode)",
-  "text.autoconfig.bpk.option.general.strafeAccelerateAllowed": "Toggle 45strafe",
-  "text.autoconfig.bpk.option.general.strafeAccelerateAllowed.tooltip": "Toggle 45-Strafe Accelerate",
-  "text.autoconfig.bpk.option.general.ignoreCollidedHorizontally": "Ignore Collided Horizontally",
-  "text.autoconfig.bpk.option.general.ignoreCollidedHorizontally.tooltip": "Hitting a wall will not cancel sprint",
-  "text.autoconfig.bpk.option.general.oldCollisionOrder": "Old Collision Order",
-  "text.autoconfig.bpk.option.general.oldCollisionOrder.tooltip": "Resolve collisions in the fixed Y->X->Z order instead of ordering X/Z by speed"
+  "text.autoconfig.bpk.option.sprintBackward": "Sprint Backward",
+  "text.autoconfig.bpk.option.sprintBackward.@Tooltip": "If enabled, you could sprint even if you are backward",
+  "text.autoconfig.bpk.option.inertiaThreshold": "Inertia Threshold",
+  "text.autoconfig.bpk.option.inertiaThreshold.@Tooltip": "Stops the player from moving when their momentum is deemed negligible\nJE 1.8.9: 0.005\nBE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less",
+  "text.autoconfig.bpk.option.isBESneak": "BE Sneak",
+  "text.autoconfig.bpk.option.isBESneak.@Tooltip": "Clears horizontal motion when sneaking against edges (BE mode)",
+  "text.autoconfig.bpk.option.strafeAccelerateAllowed": "Toggle 45strafe",
+  "text.autoconfig.bpk.option.strafeAccelerateAllowed.@Tooltip": "Toggle 45-Strafe Accelerate",
+  "text.autoconfig.bpk.option.ignoreCollidedHorizontally": "Ignore Collided Horizontally",
+  "text.autoconfig.bpk.option.ignoreCollidedHorizontally.@Tooltip": "Hitting a wall will not cancel sprint",
+  "text.autoconfig.bpk.option.oldCollisionOrder": "Old Collision Order",
+  "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "Resolve collisions in the fixed Y->X->Z order (pre-1.14) instead of ordering X/Z by speed"
 }

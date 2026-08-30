@@ -1,172 +1,55 @@
 {
-  "multipart": [
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_post"
-      },
-      "when": {
-        "OR": [
-          {
-            "north": "true"
-          },
-          {
-            "east": "true"
-          },
-          {
-            "south": "true"
-          },
-          {
-            "west": "true"
-          }
-        ]
-      }
+  "variants": {
+    "east=false,north=false,south=false,west=false": {
+      "model": "block/light_gray_pane_noside"
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_side"
-      },
-      "when": {
-        "north": "true"
-      }
+    "east=false,north=true,south=false,west=false": {
+      "model": "block/light_gray_pane_n"
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_side",
-        "y": 90
-      },
-      "when": {
-        "east": "true"
-      }
+    "east=true,north=false,south=false,west=false": {
+      "model": "block/light_gray_pane_n",
+      "y": 90
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_side_alt"
-      },
-      "when": {
-        "south": "true"
-      }
+    "east=false,north=false,south=true,west=false": {
+      "model": "block/light_gray_pane_s"
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_side_alt",
-        "y": 90
-      },
-      "when": {
-        "west": "true"
-      }
+    "east=false,north=false,south=false,west=true": {
+      "model": "block/light_gray_pane_s",
+      "y": 90
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_noside"
-      },
-      "when": {
-        "AND": [
-          {
-            "north": "false"
-          },
-          {
-            "OR": [
-              {
-                "east": "true"
-              },
-              {
-                "south": "true"
-              },
-              {
-                "west": "true"
-              }
-            ]
-          }
-        ]
-      }
+    "east=true,north=true,south=false,west=false": {
+      "model": "block/light_gray_pane_ne"
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_noside_alt"
-      },
-      "when": {
-        "AND": [
-          {
-            "east": "false"
-          },
-          {
-            "OR": [
-              {
-                "north": "true"
-              },
-              {
-                "south": "true"
-              },
-              {
-                "west": "true"
-              }
-            ]
-          }
-        ]
-      }
+    "east=true,north=false,south=true,west=false": {
+      "model": "block/light_gray_pane_se"
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_noside_alt",
-        "y": 90
-      },
-      "when": {
-        "AND": [
-          {
-            "south": "false"
-          },
-          {
-            "OR": [
-              {
-                "north": "true"
-              },
-              {
-                "east": "true"
-              },
-              {
-                "west": "true"
-              }
-            ]
-          }
-        ]
-      }
+    "east=false,north=false,south=true,west=true": {
+      "model": "block/light_gray_pane_sw"
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_noside",
-        "y": 270
-      },
-      "when": {
-        "AND": [
-          {
-            "west": "false"
-          },
-          {
-            "OR": [
-              {
-                "north": "true"
-              },
-              {
-                "east": "true"
-              },
-              {
-                "south": "true"
-              }
-            ]
-          }
-        ]
-      }
+    "east=false,north=true,south=false,west=true": {
+      "model": "block/light_gray_pane_nw"
     },
-    {
-      "apply": {
-        "model": "minecraft:block/light_gray_stained_glass_pane_noside"
-      },
-      "when": {
-        "north": "false",
-        "east": "false",
-        "south": "false",
-        "west": "false"
-      }
+    "east=false,north=true,south=true,west=false": {
+      "model": "block/light_gray_pane_ns"
+    },
+    "east=true,north=false,south=false,west=true": {
+      "model": "block/light_gray_pane_ns",
+      "y": 90
+    },
+    "east=true,north=true,south=true,west=false": {
+      "model": "block/light_gray_pane_nse"
+    },
+    "east=true,north=false,south=true,west=true": {
+      "model": "block/light_gray_pane_sew"
+    },
+    "east=false,north=true,south=true,west=true": {
+      "model": "block/light_gray_pane_nsw"
+    },
+    "east=true,north=true,south=false,west=true": {
+      "model": "block/light_gray_pane_new"
+    },
+    "east=true,north=true,south=true,west=true": {
+      "model": "block/light_gray_pane_nsew"
     }
-  ]
+  }
 }
