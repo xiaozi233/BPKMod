@@ -12,6 +12,10 @@ public class BPKConfig implements ConfigData {
 
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip
+    public boolean oldInertiaThreshold = false;
+
+    @ConfigEntry.Category("general")
+    @ConfigEntry.Gui.Tooltip
     public double inertiaThreshold = 0.0001D;
 
     @ConfigEntry.Category("general")
