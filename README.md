@@ -11,7 +11,6 @@ This is the port of the 1.12.2 Forge version (see `master` branch).
 - Hitting wall will not cancel sprint (`ignoreCollidedHorizontally`)
 - Sprint backward (`sprintBackward`)
 - Configurable inertia threshold (`inertiaThreshold`, from 0 to 0.005)
-- BE style motion clearing when sneaking (`isBESneak`, only the clearMotion part is kept; other sneak behaviors are native in modern versions)
 - Fixed collision axis order Y->X->Z (`oldCollisionOrder`, vanilla orders X/Z by speed)
 
 ## Config

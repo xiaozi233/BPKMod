@@ -6,7 +6,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.Direction;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -29,20 +28,5 @@ public abstract class MixinEntity {
             return BPK$YXZ_ORDER;
         }
         return original.call(movement);
-    }
-
-    @WrapOperation(
-        method = "move",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/world/entity/Entity;maybeBackOffFromEdge(Lnet/minecraft/world/phys/Vec3;Lnet/minecraft/world/entity/MoverType;)Lnet/minecraft/world/phys/Vec3;"
-        )
-    )
-    private Vec3 bpk$clearMotion(Entity instance, Vec3 delta, MoverType moverType, Operation<Vec3> original) {
-        Vec3 backedOff = original.call(instance, delta, moverType);
-        if (ConfigHandler.generalConfig.isBESneak && !backedOff.equals(delta)) {
-            instance.setDeltaMovement(0.0D, instance.getDeltaMovement().y, 0.0D);
-        }
-        return backedOff;
     }
 }
