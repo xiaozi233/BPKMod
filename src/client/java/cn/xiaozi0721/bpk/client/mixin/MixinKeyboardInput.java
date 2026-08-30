@@ -1,15 +1,15 @@
 package cn.xiaozi0721.bpk.client.mixin;
 
 import cn.xiaozi0721.bpk.config.ConfigHandler;
+import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.player.KeyboardInput;
 import net.minecraft.world.phys.Vec2;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Redirect;
 
 @Mixin(KeyboardInput.class)
 public abstract class MixinKeyboardInput {
-    @Redirect(
+    @ModifyExpressionValue(
         method = "tick",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/phys/Vec2;normalized()Lnet/minecraft/world/phys/Vec2;")
     )

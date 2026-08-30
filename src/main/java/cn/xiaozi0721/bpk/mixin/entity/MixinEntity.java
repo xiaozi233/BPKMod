@@ -9,21 +9,11 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.MoverType;
 import net.minecraft.world.phys.Vec3;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(Entity.class)
 public abstract class MixinEntity {
-    @Shadow
-    public abstract void setDeltaMovement(Vec3 deltaMovement);
-
-    @Shadow
-    public abstract void setDeltaMovement(double xd, double yd, double zd);
-
-    @Shadow
-    public abstract Vec3 getDeltaMovement();
-
     @Unique
     private static final ImmutableList<Direction.Axis> BPK$YXZ_ORDER = ImmutableList.of(Direction.Axis.Y, Direction.Axis.X, Direction.Axis.Z);
 
@@ -49,7 +39,7 @@ public abstract class MixinEntity {
         )
     )
     private Vec3 bpk$clearMotion(Entity instance, Vec3 delta, MoverType moverType, Operation<Vec3> original) {
-        Vec3 backedOff = original.call(delta, moverType);
+        Vec3 backedOff = original.call(instance, delta, moverType);
         if (ConfigHandler.generalConfig.isBESneak && !backedOff.equals(delta)) {
             instance.setDeltaMovement(0.0D, instance.getDeltaMovement().y, 0.0D);
         }

@@ -4,9 +4,10 @@ import cn.xiaozi0721.bpk.config.ConfigHandler;
 import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
 import net.minecraft.client.player.ClientInput;
 import net.minecraft.client.player.LocalPlayer;
-import org.spongepowered.asm.mixin.Final;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(LocalPlayer.class)
@@ -34,11 +35,12 @@ public abstract class MixinLocalPlayer {
         return original || this.bpk$isSprintBackward();
     }
 
-    @ModifyExpressionValue(method = "shouldStopRunSprinting", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;horizontalCollision:Z"))
+    @ModifyExpressionValue(method = "shouldStopRunSprinting", at = @At(value = "FIELD", target = "Lnet/minecraft/client/player/LocalPlayer;horizontalCollision:Z", opcode = Opcodes.GETFIELD))
     private boolean bpk$ignoreCollidedHorizontally(boolean original) {
         return !ConfigHandler.generalConfig.ignoreCollidedHorizontally && original;
     }
 
+    @Unique
     private boolean bpk$isSprintBackward() {
         return ConfigHandler.generalConfig.sprintBackward && this.input.getMoveVector().y < -1.0E-5F;
     }
