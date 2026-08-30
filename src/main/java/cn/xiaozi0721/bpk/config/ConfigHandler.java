@@ -22,6 +22,7 @@ public class ConfigHandler {
         public boolean strafeAccelerateAllowed = false;
         public boolean ignoreCollidedHorizontally = true;
         public boolean climbableTrapdoor = true;
+        public boolean oldCollisionOrder = true;
     }
 
     public static void load() {

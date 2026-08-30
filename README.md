@@ -12,6 +12,7 @@ This is the port of the 1.12.2 Forge version (see `master` branch).
 - Configurable inertia threshold (`inertiaThreshold`, from 0 to 0.005)
 - BE style motion clearing when sneaking (`isBESneak`, only the clearMotion part is kept; other sneak behaviors are native in modern versions)
 - Trapdoor is climbable if there is a ladder underneath (`climbableTrapdoor`)
+- Fixed collision axis order Y->X->Z (`oldCollisionOrder`, vanilla orders X/Z by speed)
 
 ## Config
 `config/bpk.json` (JSON, reload on game restart).
