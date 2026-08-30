@@ -1,23 +1,26 @@
-# BPK Mod
-A 1.12.2 mod that bedrockify parkour-related things.\
-**Requires [MixinBooter 9.4+](https://modrinth.com/mod/mixinbooter) since 1.2.0.**\
+# BPK Mod (Fabric)
+A Fabric mod for Minecraft 26.2 that bedrockify parkour-related things.\
+This is the port of the 1.12.2 Forge version (see `master` branch).
+
 **Do NOT use this mod in server *without permission***!
 
 ## Feature
-- Change some blocks' collision box to bedrock ver.
-- Cancel 45strafe accelerate.
-- Hitting wall will not cancel sprint.
-- Simulate new touch movement (WIP).
-- Sprint backward & delay.
-- Configurable inertia threshold (from 0 to 0.005).
-- BE style sneak (WIP).
-- BE style ladder (WIP).
+- Change some blocks' collision box to bedrock ver. (cactus, chest, ender chest, mob spawner, trapdoor)
+- Cancel 45strafe accelerate (`strafeAccelerateAllowed`)
+- Hitting wall will not cancel sprint (`ignoreCollidedHorizontally`)
+- Sprint backward (`sprintBackward`)
+- Configurable inertia threshold (`inertiaThreshold`, from 0 to 0.005)
+- BE style motion clearing when sneaking (`isBESneak`, only the clearMotion part is kept; other sneak behaviors are native in modern versions)
+- Trapdoor is climbable if there is a ladder underneath (`climbableTrapdoor`)
 
-If config get wrong, try to delete config\bpk.cfg and restart the game.
+## Config
+`config/bpk.json` (JSON, reload on game restart).
+
+## Building
+Requires Java 25. `./gradlew build`
 
 ### Compatibility
-Conflicts with [Aqua Acrobatics](https://github.com/embeddedt/aquaacrobatics).
+Conflicts with [Aqua Acrobatics](https://github.com/embeddedt/aquaacrobatics) (1.12.2 only).
 
 ## Credit
-Cynimal, some models are modified from his [TrueModels](https://www.curseforge.com/minecraft/texture-packs/truemodels).\
-Spxctre, for lerp sneaking animation.
+Cynimal, some models are modified from his [TrueModels](https://www.curseforge.com/minecraft/texture-packs/truemodels).

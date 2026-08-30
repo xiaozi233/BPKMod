@@ -1,0 +1,15 @@
+{
+	"required": true,
+	"package": "cn.xiaozi0721.bpk.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"MixinKeyboardInput",
+		"MixinLocalPlayer"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

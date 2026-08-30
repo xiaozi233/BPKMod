@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "bpk",
+	"version": "${version}",
+	"name": "BPK Mod",
+	"description": "A mod that bedrockify parkour-related things.",
+	"authors": [
+		"xiaozi0721"
+	],
+	"contact": {
+		"homepage": "https://github.com/xiaozi233/BPKMod",
+		"sources": "https://github.com/xiaozi233/BPKMod"
+	},
+	"license": "MIT",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"cn.xiaozi0721.bpk.BPK"
+		],
+		"client": [
+			"cn.xiaozi0721.bpk.client.BPKClient"
+		]
+	},
+	"mixins": [
+		"bpk.mixins.json",
+		{
+			"config": "bpk.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}
