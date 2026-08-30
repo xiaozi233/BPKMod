@@ -12,27 +12,38 @@ import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(IronBarsBlock.class)
 public abstract class MixinIronBarsBlock {
-    // Faithful port of the 1.12 AABB_BY_INDEX collision table (arms 2px wide, reaching the center line).
+    // Collision matching the TrueModels pane geometry: 2px-wide arms reaching the center
+    // line, combined as a union so the 1px inner-corner notch of adjacent arms stays open.
     // Index bits follow 1.12 BlockPane#getBoundingBoxIndex: north=1, east=2, south=4, west=8.
     @Unique
-    private static final VoxelShape[] BPK$COLLISION_SHAPES = {
-        bpk$shape(0.4375D, 0.4375D, 0.5625D, 0.5625D), // none: post
-        bpk$shape(0.4375D, 0.5D, 0.5625D, 1.0D),       // south
-        bpk$shape(0.0D, 0.4375D, 0.5D, 0.5625D),       // west
-        bpk$shape(0.0D, 0.4375D, 0.5D, 1.0D),          // south + west
-        bpk$shape(0.4375D, 0.0D, 0.5625D, 0.5D),       // north
-        bpk$shape(0.4375D, 0.0D, 0.5625D, 1.0D),       // north + south
-        bpk$shape(0.0D, 0.0D, 0.5625D, 0.5625D),       // north + west
-        bpk$shape(0.0D, 0.0D, 0.5625D, 1.0D),          // north + south + west
-        bpk$shape(0.5D, 0.4375D, 1.0D, 0.5625D),       // east
-        bpk$shape(0.4375D, 0.4375D, 1.0D, 1.0D),       // east + south
-        bpk$shape(0.0D, 0.4375D, 1.0D, 0.5625D),       // east + west
-        bpk$shape(0.0D, 0.4375D, 1.0D, 1.0D),          // east + south + west
-        bpk$shape(0.4375D, 0.0D, 1.0D, 0.5D),          // east + north
-        bpk$shape(0.4375D, 0.0D, 1.0D, 1.0D),          // east + north + south
-        bpk$shape(0.0D, 0.0D, 1.0D, 0.5D),             // east + north + west
-        bpk$shape(0.0D, 0.0D, 1.0D, 1.0D)              // all
-    };
+    private static final VoxelShape[] BPK$COLLISION_SHAPES = BPK$makeShapes();
+
+    @Unique
+    private static VoxelShape[] BPK$makeShapes() {
+        VoxelShape post = bpk$shape(0.4375D, 0.4375D, 0.5625D, 0.5625D);
+        VoxelShape north = bpk$shape(0.4375D, 0.0D, 0.5625D, 0.5D);
+        VoxelShape south = bpk$shape(0.4375D, 0.5D, 0.5625D, 1.0D);
+        VoxelShape west = bpk$shape(0.0D, 0.4375D, 0.5D, 0.5625D);
+        VoxelShape east = bpk$shape(0.5D, 0.4375D, 1.0D, 0.5625D);
+        return new VoxelShape[] {
+            post,
+            north,
+            east,
+            Shapes.or(north, east),
+            south,
+            Shapes.or(north, south),
+            Shapes.or(east, south),
+            Shapes.or(north, east, south),
+            west,
+            Shapes.or(north, west),
+            Shapes.or(east, west),
+            Shapes.or(north, east, west),
+            Shapes.or(south, west),
+            Shapes.or(north, south, west),
+            Shapes.or(east, south, west),
+            Shapes.or(north, east, south, west)
+        };
+    }
 
     @Unique
     private static VoxelShape bpk$shape(double minX, double minZ, double maxX, double maxZ) {
