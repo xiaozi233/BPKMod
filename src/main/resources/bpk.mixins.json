@@ -6,6 +6,7 @@
 		"block.MixinCactusBlock",
 		"block.MixinChestBlock",
 		"block.MixinEnderChestBlock",
+		"block.MixinIronBarsBlock",
 		"block.MixinSpawnerBlock",
 		"block.MixinTrapDoorBlock",
 		"entity.MixinEntity",
