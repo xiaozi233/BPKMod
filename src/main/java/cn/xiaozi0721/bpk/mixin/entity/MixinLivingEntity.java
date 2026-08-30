@@ -13,9 +13,8 @@ public abstract class MixinLivingEntity {
         return ConfigHandler.generalConfig.inertiaThreshold;
     }
 
-    @ModifyExpressionValue(method = "aiStep", at = @At(value = "CONSTANT", args = "doubleValue=9.0E-6"))
-    private double bpk$inertiaThresholdSqr(double original) {
-        double threshold = ConfigHandler.generalConfig.inertiaThreshold;
-        return threshold * threshold;
+    @ModifyExpressionValue(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/LivingEntity;is(Ljava/lang/Object;)Z"))
+    private boolean bpk$inertiaThresholdSqr(boolean original) {
+        return false;
     }
 }

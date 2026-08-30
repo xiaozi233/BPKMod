@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(IronBarsBlock.class)
 public abstract class MixinIronBarsBlock {
     // Faithful port of the 1.12 AABB_BY_INDEX collision table (arms 2px wide, reaching the center line).
-    // Index bits follow the 1.12 BlockPane order: south=1, west=2, north=4, east=8.
+    // Index bits follow 1.12 BlockPane#getBoundingBoxIndex: north=1, east=2, south=4, west=8.
     @Unique
     private static final VoxelShape[] BPK$COLLISION_SHAPES = {
         bpk$shape(0.4375D, 0.4375D, 0.5625D, 0.5625D), // none: post
@@ -42,16 +42,16 @@ public abstract class MixinIronBarsBlock {
     @Unique
     private static int bpk$index(BlockState state) {
         int i = 0;
-        if (state.getValue(IronBarsBlock.SOUTH)) {
+        if (state.getValue(IronBarsBlock.NORTH)) {
             i |= 1;
         }
-        if (state.getValue(IronBarsBlock.WEST)) {
+        if (state.getValue(IronBarsBlock.EAST)) {
             i |= 2;
         }
-        if (state.getValue(IronBarsBlock.NORTH)) {
+        if (state.getValue(IronBarsBlock.SOUTH)) {
             i |= 4;
         }
-        if (state.getValue(IronBarsBlock.EAST)) {
+        if (state.getValue(IronBarsBlock.WEST)) {
             i |= 8;
         }
         return i;

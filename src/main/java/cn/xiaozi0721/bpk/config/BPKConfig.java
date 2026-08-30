@@ -20,7 +20,7 @@ public class BPKConfig implements ConfigData {
 
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip
-    public boolean strafeAccelerateAllowed = false;
+    public boolean strafeAccelerateAllowed = true;
 
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip

@@ -44,7 +44,7 @@ public abstract class MixinLocalPlayer {
 
     @ModifyReturnValue(method = "modifyInputSpeedForSquareMovement", at = @At("RETURN"))
     private static Vec2 bpk$allowRawDiagonalInput(Vec2 original, Vec2 input) {
-        return ConfigHandler.generalConfig.strafeAccelerateAllowed ? input : original;
+        return ConfigHandler.generalConfig.strafeAccelerateAllowed ? original : input;
     }
 
     @Unique
