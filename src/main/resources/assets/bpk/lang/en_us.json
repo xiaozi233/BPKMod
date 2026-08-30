@@ -1,0 +1,14 @@
+{
+  "config.bpk.general.sprintBackward": "Sprint Backward",
+  "config.bpk.general.sprintBackward.tooltip": "If enabled, you could sprint even if you are backward",
+  "config.bpk.general.inertiaThreshold": "Inertia Threshold",
+  "config.bpk.general.inertiaThreshold.tooltip": "Stops the player from moving when their momentum is deemed negligible\nJE 1.8.9: 0.005\nBE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less",
+  "config.bpk.general.beSneak": "BE Sneak",
+  "config.bpk.general.beSneak.tooltip": "Clears horizontal motion when sneaking against edges (BE mode)",
+  "config.bpk.general.45strafe": "Toggle 45strafe",
+  "config.bpk.general.45strafe.tooltip": "Toggle 45-Strafe Accelerate",
+  "config.bpk.general.ignoreCollidedHorizontally": "Ignore Collided Horizontally",
+  "config.bpk.general.ignoreCollidedHorizontally.tooltip": "Hitting a wall will not cancel sprint",
+  "config.bpk.general.oldCollisionOrder": "Old Collision Order",
+  "config.bpk.general.oldCollisionOrder.tooltip": "Resolve collisions in the fixed Y->X->Z order instead of ordering X/Z by speed"
+}

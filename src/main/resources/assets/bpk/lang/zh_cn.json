@@ -1,0 +1,14 @@
+{
+  "config.bpk.general.sprintBackward": "反向疾跑",
+  "config.bpk.general.sprintBackward.tooltip": "开启后，玩家可以向后疾跑",
+  "config.bpk.general.inertiaThreshold": "移动阻断阈值",
+  "config.bpk.general.inertiaThreshold.tooltip": "在玩家的速度小到可忽略时清零\nJE 1.8.9：0.005\n基岩版没有这个机制，如果你想模拟BE，建议改成0.0001或更低的数值",
+  "config.bpk.general.beSneak": "BE潜行",
+  "config.bpk.general.beSneak.tooltip": "潜行贴边时清零水平速度（BE模式）",
+  "config.bpk.general.45strafe": "启用斜跑加速",
+  "config.bpk.general.45strafe.tooltip": "切换斜跑加速",
+  "config.bpk.general.ignoreCollidedHorizontally": "忽略水平碰撞",
+  "config.bpk.general.ignoreCollidedHorizontally.tooltip": "撞墙不会取消疾跑",
+  "config.bpk.general.oldCollisionOrder": "旧版碰撞顺序",
+  "config.bpk.general.oldCollisionOrder.tooltip": "以固定的Y->X->Z顺序处理碰撞，而不是按X/Z速度排序"
+}

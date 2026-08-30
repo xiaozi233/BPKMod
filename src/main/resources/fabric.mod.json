@@ -12,6 +12,7 @@
 		"sources": "https://github.com/xiaozi233/BPKMod"
 	},
 	"license": "MIT",
+	"icon": "assets/bpk/icon.png",
 	"environment": "*",
 	"entrypoints": {
 		"main": [

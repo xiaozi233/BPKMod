@@ -11,7 +11,6 @@ This is the port of the 1.12.2 Forge version (see `master` branch).
 - Sprint backward (`sprintBackward`)
 - Configurable inertia threshold (`inertiaThreshold`, from 0 to 0.005)
 - BE style motion clearing when sneaking (`isBESneak`, only the clearMotion part is kept; other sneak behaviors are native in modern versions)
-- Trapdoor is climbable if there is a ladder underneath (`climbableTrapdoor`)
 - Fixed collision axis order Y->X->Z (`oldCollisionOrder`, vanilla orders X/Z by speed)
 
 ## Config
@@ -24,4 +23,4 @@ Requires Java 25. `./gradlew build`
 Conflicts with [Aqua Acrobatics](https://github.com/embeddedt/aquaacrobatics) (1.12.2 only).
 
 ## Credit
-Cynimal, some models are modified from his [TrueModels](https://www.curseforge.com/minecraft/texture-packs/truemodels).
+Cynimal, the pane/bars model overrides are based on his [TrueModels](https://www.curseforge.com/minecraft/texture-packs/truemodels).

@@ -21,7 +21,6 @@ public class ConfigHandler {
         public boolean isBESneak = false;
         public boolean strafeAccelerateAllowed = false;
         public boolean ignoreCollidedHorizontally = true;
-        public boolean climbableTrapdoor = true;
         public boolean oldCollisionOrder = true;
     }
 
