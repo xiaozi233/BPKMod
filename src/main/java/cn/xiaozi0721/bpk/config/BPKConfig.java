@@ -29,4 +29,8 @@ public class BPKConfig implements ConfigData {
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip
     public boolean oldCollisionOrder = true;
+
+    @ConfigEntry.Category("general")
+    @ConfigEntry.Gui.Tooltip
+    public boolean beSneak = false;
 }

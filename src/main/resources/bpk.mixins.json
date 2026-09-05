@@ -10,7 +10,8 @@
 		"block.MixinSpawnerBlock",
 		"block.MixinTrapDoorBlock",
 		"entity.MixinEntity",
-		"entity.MixinLivingEntity"
+		"entity.MixinLivingEntity",
+		"entity.MixinPlayer"
 	],
 	"injectors": {
 		"defaultRequire": 1
