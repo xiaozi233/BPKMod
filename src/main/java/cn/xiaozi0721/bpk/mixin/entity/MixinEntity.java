@@ -10,7 +10,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.*;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@SuppressWarnings("DiscouragedShift")
 @Mixin(Entity.class)
 public abstract class MixinEntity{
     @Shadow public double motionX;
@@ -51,45 +50,10 @@ public abstract class MixinEntity{
         }
     }
 
-    @Redirect(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
-    public boolean isPlayerPressingSneak(Entity entity) {
-        return GeneralConfig.isBESneak && entity instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)entity).BPKMod$isSneakPressed() : this.isSneaking();
+    @ModifyExpressionValue(method = "move", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z"))
+    public boolean isPlayerPressingSneak(boolean original) {
+        return GeneralConfig.isBESneak && this instanceof IPlayerPressingSneak ? ((IPlayerPressingSneak)this).BPKMod$isSneakPressed() : original;
     }
 
-//    @ModifyVariable(
-//            method = "move",
-//            at = @At("STORE"),
-//            slice = @Slice(
-//                    from = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z", ordinal = 0),
-//                    to = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;expand(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 0)
-//            ),
-//            argsOnly = true,
-//            ordinal = 0
-//    )
-//    private double clearMotionX(double x){
-//        if(GeneralConfig.beSneak){
-//            this.motionX = 0;
-//            return 0;
-//        }
-//        return x;
-//    }
-//
-//    @ModifyVariable(
-//            method = "move",
-//            at = @At(value = "STORE"),
-//            slice = @Slice(
-//                    from = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;isSneaking()Z", ordinal = 0),
-//                    to = @At(value = "INVOKE", target = "Lnet/minecraft/util/math/AxisAlignedBB;expand(DDD)Lnet/minecraft/util/math/AxisAlignedBB;", ordinal = 0)
-//            ),
-//            argsOnly = true,
-//            ordinal = 2
-//    )
-//    private double clearMotionZ(double z){
-//        if(GeneralConfig.beSneak){
-//            this.motionZ = 0;
-//            return 0;
-//        }
-//        return z;
-//    }
 
 }
