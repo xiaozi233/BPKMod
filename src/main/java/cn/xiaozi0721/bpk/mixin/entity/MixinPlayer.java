@@ -25,7 +25,7 @@ public abstract class MixinPlayer {
     // hitbox (shrunk by 0.025 on X/Z) would still land on support one step
     // height down, so the player stops 0.025 blocks short of the edge.
     @WrapMethod(method = "maybeBackOffFromEdge")
-    private Vec3 beSneak(Vec3 delta, MoverType moverType, Operation<Vec3> original) {
+    private Vec3 bpk$beSneakEdge(Vec3 delta, MoverType moverType, Operation<Vec3> original) {
         if (!ConfigHandler.generalConfig.beSneak) {
             return original.call(delta, moverType);
         }
