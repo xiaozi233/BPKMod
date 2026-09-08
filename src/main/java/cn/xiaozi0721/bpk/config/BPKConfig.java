@@ -24,7 +24,7 @@ public class BPKConfig implements ConfigData {
 
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip
-    public boolean ignoreCollidedHorizontally = true;
+    public boolean beCollisionStopsSprint = true;
 
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip

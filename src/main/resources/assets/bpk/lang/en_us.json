@@ -11,10 +11,8 @@
   "text.autoconfig.bpk.option.isBESneak.@Tooltip": "Clears horizontal motion when sneaking against edges (BE mode)",
   "text.autoconfig.bpk.option.strafeAccelerateAllowed": "Toggle 45strafe",
   "text.autoconfig.bpk.option.strafeAccelerateAllowed.@Tooltip": "Toggle 45-Strafe Accelerate",
-  "text.autoconfig.bpk.option.ignoreCollidedHorizontally": "Ignore Collided Horizontally",
-  "text.autoconfig.bpk.option.ignoreCollidedHorizontally.@Tooltip": "Hitting a wall will not cancel sprint",
+  "text.autoconfig.bpk.option.beCollisionStopsSprint": "BE Collision Stops Sprint",
+  "text.autoconfig.bpk.option.beCollisionStopsSprint.@Tooltip": "BE's strange sprint‑stop condition",
   "text.autoconfig.bpk.option.oldCollisionOrder": "Old Collision Order",
-  "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "Resolve collisions in the fixed Y->X->Z order (pre-1.14) instead of ordering X/Z by speed",
-  "text.autoconfig.bpk.option.oldSneakEdge": "Old Sneak Edge",
-  "text.autoconfig.bpk.option.oldSneakEdge.@Tooltip": "Stops sneaking at edges like the BE\nthe player stops 0.025 blocks short of the edge"
+  "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "Resolve collisions in the fixed Y->X->Z order (pre-1.14) instead of ordering X/Z by speed"
 }

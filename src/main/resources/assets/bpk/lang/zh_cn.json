@@ -11,10 +11,8 @@
   "text.autoconfig.bpk.option.isBESneak.@Tooltip": "潜行贴边时清零水平速度（BE模式）",
   "text.autoconfig.bpk.option.strafeAccelerateAllowed": "启用斜跑加速",
   "text.autoconfig.bpk.option.strafeAccelerateAllowed.@Tooltip": "切换斜跑加速",
-  "text.autoconfig.bpk.option.ignoreCollidedHorizontally": "忽略水平碰撞",
-  "text.autoconfig.bpk.option.ignoreCollidedHorizontally.@Tooltip": "撞墙不会取消疾跑",
+  "text.autoconfig.bpk.option.beCollisionStopsSprint": "BE撞墙断疾跑",
+  "text.autoconfig.bpk.option.beCollisionStopsSprint.@Tooltip": "BE怪异的断疾跑检测",
   "text.autoconfig.bpk.option.oldCollisionOrder": "旧版碰撞顺序",
-  "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "以固定的Y->X->Z顺序处理碰撞（1.14前），而不是按X/Z速度排序",
-  "text.autoconfig.bpk.option.oldSneakEdge": "旧版潜行防坠",
-  "text.autoconfig.bpk.option.oldSneakEdge.@Tooltip": "按BE潜行逻辑在边缘退回\n玩家会停在距边缘0.025格处"
+  "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "以固定的Y->X->Z顺序处理碰撞（1.14前），而不是按X/Z速度排序"
 }
