@@ -15,17 +15,17 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(Player.class)
 public abstract class MixinPlayer {
     @Unique
-    private static final double BPK$SNEAK_TEST_BOX_MARGIN = 0.025D;
+    private static final double SNEAK_TEST_BOX_MARGIN = 0.025D;
 
     @Unique
-    private static final double BPK$BACKOFF_STEP = 0.05D;
+    private static final double BACKOFF_STEP = 0.05D;
 
     // Port of the BE sneak edge protection in Entity.move: while
     // sneaking on ground, movement is shaved back in 0.05 steps until the
     // hitbox (shrunk by 0.025 on X/Z) would still land on support one step
     // height down, so the player stops 0.025 blocks short of the edge.
     @WrapMethod(method = "maybeBackOffFromEdge")
-    private Vec3 bpk$beSneak(Vec3 delta, MoverType moverType, Operation<Vec3> original) {
+    private Vec3 beSneak(Vec3 delta, MoverType moverType, Operation<Vec3> original) {
         if (!ConfigHandler.generalConfig.beSneak) {
             return original.call(delta, moverType);
         }
@@ -43,40 +43,40 @@ public abstract class MixinPlayer {
         double z = delta.z;
 
         while (x != 0.0D && self.level().noCollision(self, testBox.move(x, maxDownStep, 0.0D))) {
-            if (x < BPK$BACKOFF_STEP && x >= -BPK$BACKOFF_STEP) {
+            if (x < BACKOFF_STEP && x >= -BACKOFF_STEP) {
                 x = 0.0D;
             } else if (x > 0.0D) {
-                x -= BPK$BACKOFF_STEP;
+                x -= BACKOFF_STEP;
             } else {
-                x += BPK$BACKOFF_STEP;
+                x += BACKOFF_STEP;
             }
         }
 
         while (z != 0.0D && self.level().noCollision(self, testBox.move(0.0D, maxDownStep, z))) {
-            if (z < BPK$BACKOFF_STEP && z >= -BPK$BACKOFF_STEP) {
+            if (z < BACKOFF_STEP && z >= -BACKOFF_STEP) {
                 z = 0.0D;
             } else if (z > 0.0D) {
-                z -= BPK$BACKOFF_STEP;
+                z -= BACKOFF_STEP;
             } else {
-                z += BPK$BACKOFF_STEP;
+                z += BACKOFF_STEP;
             }
         }
 
         while (x != 0.0D && z != 0.0D && self.level().noCollision(self, testBox.move(x, maxDownStep, z))) {
-            if (x < BPK$BACKOFF_STEP && x >= -BPK$BACKOFF_STEP) {
+            if (x < BACKOFF_STEP && x >= -BACKOFF_STEP) {
                 x = 0.0D;
             } else if (x > 0.0D) {
-                x -= BPK$BACKOFF_STEP;
+                x -= BACKOFF_STEP;
             } else {
-                x += BPK$BACKOFF_STEP;
+                x += BACKOFF_STEP;
             }
 
-            if (z < BPK$BACKOFF_STEP && z >= -BPK$BACKOFF_STEP) {
+            if (z < BACKOFF_STEP && z >= -BACKOFF_STEP) {
                 z = 0.0D;
             } else if (z > 0.0D) {
-                z -= BPK$BACKOFF_STEP;
+                z -= BACKOFF_STEP;
             } else {
-                z += BPK$BACKOFF_STEP;
+                z += BACKOFF_STEP;
             }
         }
 
@@ -96,10 +96,10 @@ public abstract class MixinPlayer {
 
     @Unique
     private AABB getBpkSneakTestBox(AABB bb) {
-        double minX = bb.minX + BPK$SNEAK_TEST_BOX_MARGIN;
-        double maxX = bb.maxX - BPK$SNEAK_TEST_BOX_MARGIN;
-        double minZ = bb.minZ + BPK$SNEAK_TEST_BOX_MARGIN;
-        double maxZ = bb.maxZ - BPK$SNEAK_TEST_BOX_MARGIN;
+        double minX = bb.minX + SNEAK_TEST_BOX_MARGIN;
+        double maxX = bb.maxX - SNEAK_TEST_BOX_MARGIN;
+        double minZ = bb.minZ + SNEAK_TEST_BOX_MARGIN;
+        double maxZ = bb.maxZ - SNEAK_TEST_BOX_MARGIN;
 
         if (minX > maxX) {
             minX = maxX = (bb.minX + bb.maxX) * 0.5D;

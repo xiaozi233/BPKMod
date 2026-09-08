@@ -14,7 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(Entity.class)
 public abstract class MixinEntity {
     @Unique
-    private static final ImmutableList<Direction.Axis> BPK$YXZ_ORDER = ImmutableList.of(Direction.Axis.Y, Direction.Axis.X, Direction.Axis.Z);
+    private static final ImmutableList<Direction.Axis> YXZ_ORDER = ImmutableList.of(Direction.Axis.Y, Direction.Axis.X, Direction.Axis.Z);
 
     @WrapOperation(
         method = "collideWithShapes",
@@ -23,9 +23,9 @@ public abstract class MixinEntity {
             target = "Lnet/minecraft/core/Direction;axisStepOrder(Lnet/minecraft/world/phys/Vec3;)Lcom/google/common/collect/ImmutableList;"
         )
     )
-    private static ImmutableList<Direction.Axis> bpk$fixedAxisOrder(Vec3 movement, Operation<ImmutableList<Direction.Axis>> original) {
+    private static ImmutableList<Direction.Axis> fixedAxisOrder(Vec3 movement, Operation<ImmutableList<Direction.Axis>> original) {
         if (ConfigHandler.generalConfig.oldCollisionOrder) {
-            return BPK$YXZ_ORDER;
+            return YXZ_ORDER;
         }
         return original.call(movement);
     }
