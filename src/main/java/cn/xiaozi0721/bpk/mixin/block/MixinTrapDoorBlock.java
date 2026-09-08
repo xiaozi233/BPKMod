@@ -11,13 +11,13 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(TrapDoorBlock.class)
 public abstract class MixinTrapDoorBlock {
     @Unique
-    private static final double BPK$BEDROCK_THICKNESS = 0.1825D * 16.0D;
+    private static final double BEDROCK_THICKNESS = 0.1825D * 16.0D;
 
     @WrapOperation(
         method = "<clinit>",
         at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;boxZ(DDD)Lnet/minecraft/world/phys/shapes/VoxelShape;")
     )
-    private static VoxelShape bpk$bedrockThickness(double sizeXY, double minZ, double maxZ, Operation<VoxelShape> original) {
-        return original.call(sizeXY, 16.0D - BPK$BEDROCK_THICKNESS, maxZ);
+    private static VoxelShape bedrockThickness(double sizeXY, double minZ, double maxZ, Operation<VoxelShape> original) {
+        return original.call(sizeXY, 16.0D - BEDROCK_THICKNESS, maxZ);
     }
 }

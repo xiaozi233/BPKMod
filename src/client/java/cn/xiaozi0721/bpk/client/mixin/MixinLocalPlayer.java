@@ -36,23 +36,23 @@ public abstract class MixinLocalPlayer {
     protected abstract boolean isSprintingPossible(boolean allowedInShallowWater);
 
     @ModifyExpressionValue(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z"))
-    private boolean bpk$sprintBackwardImpulse(boolean original) {
-        return original || this.bpk$isSprintBackward();
+    private boolean sprintBackwardImpulse(boolean original) {
+        return original || this.isSprintBackward();
     }
 
     @ModifyExpressionValue(method = "aiStep", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/entity/player/Input;backward()Z"))
-    private boolean bpk$sprintBackwardTrigger(boolean original) {
+    private boolean sprintBackwardTrigger(boolean original) {
         return original && !ConfigHandler.generalConfig.sprintBackward;
     }
 
     @ModifyExpressionValue(method = "canStartSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z"))
-    private boolean bpk$sprintBackwardStart(boolean original) {
-        return original || this.bpk$isSprintBackward();
+    private boolean sprintBackwardStart(boolean original) {
+        return original || this.isSprintBackward();
     }
 
     @ModifyExpressionValue(method = "shouldStopRunSprinting", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/player/ClientInput;hasForwardImpulse()Z"))
-    private boolean bpk$sprintBackwardStop(boolean original) {
-        return original || this.bpk$isSprintBackward();
+    private boolean sprintBackwardStop(boolean original) {
+        return original || this.isSprintBackward();
     }
 
     @Inject(method = "move", at = @At("HEAD"))
@@ -67,7 +67,7 @@ public abstract class MixinLocalPlayer {
     }
     
     @WrapMethod(method = "shouldStopRunSprinting")
-    private boolean bpk$beCollisionStopsSprint(Operation<Boolean> original) {
+    private boolean beCollisionStopsSprint(Operation<Boolean> original) {
         if (!ConfigHandler.generalConfig.beCollisionStopsSprint) {
             return original.call();
         }
@@ -79,12 +79,12 @@ public abstract class MixinLocalPlayer {
     }
 
     @ModifyReturnValue(method = "modifyInputSpeedForSquareMovement", at = @At("RETURN"))
-    private static Vec2 bpk$allowRawDiagonalInput(Vec2 original, Vec2 input) {
+    private static Vec2 allowRawDiagonalInput(Vec2 original, Vec2 input) {
         return ConfigHandler.generalConfig.strafeAccelerateAllowed ? original : input;
     }
 
     @Unique
-    private boolean bpk$isSprintBackward() {
+    private boolean isSprintBackward() {
         return ConfigHandler.generalConfig.sprintBackward && this.input.getMoveVector().y < -1.0E-5F;
     }
 }

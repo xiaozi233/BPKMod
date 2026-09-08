@@ -16,15 +16,15 @@ public abstract class MixinIronBarsBlock {
     // line, combined as a union so the 1px inner-corner notch of adjacent arms stays open.
     // Index bits follow 1.12 BlockPane#getBoundingBoxIndex: north=1, east=2, south=4, west=8.
     @Unique
-    private static final VoxelShape[] BPK$COLLISION_SHAPES = BPK$makeShapes();
+    private static final VoxelShape[] COLLISION_SHAPES = makeShapes();
 
     @Unique
-    private static VoxelShape[] BPK$makeShapes() {
-        VoxelShape post = bpk$shape(0.4375D, 0.4375D, 0.5625D, 0.5625D);
-        VoxelShape north = bpk$shape(0.4375D, 0.0D, 0.5625D, 0.5D);
-        VoxelShape south = bpk$shape(0.4375D, 0.5D, 0.5625D, 1.0D);
-        VoxelShape west = bpk$shape(0.0D, 0.4375D, 0.5D, 0.5625D);
-        VoxelShape east = bpk$shape(0.5D, 0.4375D, 1.0D, 0.5625D);
+    private static VoxelShape[] makeShapes() {
+        VoxelShape post = shape(0.4375D, 0.4375D, 0.5625D, 0.5625D);
+        VoxelShape north = shape(0.4375D, 0.0D, 0.5625D, 0.5D);
+        VoxelShape south = shape(0.4375D, 0.5D, 0.5625D, 1.0D);
+        VoxelShape west = shape(0.0D, 0.4375D, 0.5D, 0.5625D);
+        VoxelShape east = shape(0.5D, 0.4375D, 1.0D, 0.5625D);
         return new VoxelShape[] {
             post,
             north,
@@ -46,12 +46,12 @@ public abstract class MixinIronBarsBlock {
     }
 
     @Unique
-    private static VoxelShape bpk$shape(double minX, double minZ, double maxX, double maxZ) {
+    private static VoxelShape shape(double minX, double minZ, double maxX, double maxZ) {
         return Shapes.create(minX, 0.0D, minZ, maxX, 1.0D, maxZ);
     }
 
     @Unique
-    private static int bpk$index(BlockState state) {
+    private static int index(BlockState state) {
         int i = 0;
         if (state.getValue(IronBarsBlock.NORTH)) {
             i |= 1;
@@ -69,6 +69,6 @@ public abstract class MixinIronBarsBlock {
     }
 
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return BPK$COLLISION_SHAPES[bpk$index(state)];
+        return COLLISION_SHAPES[index(state)];
     }
 }

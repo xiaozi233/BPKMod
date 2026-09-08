@@ -13,9 +13,9 @@ import org.spongepowered.asm.mixin.Unique;
 @Mixin(SpawnerBlock.class)
 public abstract class MixinSpawnerBlock {
     @Unique
-    private static final VoxelShape BPK$MOB_SPAWNER_SHAPE = Shapes.create(1.0E-4D, 0.0D, 1.0E-4D, 1.0D - 1.0E-4D, 1.0D, 1.0D - 1.0E-4D);
+    private static final VoxelShape MOB_SPAWNER_SHAPE = Shapes.create(1.0E-4D, 0.0D, 1.0E-4D, 1.0D - 1.0E-4D, 1.0D, 1.0D - 1.0E-4D);
 
     protected VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
-        return BPK$MOB_SPAWNER_SHAPE;
+        return MOB_SPAWNER_SHAPE;
     }
 }

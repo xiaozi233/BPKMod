@@ -18,16 +18,16 @@ import org.spongepowered.asm.mixin.injection.At;
 @Mixin(ChestBlock.class)
 public abstract class MixinChestBlock {
     @Unique
-    private static final VoxelShape BPK$NOT_CONNECTED_SHAPE = Shapes.create(0.025D, 0.0D, 0.025D, 0.975D, 0.95D, 0.975D);
+    private static final VoxelShape NOT_CONNECTED_SHAPE = Shapes.create(0.025D, 0.0D, 0.025D, 0.975D, 0.95D, 0.975D);
 
     @Unique
-    private static final Map<Direction, VoxelShape> BPK$HALF_SHAPES = Shapes.rotateHorizontal(Shapes.create(0.025D, 0.0D, 0.0D, 0.975D, 0.95D, 0.975D));
+    private static final Map<Direction, VoxelShape> HALF_SHAPES = Shapes.rotateHorizontal(Shapes.create(0.025D, 0.0D, 0.0D, 0.975D, 0.95D, 0.975D));
 
     @ModifyReturnValue(method = "getShape", at = @At("RETURN"))
     protected VoxelShape getShape(VoxelShape original, final BlockState state, final BlockGetter level, final BlockPos pos, final CollisionContext context) {
         return switch (state.getValue(ChestBlock.TYPE)) {
-            case SINGLE -> BPK$NOT_CONNECTED_SHAPE;
-            case LEFT, RIGHT -> BPK$HALF_SHAPES.get(ChestBlock.getConnectedDirection(state));
+            case SINGLE -> NOT_CONNECTED_SHAPE;
+            case LEFT, RIGHT -> HALF_SHAPES.get(ChestBlock.getConnectedDirection(state));
         };
     }
 }
