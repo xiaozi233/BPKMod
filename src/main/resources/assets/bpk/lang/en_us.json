@@ -7,12 +7,14 @@
   "text.autoconfig.bpk.option.oldInertiaThreshold.@Tooltip": "Use the per-axis inertia threshold",
   "text.autoconfig.bpk.option.inertiaThreshold": "Inertia Threshold",
   "text.autoconfig.bpk.option.inertiaThreshold.@Tooltip": "Stops the player from moving when their momentum is deemed negligible\nvanilla default: 0.003\nBE doesn't have such mechanic, if you want to simulate BE, try 0.0001 or less",
-  "text.autoconfig.bpk.option.isBESneak": "BE Sneak",
-  "text.autoconfig.bpk.option.isBESneak.@Tooltip": "Clears horizontal motion when sneaking against edges (BE mode)",
+  "text.autoconfig.bpk.option.beSneak": "BE Sneak",
+  "text.autoconfig.bpk.option.beSneak.@Tooltip": "Clears horizontal motion when sneaking against edges (BE mode)",
   "text.autoconfig.bpk.option.strafeAccelerateAllowed": "Toggle 45strafe",
   "text.autoconfig.bpk.option.strafeAccelerateAllowed.@Tooltip": "Toggle 45-Strafe Accelerate",
   "text.autoconfig.bpk.option.beCollisionStopsSprint": "BE Collision Stops Sprint",
   "text.autoconfig.bpk.option.beCollisionStopsSprint.@Tooltip": "BE's strange sprint‑stop condition",
   "text.autoconfig.bpk.option.oldCollisionOrder": "Old Collision Order",
-  "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "Resolve collisions in the fixed Y->X->Z order (pre-1.14) instead of ordering X/Z by speed"
+  "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "Resolve collisions in the fixed Y->X->Z order (pre-1.14) instead of ordering X/Z by speed",
+  "text.autoconfig.bpk.option.beSlimeBounce": "BE Slime Bounce",
+  "text.autoconfig.bpk.option.beSlimeBounce.@Tooltip": "Bounce off slime blocks like Bedrock: the impact tick only records the distance fallen, the reflection plus gravity compensation happen on the next tick (threshold |Vy| >= 0.08)"
 }
