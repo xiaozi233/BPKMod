@@ -26,4 +26,16 @@ public abstract class MixinBlocks {
     private static Block honeyBlockProperties(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties, Operation<Block> original) {
         return original.call(id, factory, properties.jumpFactor(0.6F).speedFactor(1F).friction(0.8F));
     }
+
+    @WrapOperation(
+            method = "<clinit>",
+            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Blocks;register(Lnet/minecraft/references/BlockItemId;Ljava/util/function/Function;Lnet/minecraft/world/level/block/state/BlockBehaviour$Properties;)Lnet/minecraft/world/level/block/Block;"),
+            slice = @Slice(
+                    from = @At(value = "FIELD", target = "Lnet/minecraft/references/BlockItemIds;SOUL_SAND:Lnet/minecraft/references/BlockItemId;", opcode = Opcodes.GETSTATIC),
+                    to = @At(value = "FIELD", target = "Lnet/minecraft/world/level/block/Blocks;SOUL_SAND:Lnet/minecraft/world/level/block/Block;", opcode = Opcodes.PUTSTATIC)
+            )
+    )
+    private static Block soulSandProperties(BlockItemId id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties, Operation<Block> original) {
+        return original.call(id, factory, properties.speedFactor(1F));
+    }
 }
