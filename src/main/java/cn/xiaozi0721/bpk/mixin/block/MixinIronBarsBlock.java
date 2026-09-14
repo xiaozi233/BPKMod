@@ -2,6 +2,7 @@ package cn.xiaozi0721.bpk.mixin.block;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -11,12 +12,16 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(IronBarsBlock.class)
-public abstract class MixinIronBarsBlock {
+public abstract class MixinIronBarsBlock extends CrossCollisionBlock {
     // Collision matching the TrueModels pane geometry: 2px-wide arms reaching the center
     // line, combined as a union so the 1px inner-corner notch of adjacent arms stays open.
     // Index bits follow 1.12 BlockPane#getBoundingBoxIndex: north=1, east=2, south=4, west=8.
     @Unique
     private static final VoxelShape[] COLLISION_SHAPES = makeShapes();
+
+    protected MixinIronBarsBlock(float postWidth, float postHeight, float wallWidth, float wallHeight, float collisionHeight, Properties properties) {
+        super(postWidth, postHeight, wallWidth, wallHeight, collisionHeight, properties);
+    }
 
     @Unique
     private static VoxelShape[] makeShapes() {
@@ -68,6 +73,7 @@ public abstract class MixinIronBarsBlock {
         return i;
     }
 
+    @Override
     protected VoxelShape getCollisionShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
         return COLLISION_SHAPES[index(state)];
     }
