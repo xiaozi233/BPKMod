@@ -1,22 +1,24 @@
 {
-	"required": true,
-	"package": "cn.xiaozi0721.bpk.mixin",
-	"compatibilityLevel": "JAVA_25",
-	"mixins": [
-		"block.MixinCactusBlock",
-		"block.MixinChestBlock",
-		"block.MixinEnderChestBlock",
-		"block.MixinIronBarsBlock",
-		"block.MixinSpawnerBlock",
-		"block.MixinTrapDoorBlock",
-		"entity.MixinEntity",
-		"entity.MixinLivingEntity",
-		"entity.MixinPlayer"
-	],
-	"injectors": {
-		"defaultRequire": 1
-	},
-	"overwrites": {
-		"requireAnnotations": true
+  "required": true,
+  "package": "cn.xiaozi0721.bpk.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "mixins": [
+    "block.MixinCactusBlock",
+    "block.MixinChestBlock",
+    "block.MixinEnderChestBlock",
+    "block.MixinHoneyBlock",
+    "block.MixinIronBarsBlock",
+    "block.MixinSpawnerBlock",
+    "block.MixinTrapDoorBlock",
+    "entity.MixinEntity",
+    "entity.MixinLivingEntity",
+    "entity.MixinPlayer",
+    "world.level.block.MixinBlocks"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  },
+  "overwrites": {
+    "requireAnnotations": true
 	}
 }

@@ -55,7 +55,7 @@ public abstract class MixinEntity {
     // bounce step: it subtracts the full gravity and applies the drag, yielding exactly BE's
     // (restitution*u - |g|*(1-tau)) * 0.98 for the next tick's movement.
     @WrapMethod(method = "restituteMovementAfterCollisions")
-    private void bpk$bedrockSlimeBounce(BlockState effectState, boolean xCollision, boolean zCollision, Vec3 movement, Operation<Void> original) {
+    private void bedrockSlimeBounce(BlockState effectState, boolean xCollision, boolean zCollision, Vec3 movement, Operation<Void> original) {
         Entity self = (Entity) (Object) this;
 
         // Everything BE does not cover keeps vanilla semantics: "no bounce" means stopping on the
