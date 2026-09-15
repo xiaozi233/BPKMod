@@ -1,6 +1,7 @@
 package cn.xiaozi0721.bpk.mixin.block;
 
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.block.CrossCollisionBlock;
 import net.minecraft.world.level.block.IronBarsBlock;
@@ -17,42 +18,34 @@ public abstract class MixinIronBarsBlock extends CrossCollisionBlock {
     // line, combined as a union so the 1px inner-corner notch of adjacent arms stays open.
     // Index bits follow 1.12 BlockPane#getBoundingBoxIndex: north=1, east=2, south=4, west=8.
     @Unique
-    private static final VoxelShape[] COLLISION_SHAPES = makeShapes();
+    private static final VoxelShape[] COLLISION_SHAPES = Util.make(() -> {
+        VoxelShape post = Shapes.create(0.4375D, 0.0D, 0.4375D, 0.5625D, 1.0D, 0.5625D);
+        VoxelShape north = Shapes.create(0.4375D, 0.0D, 0.0D, 0.5625D, 1.0D, 0.5D);
+        VoxelShape south = Shapes.create(0.4375D, 0.0D, 0.5D, 0.5625D, 1.0D, 1.0D);
+        VoxelShape west = Shapes.create(0.0D, 0.0D, 0.4375D, 0.5D, 1.0D, 0.5625D);
+        VoxelShape east = Shapes.create(0.5D, 0.0D, 0.4375D, 1.0D, 1.0D, 0.5625D);
+        return new VoxelShape[] {
+                post,
+                north,
+                east,
+                Shapes.or(north, east),
+                south,
+                Shapes.or(north, south),
+                Shapes.or(east, south),
+                Shapes.or(north, east, south),
+                west,
+                Shapes.or(north, west),
+                Shapes.or(east, west),
+                Shapes.or(north, east, west),
+                Shapes.or(south, west),
+                Shapes.or(north, south, west),
+                Shapes.or(east, south, west),
+                Shapes.or(north, east, south, west)
+        };
+    });
 
     protected MixinIronBarsBlock(float postWidth, float postHeight, float wallWidth, float wallHeight, float collisionHeight, Properties properties) {
         super(postWidth, postHeight, wallWidth, wallHeight, collisionHeight, properties);
-    }
-
-    @Unique
-    private static VoxelShape[] makeShapes() {
-        VoxelShape post = shape(0.4375D, 0.4375D, 0.5625D, 0.5625D);
-        VoxelShape north = shape(0.4375D, 0.0D, 0.5625D, 0.5D);
-        VoxelShape south = shape(0.4375D, 0.5D, 0.5625D, 1.0D);
-        VoxelShape west = shape(0.0D, 0.4375D, 0.5D, 0.5625D);
-        VoxelShape east = shape(0.5D, 0.4375D, 1.0D, 0.5625D);
-        return new VoxelShape[] {
-            post,
-            north,
-            east,
-            Shapes.or(north, east),
-            south,
-            Shapes.or(north, south),
-            Shapes.or(east, south),
-            Shapes.or(north, east, south),
-            west,
-            Shapes.or(north, west),
-            Shapes.or(east, west),
-            Shapes.or(north, east, west),
-            Shapes.or(south, west),
-            Shapes.or(north, south, west),
-            Shapes.or(east, south, west),
-            Shapes.or(north, east, south, west)
-        };
-    }
-
-    @Unique
-    private static VoxelShape shape(double minX, double minZ, double maxX, double maxZ) {
-        return Shapes.create(minX, 0.0D, minZ, maxX, 1.0D, maxZ);
     }
 
     @Unique

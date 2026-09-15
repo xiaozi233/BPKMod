@@ -49,10 +49,7 @@ public abstract class MixinHoneyBlock extends HalfTransparentBlock {
         entity.setDeltaMovement(delta.x * 0.4, Math.max(delta.y, -0.12), delta.z * 0.4);
     }
 
-    @WrapOperation(
-            method = "entityInside",
-            at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/HoneyBlock;doSlideMovement(Lnet/minecraft/world/entity/Entity;)V")
-    )
+    @WrapOperation(method = "entityInside", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/HoneyBlock;doSlideMovement(Lnet/minecraft/world/entity/Entity;)V"))
     private void replaceSlideThrottle(final HoneyBlock instance, final Entity entity, final Operation<Void> original) {
         // The clamp above replaces JE's throttle, so doSlideMovement's velocity write is dropped.
         // Its one effect Bedrock has no equivalent for (and that sliding down honey relies on)

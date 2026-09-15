@@ -10,7 +10,8 @@ import org.spongepowered.asm.mixin.injection.At;
 
 @Mixin(CactusBlock.class)
 public abstract class MixinCactusBlock {
-    @Shadow @Final private static VoxelShape SHAPE;
+    @Shadow @Final
+    private static VoxelShape SHAPE;
 
     @ModifyReturnValue(method = "getCollisionShape", at = @At("RETURN"))
     protected VoxelShape getCollisionShape(VoxelShape original) {

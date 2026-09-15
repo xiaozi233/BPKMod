@@ -32,13 +32,7 @@ public abstract class MixinEntity {
     @Unique
     private static final double BE_BOUNCE_THRESHOLD = 0.08D;
 
-    @WrapOperation(
-        method = "collideWithShapes",
-        at = @At(
-            value = "INVOKE",
-            target = "Lnet/minecraft/core/Direction;axisStepOrder(Lnet/minecraft/world/phys/Vec3;)Lcom/google/common/collect/ImmutableList;"
-        )
-    )
+    @WrapOperation(method = "collideWithShapes", at = @At(value = "INVOKE", target = "Lnet/minecraft/core/Direction;axisStepOrder(Lnet/minecraft/world/phys/Vec3;)Lcom/google/common/collect/ImmutableList;"))
     private static ImmutableList<Direction.Axis> fixedAxisOrder(Vec3 movement, Operation<ImmutableList<Direction.Axis>> original) {
         if (ConfigHandler.generalConfig.oldCollisionOrder) {
             return YXZ_ORDER;

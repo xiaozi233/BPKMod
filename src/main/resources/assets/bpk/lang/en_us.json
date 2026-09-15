@@ -17,7 +17,7 @@
   "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "Resolve collisions in the fixed Y->X->Z order (pre-1.14) instead of ordering X/Z by speed",
   "text.autoconfig.bpk.option.beSlimeBounce": "BE Slime Bounce",
   "text.autoconfig.bpk.option.beSlimeBounce.@Tooltip": "Bounce off slime blocks like Bedrock: the impact tick only records the distance fallen, the reflection plus gravity compensation happen on the next tick (threshold |Vy| >= 0.08)",
-  "text.autoconfig.bpk.option.beLadder": "BE Slime Bounce",
+  "text.autoconfig.bpk.option.beLadder": "BE Ladder",
   "text.autoconfig.bpk.option.beLadder.@Tooltip": "Remove horizontal speed limit"
 
 }
