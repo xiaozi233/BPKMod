@@ -16,5 +16,7 @@
   "text.autoconfig.bpk.option.oldCollisionOrder": "旧版碰撞顺序",
   "text.autoconfig.bpk.option.oldCollisionOrder.@Tooltip": "以固定的Y->X->Z顺序处理碰撞（1.14前），而不是按X/Z速度排序",
   "text.autoconfig.bpk.option.beSlimeBounce": "BE黏液块反弹",
-  "text.autoconfig.bpk.option.beSlimeBounce.@Tooltip": "按基岩版逻辑处理黏液块反弹：触底的 tick 只记录实际下落距离并保持速度，下一 tick 才反射速度并做重力补偿（阈值 |Vy| ≥ 0.08），而不是原版那样在同 tick 直接反射"
+  "text.autoconfig.bpk.option.beSlimeBounce.@Tooltip": "按基岩版逻辑处理黏液块反弹：触底的 tick 只记录实际下落距离并保持速度，下一 tick 才反射速度并做重力补偿（阈值 |Vy| ≥ 0.08），而不是原版那样在同 tick 直接反射",
+  "text.autoconfig.bpk.option.beLadder": "BE梯子",
+  "text.autoconfig.bpk.option.beLadder.@Tooltip": "不再水平限速"
 }

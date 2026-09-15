@@ -37,4 +37,8 @@ public class BPKConfig implements ConfigData {
     @ConfigEntry.Category("general")
     @ConfigEntry.Gui.Tooltip
     public boolean beSlimeBounce = false;
+
+    @ConfigEntry.Category("general")
+    @ConfigEntry.Gui.Tooltip
+    public boolean beLadder = false;
 }
